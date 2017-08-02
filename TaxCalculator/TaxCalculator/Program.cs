@@ -27,16 +27,13 @@
                 double payable = amount * 0.02;
 
                 if (amount < 0)
-                {
-                    Console.WriteLine("You owe no tax.");
-                }
-
+                    {
+                        Console.WriteLine("You owe no tax.");
+                    }
                 else
-                {
-                    Console.WriteLine("You owe a total of {0:c0} tax.", payable);
-                }
-
-                
+                    {
+                        Console.WriteLine("You owe a total of {0:c0} tax.", payable);
+                    }
             }
  
 
@@ -48,26 +45,25 @@
                 double negative;
                 double moneys;
 
-                Start:
-
+            do
+            {
                 Console.Write("What is your total income: ");
                 input = Console.ReadLine();
                 validate = Double.TryParse(input, out moneys);
 
-                if (validate == false)
-                {
-                    Console.WriteLine("Enter your income as a whole-dollar numeric figure.");
-                    goto Start;
-                }
-                negative = Double.Parse(input);
-
-                if (negative < 0)
-                {
-                    Console.WriteLine("Your income cannot be negative.");
-                    goto Start;
-                }
-
-                return negative;   
+                    if (validate == false)
+                    {
+                        Console.WriteLine("Enter your income as a whole-dollar numeric figure.");
+                    }
+                    
+                    negative = Double.Parse(input);
+                    if (negative < 0)
+                    {
+                        Console.WriteLine("Your income cannot be negative.");
+                        validate = false;
+                    }
+                } while (validate == false);
+            return negative;   
             }
 
             public static double GetKids()
@@ -78,25 +74,24 @@
                 double negative;
                 double kids;
 
-                Start:
-
+            do
+            {
                 Console.Write("How many children do you have: ");
                 input = Console.ReadLine();
                 validate = Double.TryParse(input, out kids);
 
-                if (validate == false)
-                {
-                    Console.WriteLine("You must enter a valid number.");
-                    goto Start;
-                }
+                    if (validate == false)
+                    {
+                        Console.WriteLine("You must enter a valid number.");
+                    }
+                
                 negative = Double.Parse(input);
-
-                if (negative < 0)
-                {
-                    Console.WriteLine("You must enter a positive number.");
-                    goto Start;
-                }
-
+                    if (negative < 0)
+                    {
+                        Console.WriteLine("You must enter a positive number.");
+                        validate = false;
+                    }
+            } while (validate == false);
                 return negative;
             }
         }
