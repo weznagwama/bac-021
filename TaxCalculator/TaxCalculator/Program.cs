@@ -42,7 +42,6 @@
 
                 string input;
                 bool validate;
-                double negative;
                 double moneys;
 
             do
@@ -56,14 +55,13 @@
                         Console.WriteLine("Enter your income as a whole-dollar numeric figure.");
                     }
                     
-                    negative = Double.Parse(input);
-                    if (negative < 0)
+                    if (moneys < 0)
                     {
                         Console.WriteLine("Your income cannot be negative.");
                         validate = false;
                     }
                 } while (validate == false);
-            return negative;   
+            return moneys;   
             }
 
             public static double GetKids()
@@ -71,7 +69,6 @@
 
                 string input;
                 bool validate;
-                double negative;
                 double kids;
 
             do
@@ -85,14 +82,13 @@
                         Console.WriteLine("You must enter a valid number.");
                     }
                 
-                negative = Double.Parse(input);
-                    if (negative < 0)
+                    if (kids < 0)
                     {
                         Console.WriteLine("You must enter a positive number.");
                         validate = false;
                     }
             } while (validate == false);
-                return negative;
+                return kids;
             }
         }
     }
