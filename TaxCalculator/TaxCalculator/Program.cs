@@ -9,8 +9,8 @@
         {
             public static void Main()
             {
-                double income;
-                double kids;
+                int income;
+                int kids;
 
                 income = GetIncome();
                 kids = GetKids();
@@ -19,11 +19,11 @@
                 Console.WriteLine("\n\n Hit Enter to exit.");
                 Console.ReadLine();
             }
-            public static void CalculateTax(double kids, double income)
+            public static void CalculateTax(int kids, int income)
             {
-                double tax = -10000;
-                double childtax = kids * 2000;
-                double amount = ((income + tax) - childtax);
+                int tax = -10000;
+                int childtax = kids * 2000;
+                int amount = ((income + tax) - childtax);
                 double payable = amount * 0.02;
 
                 if (amount < 0)
@@ -37,18 +37,18 @@
             }
  
 
-            public static double GetIncome()
+            public static int GetIncome()
             {
 
                 string input;
                 bool validate;
-                double moneys;
+                int moneys;
 
             do
             {
                 Console.Write("What is your total income: ");
                 input = Console.ReadLine();
-                validate = Double.TryParse(input, out moneys);
+                validate = int.TryParse(input, out moneys);
 
                     if (validate == false)
                     {
@@ -64,18 +64,18 @@
             return moneys;   
             }
 
-            public static double GetKids()
+            public static int GetKids()
             {
 
                 string input;
                 bool validate;
-                double kids;
+                int kids;
 
             do
             {
                 Console.Write("How many children do you have: ");
                 input = Console.ReadLine();
-                validate = Double.TryParse(input, out kids);
+                validate = int.TryParse(input, out kids);
 
                     if (validate == false)
                     {
