@@ -26,7 +26,7 @@
                 int amount = ((income + tax) - childtax);
                 double payable = amount * 0.02;
 
-                if (amount < 0)
+                if (amount <= 0)
                     {
                         Console.WriteLine("You owe no tax.");
                     }
