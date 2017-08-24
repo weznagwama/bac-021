@@ -11,46 +11,61 @@ namespace RandomArray {
         /// </param>
         /// <returns>an array of length "size" and each element is
         /// a unique integer between 1 and 45 inclusive </returns>
+        public static bool arrayContains(int[] array, int num) {
+            foreach (var thing in array) {
+                if (thing == num) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static int getRandNotIn(int[] numarray) {
+            int value = 0;
+            do {
+                value = rng.Next(1, 46);
+
+            } while (arrayContains(numarray, value));
+            return value;
+        }
+
+        public static bool sizeWrong(int size) {
+            if (size <= 0 || size >= 46) {
+                return true;
+            }
+            return false;
+        }
+
         public static int[] InitializeArrayWithNoDuplicates(int size) {
+            bool butwhowas;
+            butwhowas = sizeWrong(size);
+            while (butwhowas) {
+                //Console.WriteLine("Size incorrect!");
+                size = int.Parse(Console.ReadLine());
+                butwhowas = sizeWrong(size);
+            }
             int[] numarray = new int[size];
-
             for (int count = 0; count < size; count++) {
-                int value = rng.Next(1, 45);
-
-                bool dup = false;
-                for (int z = 1; z < count; z++) {
-                    if (numarray[count] == numarray[z]) {
-                        Console.WriteLine("Shits the same");
-                        dup = true;
-                        break;
-                    }
-                }
-
-                if(dup == false) {
-                Console.WriteLine("Adding random value {0} to numarray", value);
-                numarray[count] = value;
-                Console.WriteLine("array index {0} value is {1}", count, numarray[count]);
-                Console.WriteLine();
-                 
-                }
+                var ourvalue = getRandNotIn(numarray);
+                numarray[count] = ourvalue;
             }
             return numarray;
         }
 
-        public void DisplayArray(int[] numbers) {
-          int dayNumber = 0;
-          foreach (int num in numbers) {
-              Console.WriteLine("number is {0}", numbers[num]);
-              dayNumber++;
-         }
-          return;
+
+        public static int DisplayArray(int[] numberArray) {
+            int thingNumber = 0;
+            foreach (int num in numberArray) {
+                Console.WriteLine("{0}", numberArray[thingNumber]);
+                thingNumber++;
+            }
+            return thingNumber;
         }
 
 
         static void Main(string[] args) {
-            int size = 5;
-            InitializeArrayWithNoDuplicates(size);
-           // DisplayArray(InitializeArrayWithNoDuplicates);
+            int size = 45;
+            DisplayArray(InitializeArrayWithNoDuplicates(size));
             Console.ReadLine();
         }
     }

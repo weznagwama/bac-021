@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{20081F40-E6CC-4057-B7B6-057602DC1748}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomArrayGennie", "TestApp\RandomArrayGennie.csproj", "{20081F40-E6CC-4057-B7B6-057602DC1748}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
