@@ -64,7 +64,7 @@ namespace RandomArray {
 
 
         static void Main(string[] args) {
-            int size = 45;
+            int size = 5;
             DisplayArray(InitializeArrayWithNoDuplicates(size));
             Console.ReadLine();
         }
