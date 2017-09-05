@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CardDealer {
     class Deck {
 
-        // think a list can be used here instead
+        // think a list or enum can be used here instead
         private static string[] suits = new string[] { "Hearts", "Diamonds", "Clubs", "Spades" };
         private static string[] faces = new string[] { "Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King" };
 
@@ -16,11 +16,8 @@ namespace CardDealer {
         private string[][] tempDeck = new string[52][];
         private string[][] pristineDeck = new string[52][];
 
-        // how many cards we have, starting from 0
+        // how many cards
         private const int cardNo = 51;
-
-        // keeps track of random numbers we use, for shuffling
-        private static int[] shuffNums = new int[52];
 
         // keeps track of how many cards we have dealt
         private int dealt = 0;
@@ -35,7 +32,9 @@ namespace CardDealer {
                 tempDeck[i] = new string[2];
                 pristineDeck[i] = new string[2];
             }
+            // keeps track across the jagged arrays
             int counter = 0;
+
             for (int z = 0; z <= suits.Length-1; z++) {
                 for (int y = 0; y <= (faces.Length-1); y++) {
 
@@ -43,25 +42,17 @@ namespace CardDealer {
                     shuffledDeck[counter][0] = suits[z];
                     shuffledDeck[counter][1] = faces[y];
 
-                    // users for reference
+                    // used for reference
                     pristineDeck[counter][0] = suits[z];
                     pristineDeck[counter][1] = faces[y];
 
-                    // keeps track across the jagged arrays
+                    // next card
                     counter++;
                     
                 }
             }
+            // reset for subsequent use
             counter = 0;
-        }
-
-        public static bool arrayContains(int[] shuffnums, int value) {
-            foreach (var thing in shuffNums) {
-                if (thing == value) {
-                    return true;
-                }
-            }
-            return false;
         }
 
         public void Shuffle() {
@@ -72,6 +63,7 @@ namespace CardDealer {
                 shuffledDeck[i] = pristineDeck[i];
             }
 
+            // Fisher-Yates shuffle algorithm
             for (var i = shuffledDeck.Length-1; i > 0; i--) {
                 var temp = shuffledDeck[i];
                 var index = rng.Next(0, i + 1);
