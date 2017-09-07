@@ -82,7 +82,7 @@ namespace CardDealer {
             return outpet;
         }
 
-        public void show() {
+        public void Show() {
             for (int p = 0; p < shuffledDeck.Length; p++) {
                 Console.WriteLine("cardno {0}, suit was {1} and face was {2}", p, shuffledDeck[p][0], shuffledDeck[p][1]);
             }
@@ -91,10 +91,16 @@ namespace CardDealer {
 
         static void Main(string[] args) {
             Deck myDeck = new Deck();
-            Console.WriteLine("Dealing all the card");
+            Console.WriteLine("Printing deck..");
+            myDeck.Show();
+            myDeck.Shuffle();
+            Console.WriteLine("#-----------------------------------#");
+            Console.WriteLine("Printing shuffled deck");
+            Console.WriteLine("Attempting to deal 80 cards");
             for (int v = 0; v < 80; v++) {
                 Console.WriteLine(myDeck.Deal());
             }
+            Console.WriteLine("FIN");
             Console.ReadLine();
 
         }
