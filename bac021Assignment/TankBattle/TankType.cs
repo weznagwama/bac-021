@@ -84,6 +84,7 @@ namespace TankBattle
             tankWidth = WIDTH;
             tankHeight = HEIGHT;
             return new TankType();
+            // need to create  a class that inherits from this ffs
         }
     }
 }
