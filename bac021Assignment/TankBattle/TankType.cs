@@ -81,10 +81,9 @@ namespace TankBattle
 
         public static TankType CreateTank(int tankNumber)
         {
-            tankNo = tankNumber;
             tankWidth = WIDTH;
             tankHeight = HEIGHT;
-            return playerTank;
+            return new TankType();
         }
     }
 }
