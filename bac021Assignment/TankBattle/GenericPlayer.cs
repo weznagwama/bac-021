@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TankBattle
 {
-    abstract public class GenericPlayer
+    public abstract class GenericPlayer
     {
         public GenericPlayer(string name, TankType tank, Color colour)
         {

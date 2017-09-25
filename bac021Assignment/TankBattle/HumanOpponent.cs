@@ -9,9 +9,15 @@ namespace TankBattle
 {
     public class HumanOpponent : GenericPlayer
     {
+        private static Color playerColour;
+        private static TankType playerTank;
+        private static string playerName;
+
         public HumanOpponent(string name, TankType tank, Color colour) : base(name, tank, colour)
         {
-            throw new NotImplementedException();
+            playerColour = colour;
+            playerTank = tank;
+            playerName = name;
         }
 
         public override void BeginRound()

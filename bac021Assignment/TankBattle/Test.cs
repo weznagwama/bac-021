@@ -1730,7 +1730,8 @@ namespace TankBattleTestSuite
                     return;
                 }
             }
-
+            //Console.WriteLine("creating tanklel");
+            //Console.WriteLine("Ourtank is {0} and {1} and {2}", ourTank.GetType(), "1", "2");
             Console.WriteLine("\nPress enter to exit.");
             Console.ReadLine();
         }

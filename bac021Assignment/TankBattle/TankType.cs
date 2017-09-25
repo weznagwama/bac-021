@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace TankBattle
 {
@@ -12,6 +13,11 @@ namespace TankBattle
         public const int WIDTH = 4;
         public const int HEIGHT = 3;
         public const int NUM_TANKS = 1;
+
+        private static int tankWidth;
+        private static int tankHeight;
+        private static int tankNo;
+        private static TankType playerTank;
 
         public abstract int[,] DisplayTank(float angle);
 
@@ -75,7 +81,10 @@ namespace TankBattle
 
         public static TankType CreateTank(int tankNumber)
         {
-            
+            tankNo = tankNumber;
+            tankWidth = WIDTH;
+            tankHeight = HEIGHT;
+            return playerTank;
         }
     }
 }

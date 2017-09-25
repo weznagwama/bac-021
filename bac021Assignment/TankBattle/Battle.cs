@@ -10,9 +10,11 @@ namespace TankBattle
 {
     public class Battle
     {
-        private int playerCount;
-        private int roundCount;
-        private GenericPlayer[] genePlayerArray;
+        private static int playerCount;
+        private static int roundCount;
+        private static GenericPlayer[] genePlayerArray;
+
+        static Random rng = new Random();
 
         public Battle(int numPlayers, int numRounds)
         {
@@ -33,7 +35,8 @@ namespace TankBattle
 
         public int GetRound()
         {
-            throw new NotImplementedException();
+            //unsure yet
+            return roundCount;
         }
 
         public int GetRounds()
@@ -43,12 +46,12 @@ namespace TankBattle
 
         public void SetPlayer(int playerNum, GenericPlayer player)
         {
-            genePlayerArray[playerNum] = player;
+            genePlayerArray[playerNum-1] = player;
         }
 
         public GenericPlayer GetPlayerNumber(int playerNum)
         {
-            throw new NotImplementedException();
+            return genePlayerArray[playerNum-1];
         }
 
         public ControlledTank GetPlayerTank(int playerNum)
@@ -58,7 +61,8 @@ namespace TankBattle
 
         public static Color PlayerColour(int playerNum)
         {
-            throw new NotImplementedException();
+            var displayColour = genePlayerArray[playerNum - 1].PlayerColour();
+            return displayColour;
         }
 
         public static int[] CalculatePlayerPositions(int numPlayers)
@@ -66,10 +70,18 @@ namespace TankBattle
             throw new NotImplementedException();
         }
 
+        
+
         public static void Shuffle(int[] array)
         {
-            throw new NotImplementedException();
+            for (var i = array.Length - 1; i > 0; i--) {
+                var temp = array[i];
+                var index = rng.Next(0, i + 1);
+                array[i] = array[index];
+                array[index] = temp;
+            }
         }
+    
 
         public void NewGame()
         {
@@ -88,7 +100,10 @@ namespace TankBattle
 
         public void DisplayPlayerTanks(Graphics graphics, Size displaySize)
         {
-            throw new NotImplementedException();
+            foreach (var player in genePlayerArray)
+            {
+                //do stuff perhapsf
+            }
         }
 
         public ControlledTank CurrentPlayerTank()

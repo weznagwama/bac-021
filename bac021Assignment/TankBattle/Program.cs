@@ -17,6 +17,7 @@ namespace TankBattle
         {
             Application.EnableVisualStyles();
             Application.Run(new TitleForm());
+
         }
     }
 }
