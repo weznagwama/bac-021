@@ -13,11 +13,7 @@ namespace TankBattle
         public const int WIDTH = 4;
         public const int HEIGHT = 3;
         public const int NUM_TANKS = 1;
-
-        private static int tankWidth;
-        private static int tankHeight;
-        private static int tankNo;
-        private static TankType playerTank;
+        protected static int ARMOUR = 100;
 
         public abstract int[,] DisplayTank(float angle);
 
@@ -81,9 +77,7 @@ namespace TankBattle
 
         public static TankType CreateTank(int tankNumber)
         {
-            tankWidth = WIDTH;
-            tankHeight = HEIGHT;
-            return new TankType();
+            return new SmallTank(tankNumber);
             // need to create  a class that inherits from this ffs
         }
     }

@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AIOpponent.cs" />
+    <Compile Include="SmallTank.cs" />
     <Compile Include="Terrain.cs" />
     <Compile Include="Blast.cs" />
     <Compile Include="GameplayForm.cs">

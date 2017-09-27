@@ -9,29 +9,36 @@ namespace TankBattle
 {
     public abstract class GenericPlayer
     {
+        private string genericName;
+        private TankType genericTank;
+        private Color genericColor;
+        private int roundsWon = 0;
+
         public GenericPlayer(string name, TankType tank, Color colour)
         {
-            throw new NotImplementedException();
+            genericName = name;
+            genericTank = tank;
+            genericColor = colour;
         }
         public TankType CreateTank()
         {
-            throw new NotImplementedException();
+            return genericTank;
         }
         public string GetName()
         {
-            throw new NotImplementedException();
+            return genericName;
         }
         public Color PlayerColour()
         {
-            throw new NotImplementedException();
+            return genericColor;
         }
         public void AddPoint()
         {
-            throw new NotImplementedException();
+            roundsWon++;
         }
         public int GetVictories()
         {
-            throw new NotImplementedException();
+            return roundsWon;
         }
 
         public abstract void BeginRound();

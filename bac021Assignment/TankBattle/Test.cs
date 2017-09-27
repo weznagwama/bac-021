@@ -1730,8 +1730,19 @@ namespace TankBattleTestSuite
                     return;
                 }
             }
-            //Console.WriteLine("creating tanklel");
-            //Console.WriteLine("Ourtank is {0} and {1} and {2}", ourTank.GetType(), "1", "2");
+            Console.WriteLine("creating tanklel");
+
+            if (1 == 1) { 
+            Battle game = new Battle(2, 1);
+            TankType tank = TankType.CreateTank(1);
+            GenericPlayer player1 = new HumanOpponent("player1", tank, Color.Orange);
+            GenericPlayer player2 = new HumanOpponent("player2", tank, Color.Purple);
+            game.SetPlayer(1, player1);
+            game.SetPlayer(2, player2);
+            game.GetPlayerNumber(1);
+            game.GetPlayerNumber(2);
+            }
+
             Console.WriteLine("\nPress enter to exit.");
             Console.ReadLine();
         }

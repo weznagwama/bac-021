@@ -13,11 +13,9 @@ namespace TankBattle
         private static TankType playerTank;
         private static string playerName;
 
+
         public HumanOpponent(string name, TankType tank, Color colour) : base(name, tank, colour)
         {
-            playerColour = colour;
-            playerTank = tank;
-            playerName = name;
         }
 
         public override void BeginRound()
