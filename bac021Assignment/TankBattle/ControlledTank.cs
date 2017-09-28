@@ -9,18 +9,41 @@ namespace TankBattle
 {
     public class ControlledTank
     {
+
+        private static GenericPlayer playa;
+        private static TankType playaTank;
+        private static int tankXpos;
+        private static int tankYpos;
+        private static Battle theGame;
+
+        private static float barrelAngle = 0;
+        private static int tankPower = 25;
+        private static int currentWeapon = 0;
+
+        private static int tankDurability;
+        private static Bitmap lastTank; 
+
         public ControlledTank(GenericPlayer player, int tankX, int tankY, Battle game)
         {
-            throw new NotImplementedException();
+            playa = player;
+            tankXpos = tankX;
+            tankYpos = tankY;
+            theGame = game;
+
+            playa.CreateTank();
+            tankDurability = playaTank.GetTankArmour();
+            lastTank = playaTank.CreateBMP(playa.PlayerColour(), barrelAngle);
+
         }
 
         public GenericPlayer GetPlayerNumber()
         {
-            throw new NotImplementedException();
+            return playa;
         }
         public TankType CreateTank()
         {
-            throw new NotImplementedException();
+            playaTank = playa.CreateTank();
+            return playaTank;
         }
 
         public float GetTankAngle()
@@ -35,21 +58,22 @@ namespace TankBattle
 
         public int GetPower()
         {
-            throw new NotImplementedException();
+            return tankPower;
         }
 
         public void SetPower(int power)
         {
-            throw new NotImplementedException();
+            tankPower = power;
         }
 
         public int GetWeapon()
         {
-            throw new NotImplementedException();
+            return currentWeapon;
+
         }
         public void SetWeaponIndex(int newWeapon)
         {
-            throw new NotImplementedException();
+            currentWeapon = newWeapon;
         }
 
         public void Display(Graphics graphics, Size displaySize)

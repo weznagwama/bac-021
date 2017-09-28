@@ -11,9 +11,15 @@ namespace TankBattle
         public const int WIDTH = 160;
         public const int HEIGHT = 120;
 
+        private static string[,] map = new string[HEIGHT,WIDTH];
+
         public Terrain()
         {
-            throw new NotImplementedException();
+            for (int row = 0; row < HEIGHT; row++) {
+                for (int col = 0; col < WIDTH; col++) {
+                    map[row, col] = ".";
+                }
+            }
         }
 
         public bool IsTileAt(int x, int y)

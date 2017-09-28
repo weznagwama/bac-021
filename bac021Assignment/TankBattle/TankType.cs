@@ -77,8 +77,8 @@ namespace TankBattle
 
         public static TankType CreateTank(int tankNumber)
         {
+            //first class, do if or switch statement for other types?
             return new SmallTank(tankNumber);
-            // need to create  a class that inherits from this ffs
         }
     }
 }
