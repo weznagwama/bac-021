@@ -1,23 +1,17 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
-using System.Drawing.Text;
-using System.Windows.Forms;
 
 namespace TankBattle
 {
     public class Battle
     {
         private static Battle game;
-        private static int playerCount;
-        private static int roundCount;
+        private static int numplayers;
+        private static int numRounds;
         private static GenericPlayer[] playerArray;
-        private Terrain newTerrain;
-        private ControlledTank[] controlledTankArray;
+        private static Terrain newTerrain;
+        private static ControlledTank[] controlledTankArray;
         private static int windSpeed;
 
         private static int currentRound;
@@ -27,29 +21,28 @@ namespace TankBattle
 
         public Battle(int numPlayers, int numRounds)
         {
-            GenericPlayer[] genePlayerArray = new GenericPlayer[numPlayers];
+            Battle.playerArray = new GenericPlayer[numPlayers];
             int[] playerArray = new int[numPlayers];
             List<string> attackEffect = new List<string>();
 
-            playerCount = numPlayers;
-            roundCount = numRounds;
-            Battle.playerArray = genePlayerArray;
+            Battle.numRounds = numRounds;
+            Battle.numplayers = numPlayers;
         }
 
         public int PlayerCount()
         {
-            return playerCount;
+            return numplayers;
         }
 
         public int GetRound()
         {
             //unsure yet
-            return roundCount;
+            return numRounds;
         }
 
         public int GetRounds()
         {
-            return roundCount;
+            return numRounds;
         }
 
         public void SetPlayer(int playerNum, GenericPlayer player)
@@ -75,7 +68,24 @@ namespace TankBattle
 
         public static int[] CalculatePlayerPositions(int numPlayers)
         {
-            throw new NotImplementedException();
+            // need to verify this one
+            int counter = 0;
+            int[] temp = new int[numPlayers];
+            int tempWidth = Terrain.WIDTH / numPlayers;
+            for (int i = 0; i < numPlayers; i++)
+            {
+                if (counter == 0)
+                {
+                    temp[i] = 0;
+                    counter = counter + tempWidth;
+                }
+                else
+                {
+                    temp[i] = counter;
+                    counter = counter + tempWidth;
+                }
+            }
+            return temp;
         }  
 
         public static void Shuffle(int[] array)
@@ -98,10 +108,10 @@ namespace TankBattle
         public void CommenceRound()
         {
             //Initialising a private field of Battle representing the current player to the value of the starting GenericPlayer field(see NewGame).
-            //game = new Battle();
+            // ??? isn't this currentPlayer?
 
             //Creating a new Terrain, which is also stored as a private field of Battle.
-            newTerrain =  new Terrain();
+            Battle.newTerrain =  new Terrain();
             //Creating an array of GenericPlayer positions by calling CalculatePlayerPositions with the number of GenericPlayers playing the game(hint: get the length of the GenericPlayers array)
             int[] calcedArray = CalculatePlayerPositions(playerArray.Length);
             //Looping through each GenericPlayer and calling its BeginRound method.
@@ -118,6 +128,8 @@ namespace TankBattle
             //by CalculatePlayerPositions and shuffled with the Shuffle method), the vertical position of the ControlledTank(by calling TankVerticalPosition() on the Terrain 
             //with the horizontal position as an argument), and then calling ControlledTank's constructor to create that ControlledTank (passing in the appropriate GenericPlayer, 
             //the horizontal position, the vertical position and a reference to this).
+
+            //Battle.controlledTankArray[]
 
             //Initialising the wind speed, another private field of Battle, to a random number between -100 and 100.
             windSpeed = rng.Next(-101, 100);
@@ -142,7 +154,7 @@ namespace TankBattle
 
         public ControlledTank CurrentPlayerTank()
         {
-            throw new NotImplementedException();
+            return controlledTankArray[currentPlayer];
         }
 
         public void AddEffect(AttackEffect weaponEffect)

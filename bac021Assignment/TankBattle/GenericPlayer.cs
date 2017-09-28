@@ -9,28 +9,28 @@ namespace TankBattle
 {
     public abstract class GenericPlayer
     {
-        private string genericName;
-        private TankType genericTank;
-        private Color genericColor;
+        private string name;
+        private TankType tank;
+        private Color colour;
         private int roundsWon = 0;
 
         public GenericPlayer(string name, TankType tank, Color colour)
         {
-            genericName = name;
-            genericTank = tank;
-            genericColor = colour;
+            this.name = name;
+            this.tank = tank;
+            this.colour = colour;
         }
         public TankType CreateTank()
         {
-            return genericTank;
+            return tank;
         }
         public string GetName()
         {
-            return genericName;
+            return name;
         }
         public Color PlayerColour()
         {
-            return genericColor;
+            return colour;
         }
         public void AddPoint()
         {

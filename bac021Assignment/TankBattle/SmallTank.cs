@@ -12,23 +12,13 @@ namespace TankBattle {
         private static string[] tankWeapons = { "std", "big" };
 
         //do we overrite inherited fields here? to test
-        private static int ourWidth;
-        private static int ourHeight;
-        private static int ourNo;
-        private static string[] ourWeapons;
-        private int ourArmour;
+        private new static int WIDTH = 4;
+        private new static int HEIGHT = 3;
+        private int smallArmour = ARMOUR;
 
-        protected SmallTank() {
-        }
-
-        public SmallTank(int ourNumber)
+        public SmallTank()
         {
-            //is this shit redundant? to test
-            ourWidth = WIDTH;
-            ourHeight = HEIGHT;
-            ourNo = ourNumber;
-            ourWeapons = tankWeapons;
-            ourArmour = ARMOUR;
+
         }
 
         public override int[,] DisplayTank(float angle)
@@ -39,12 +29,12 @@ namespace TankBattle {
 
         public override int GetTankArmour()
         {
-            return ourArmour;
+            return smallArmour;
         }
 
         public override string[] ListWeapons()
         {
-            return ourWeapons;
+            return tankWeapons;
         }
 
         public override void ActivateWeapon(int weapon, ControlledTank playerTank, Battle currentGame)

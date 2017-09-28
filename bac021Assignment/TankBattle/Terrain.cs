@@ -12,9 +12,14 @@ namespace TankBattle
         public const int HEIGHT = 120;
 
         private static string[,] map = new string[HEIGHT,WIDTH];
+        private static int terrainWidth;
+        private static int terrainHeight;
 
         public Terrain()
         {
+            Terrain.terrainWidth = WIDTH;
+            Terrain.terrainHeight = HEIGHT;
+
             for (int row = 0; row < HEIGHT; row++) {
                 for (int col = 0; col < WIDTH; col++) {
                     map[row, col] = ".";

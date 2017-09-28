@@ -78,7 +78,7 @@ namespace TankBattle
         public static TankType CreateTank(int tankNumber)
         {
             //first class, do if or switch statement for other types?
-            return new SmallTank(tankNumber);
+            return new SmallTank();
         }
     }
 }

@@ -1732,17 +1732,18 @@ namespace TankBattleTestSuite
             }
             Console.WriteLine("creating tanklel");
 
-            if (1 == 1) { 
+            if (1 == 2) { 
             Battle game = new Battle(2, 1);
-            TankType tank = TankType.CreateTank(1);
+           TankType tank = TankType.CreateTank(1);
             GenericPlayer player1 = new HumanOpponent("player1", tank, Color.Orange);
             GenericPlayer player2 = new HumanOpponent("player2", tank, Color.Purple);
-            game.SetPlayer(1, player1);
+           game.SetPlayer(1, player1);
             game.SetPlayer(2, player2);
             game.GetPlayerNumber(1);
             game.GetPlayerNumber(2);
-            game.NewGame();
+           game.NewGame();
             ControlledTank ptank = game.CurrentPlayerTank();
+                ptank.GetPlayerNumber();
             }
 
             Console.WriteLine("\nPress enter to exit.");

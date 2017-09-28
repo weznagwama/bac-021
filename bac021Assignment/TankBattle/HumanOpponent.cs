@@ -9,9 +9,9 @@ namespace TankBattle
 {
     public class HumanOpponent : GenericPlayer
     {
-        private static Color playerColour;
-        private static TankType playerTank;
-        private static string playerName;
+        private static Color colour;
+        private static TankType tank;
+        private static string name;
 
 
         public HumanOpponent(string name, TankType tank, Color colour) : base(name, tank, colour)
@@ -20,7 +20,7 @@ namespace TankBattle
 
         public override void BeginRound()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public override void CommenceTurn(GameplayForm gameplayForm, Battle currentGame)

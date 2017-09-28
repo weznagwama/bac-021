@@ -10,11 +10,11 @@ namespace TankBattle
     public class ControlledTank
     {
 
-        private static GenericPlayer playa;
+        private GenericPlayer player;
         private static TankType playaTank;
-        private static int tankXpos;
-        private static int tankYpos;
-        private static Battle theGame;
+        private int tankX;
+        private int tankY;
+        private Battle game;
 
         private static float barrelAngle = 0;
         private static int tankPower = 25;
@@ -25,26 +25,24 @@ namespace TankBattle
 
         public ControlledTank(GenericPlayer player, int tankX, int tankY, Battle game)
         {
-            playa = player;
-            tankXpos = tankX;
-            tankYpos = tankY;
-            theGame = game;
+            this.player = player;
+            this.tankX = tankX;
+            this.tankY = tankY;
+            this.game = game;
 
-            playaTank = this.CreateTank();
+            playaTank = player.CreateTank();
             tankDurability = playaTank.GetTankArmour();
-            lastTank = playaTank.CreateBMP(playa.PlayerColour(), barrelAngle);
-           
-
+            lastTank = playaTank.CreateBMP(player.PlayerColour(), barrelAngle);
+         
         }
 
         public GenericPlayer GetPlayerNumber()
         {
-            return playa;
+            return player;
         }
         public TankType CreateTank()
         {
-
-            return playa.CreateTank();
+            return player.CreateTank();
         }
 
         public float GetTankAngle()
