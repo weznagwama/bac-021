@@ -30,9 +30,10 @@ namespace TankBattle
             tankYpos = tankY;
             theGame = game;
 
-            playa.CreateTank();
+            playaTank = this.CreateTank();
             tankDurability = playaTank.GetTankArmour();
             lastTank = playaTank.CreateBMP(playa.PlayerColour(), barrelAngle);
+           
 
         }
 
@@ -42,8 +43,8 @@ namespace TankBattle
         }
         public TankType CreateTank()
         {
-            playaTank = playa.CreateTank();
-            return playaTank;
+
+            return playa.CreateTank();
         }
 
         public float GetTankAngle()

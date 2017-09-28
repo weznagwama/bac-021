@@ -1741,6 +1741,8 @@ namespace TankBattleTestSuite
             game.SetPlayer(2, player2);
             game.GetPlayerNumber(1);
             game.GetPlayerNumber(2);
+            game.NewGame();
+            ControlledTank ptank = game.CurrentPlayerTank();
             }
 
             Console.WriteLine("\nPress enter to exit.");
