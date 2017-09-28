@@ -47,7 +47,7 @@ namespace TankBattle
 
         public float GetTankAngle()
         {
-            throw new NotImplementedException();
+            return barrelAngle;
         }
 
         public void Aim(float angle)
@@ -82,11 +82,11 @@ namespace TankBattle
 
         public int XPos()
         {
-            throw new NotImplementedException();
+            return tankX;
         }
         public int Y()
         {
-            throw new NotImplementedException();
+            return tankY;
         }
 
         public void Launch()
@@ -96,12 +96,12 @@ namespace TankBattle
 
         public void DamageArmour(int damageAmount)
         {
-            throw new NotImplementedException();
+            tankDurability = tankDurability - damageAmount;
         }
 
         public bool IsAlive()
         {
-            throw new NotImplementedException();
+            return tankDurability != 0;
         }
 
         public bool CalculateGravity()
