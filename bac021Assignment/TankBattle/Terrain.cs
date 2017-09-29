@@ -88,7 +88,7 @@ namespace TankBattle
             int lowestValid = 0;
             for (int y = 3; y < Terrain.HEIGHT - 1; y++)
             {
-                if (this.CheckTankCollide(x, y))
+                if (!this.CheckTankCollide(x, y)) //do we just return false?
                 {
                     lowestValid = y;
                     return lowestValid;
