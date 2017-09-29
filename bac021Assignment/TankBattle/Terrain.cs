@@ -11,7 +11,7 @@ namespace TankBattle
         public const int WIDTH = 160;
         public const int HEIGHT = 120;
 
-        private static string[,] map = new string[HEIGHT,WIDTH];
+        private static bool[,] map = new bool[HEIGHT,WIDTH];
         private static int terrainWidth;
         private static int terrainHeight;
         private static int landHeight;
@@ -22,36 +22,49 @@ namespace TankBattle
         {
             Terrain.terrainWidth = WIDTH;
             Terrain.terrainHeight = HEIGHT;
-            landHeight = rng.Next(0,HEIGHT);
 
-            //first run
+            landHeight = rng.Next(0,HEIGHT-5);
+            int verticalAmount = HEIGHT-landHeight;
+
+            //first run, set landscape
             for (int row = 0; row < HEIGHT; row++) {
                 for (int col = 0; col < WIDTH; col++) {
-                    map[row, col] = ".";
+                    map[row, col] = false;
                 }
             }
 
-            //create the land height
-            // get horizontal amount
-            // if horizontal amount == 0, then set vertical amount of landheight, else
-            // get random vertical amount +/1 1 of previous amount ,starting from landHeight
-            // highPoint = height - landHeight
-            //for (int i = highpoint;i<HEIGHT;i++){map[horizontal, i] = "x";}
-            for (int row = 0; row < HEIGHT; row++) {
-                for (int col = 0; col < WIDTH; col++) {
-                    map[row, col] = ".";
-                }
+            //create the land, set true for tile
+            for (int horiz = 0; horiz < WIDTH; horiz++)
+            {
+                int setIndexAmount = rng.Next(verticalAmount - 1, verticalAmount + 1);
+
+                for (int i = setIndexAmount; i < HEIGHT; i++)
+                {
+                    //int vert = i - 1;
+                    map[i, horiz] = true;
+                }     
             }
         }
 
         public bool IsTileAt(int x, int y)
         {
-            throw new NotImplementedException();
+            if (map[x, y] == false)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public bool CheckTankCollide(int x, int y)
         {
-            throw new NotImplementedException();
+            if (map[x+4, y+3] == false) {
+                return false;
+            } else {
+                return true;
+            }
         }
 
         public int TankVerticalPosition(int x)
@@ -67,6 +80,11 @@ namespace TankBattle
         public bool CalculateGravity()
         {
             throw new NotImplementedException();
+        }
+
+        public bool[,] returnMap()
+        {
+            return map;
         }
     }
 }

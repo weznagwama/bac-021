@@ -114,6 +114,7 @@ namespace TankBattle
 
         public void CommenceRound()
         {
+                
             //Initialising a private field of Battle representing the current player to the value of the starting GenericPlayer field(see NewGame).
             currentPlayer = startingPlayer;
 

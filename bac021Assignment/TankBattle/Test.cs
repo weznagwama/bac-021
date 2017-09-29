@@ -1704,7 +1704,43 @@ namespace TankBattleTestSuite
 
         public static void Main()
         {
-            if (CheckClasses())
+            if (1 == 1) { 
+            Terrain ourThing = new Terrain();
+
+            int HEIGHT = 120;
+            int WIDTH = 160;
+            int mapWide=1;
+            int mapHigh = 1;
+
+            for (int row = 0; row < HEIGHT; row++) {
+                int counter = 0;
+                mapHigh++;
+                for (int col = 0; col < WIDTH; col++)
+                {
+                    mapWide++;
+                    if (counter == (WIDTH - 1)) {
+                        if(ourThing.IsTileAt(row, col))
+                        {
+                            Console.WriteLine("=");
+                        } else { Console.WriteLine(".");}
+                        counter = 0;
+                    } else {
+                        if (ourThing.IsTileAt(row, col)) {
+                            Console.Write("=");
+                        } else { Console.Write("."); }
+                        counter++;
+                    }
+
+                }
+            }
+                Console.WriteLine("Our random intiger was {0}",ourThing.IsTileAt(110, 140));
+                Console.WriteLine("this should be 120 or so {0}", ourThing.returnMap().GetLength(0));
+                Console.WriteLine("this should be 160 or so {0} wide", ourThing.returnMap().GetLength(1));
+                Console.WriteLine("creating tankleasdfasdfasdfl");
+            }
+
+
+            if (!CheckClasses())
             {
                 UnitTests();
 
@@ -1730,19 +1766,19 @@ namespace TankBattleTestSuite
                     return;
                 }
             }
-            Console.WriteLine("creating tanklel");
-
-            if (1 == 2) { 
-                Battle game = new Battle(2, 1);
-                GenericPlayer p = CreateTestingPlayer();
-                game = InitialiseGame();
-                ControlledTank playerTank = new ControlledTank(p, 32, 32, game);
-                if (playerTank.CreateTank() == playerTank.GetPlayerNumber().CreateTank()) Console.WriteLine("OK");
-                Console.WriteLine("playerTank.CreateTank is {0} and getNo is {1} ", playerTank.CreateTank(), playerTank.GetPlayerNumber().CreateTank());
-            }
-
             Console.WriteLine("\nPress enter to exit.");
             Console.ReadLine();
+
+            //if (1 == 1) { 
+            //         Battle game = new Battle(2, 1);
+            //       GenericPlayer p = CreateTestingPlayer();
+            //     game.NewGame();
+            //   ControlledTank playerTank = new ControlledTank(p, 32, 32, game);
+            // if (playerTank.CreateTank() == playerTank.GetPlayerNumber().CreateTank()) Console.WriteLine("OK");
+            //            Console.WriteLine("playerTank.CreateTank is {0} and getNo is {1} ", playerTank.CreateTank(), playerTank.GetPlayerNumber().CreateTank());
+            //      }
+
+
         }
     }
 }
