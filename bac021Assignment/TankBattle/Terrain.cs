@@ -62,11 +62,14 @@ namespace TankBattle
 
         public bool CheckTankCollide(int x, int y)
         {
-            if (map[x+3, y+2]|| map[x+3, y + 1]|| map[x+3, y]) { //check col/length
+            // we only need to check 2 axis, because a TRUE cannot be only in the middle, above, left or right only.
+            // index from top left
+            if (map[x+3, y]|| map[x+3, y + 1]|| map[x+3, y+2]) //check bottom axis
+            { 
                 return true;
             }
-            if (map[x + 3, y+2]|| map[x+2, y=2] || map[x+1, y+2] || map[x, y+2]) //cehck row height, checking too far ahead compared to test?
-            {
+            if (map[x, y+2]|| map[x+1, y+2] || map[x+2, y+2] || map[x+3, y+2]) // check right axis
+            { 
                 return true;
             }
             else {
@@ -76,7 +79,22 @@ namespace TankBattle
 
         public int TankVerticalPosition(int x)
         {
-            throw new NotImplementedException();
+            // checks for lowest vertical positon of tank, returning the Y coord
+            // takes X input, which is across, makes sense(??)
+            // starting at 0 of HEIGHT, enumerate through each index of column
+            // returning CheckTankCollide(). Return number once true?
+            // or return number-1 once true?
+
+            int lowestValid = 0;
+            for (int y = 3; y < Terrain.HEIGHT - 1; y++)
+            {
+                if (this.CheckTankCollide(x, y))
+                {
+                    lowestValid = y;
+                    return lowestValid;
+                }
+            }
+            return lowestValid;
         }
 
         public void DestroyGround(float destroyX, float destroyY, float radius)

@@ -1765,7 +1765,7 @@ namespace TankBattleTestSuite
             }
         }
 
-            if (4 == 5)
+            if (4 == 3)
             {
                 Terrain battlefield = new Terrain();
                 for (int y = 0; y <= Terrain.WIDTH - TankType.HEIGHT; y++) {
@@ -1782,18 +1782,45 @@ namespace TankBattleTestSuite
                         if (colTiles == 0) {
                             if (battlefield.CheckTankCollide(x, y)) {
                                 Console.WriteLine("Collided! shouldn't have for some reason");
-                                Console.WriteLine("We checked {0} across and {1} down which was {2}",y,x,battlefield.IsTileAt(x,y));
+                                Console.WriteLine("We checked {0} down and {1} across which was {2}",x,y,battlefield.IsTileAt(x,y));
                                 Console.WriteLine();
                             }
                         } else {
                             if (!battlefield.CheckTankCollide(x, y)) {
                                 Console.WriteLine("DIdn't collide! should have though?");
-                                Console.WriteLine("We checked {0} across and {1} down which was {2}", y, x, battlefield.IsTileAt(x, y));
+                                Console.WriteLine("We checked {0} down and {1} across which was {2}", x, y, battlefield.IsTileAt(x, y));
                                 Console.WriteLine();
 
                             }
                         }
                     }
+                }
+            }
+
+            if (5 == 6)
+            {
+                Terrain battlefield = new Terrain();
+                for (int x = 0; x <= Terrain.HEIGHT - TankType.WIDTH; x++) {
+                    int lowestValid = 0;
+                    for (int y = 0; y <= Terrain.WIDTH - TankType.HEIGHT; y++) {
+                        int colTiles = 0;
+                        for (int iy = 0; iy < TankType.HEIGHT; iy++) {
+                            for (int ix = 0; ix < TankType.WIDTH; ix++) {
+
+                                if (battlefield.IsTileAt(x + ix, y + iy)) {
+                                    colTiles++;
+                                }
+                            }
+                        }
+                        if (colTiles == 0) {
+                            lowestValid = y;
+                        }
+                    }
+
+                    int placedY = battlefield.TankVerticalPosition(x);
+                    if (placedY != lowestValid) {
+                        Console.WriteLine("Tank was placed at {0},{1} when it should have been placed at {0},{2}", x, placedY, lowestValid);
+                    } else { Console.WriteLine("Looking good?");}
                 }
             }
 
