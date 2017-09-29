@@ -75,7 +75,7 @@ namespace TankBattle
             int counter = 0;
             int[] temp = new int[numPlayers];
             //calculate position
-            double tempResult = Terrain.WIDTH / (numPlayers + 1.0);
+            double tempResult = Terrain.HEIGHT / (numPlayers + 1.0);
             double tempWidth = Math.Round(tempResult,0);
 
             for (int i = 0; i < numPlayers; i++)
@@ -132,19 +132,21 @@ namespace TankBattle
             //Creating an array of ControlledTank as a private field.There should be the same number of ControlledTanks as there are GenericPlayers in the GenericPlayer array.
             ControlledTank[] controlledTankArray  = new ControlledTank[playerArray.Length - 1];
 
-            //Initialising the array of ControlledTank by 
+            //Initialising the array of ControlledTank by: 
             //finding the horizontal position of the ControlledTank(by looking up the appropriate index of shuffled calcedArray
+            var horizontalPos = calcedArray[0];
+            
             //the vertical position of the ControlledTank(by calling TankVerticalPosition() on the with the horizontal position as an argument)
             //calling ControlledTank's constructor to create that ControlledTank (passing correct GenericPlayer, the horizontal position, the vertical position and a reference to this)
-            //controlledTankArray[calcedArray[0],];
-            //ControlledTank ctx = new ControlledTank(GenericPlayer,HorizontalPosition, VerticalPosition);
+
+            //controlledTankArray[0]()
 
             //Initialising the wind speed, another private field of Battle, to a random number between -100 and 100.
             windSpeed = rng.Next(-100, 101);
 
             //Creating a new GameplayForm and Show()ing it.
-            //GameplayForm gPlayForm = new GameplayForm();
-            //gPlayForm.Show();
+            GameplayForm gPlayForm = new GameplayForm(game);
+            gPlayForm.Show();
         }
 
         public Terrain GetBattlefield()

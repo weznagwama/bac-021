@@ -411,7 +411,6 @@ namespace TankBattleTestSuite
                                      { 0, 0, 0, 0 },
                                      { 0, 0, 0, 0 } };
             TankType.DrawLine(ar, 3, 0, 0, 3);
-
             // Ideally, the line we want to see here is:
             // 0001
             // 0010
@@ -814,8 +813,8 @@ namespace TankBattleTestSuite
             Battle game = InitialiseGame();
             game.NewGame();
             // Unfortunately we need to rely on DestroyTerrain() to get rid of any terrain that may be in the way
-            game.GetBattlefield().DestroyGround(Terrain.WIDTH / 2.0f, Terrain.HEIGHT / 2.0f, 20);
-            ControlledTank playerTank = new ControlledTank(p, Terrain.WIDTH / 2, Terrain.HEIGHT / 2, game);
+            game.GetBattlefield().DestroyGround(Terrain.HEIGHT / 2.0f, Terrain.WIDTH / 2.0f, 20);
+            ControlledTank playerTank = new ControlledTank(p, Terrain.HEIGHT / 2, Terrain.WIDTH / 2, game);
             int oldX = playerTank.XPos();
             int oldY = playerTank.Y();
 
@@ -868,11 +867,11 @@ namespace TankBattleTestSuite
             bool foundTrue = false;
             bool foundFalse = false;
             Terrain battlefield = new Terrain();
-            for (int y = 0; y < Terrain.HEIGHT; y++)
+            for (int y = 0; y < Terrain.WIDTH; y++) // but Y has been used as width, when width is generally X axis
             {
-                for (int x = 0; x < Terrain.WIDTH; x++)
+                for (int x = 0; x < Terrain.HEIGHT; x++) //X has been used as vertical axis, which is usually Y?
                 {
-                    if (battlefield.IsTileAt(x, y))
+                    if (battlefield.IsTileAt(x, y)) //as a result, I get OutOfBound exception
                     {
                         foundTrue = true;
                     }
@@ -903,9 +902,9 @@ namespace TankBattleTestSuite
             Requires(TestTerrain0IsTileAt);
 
             Terrain battlefield = new Terrain();
-            for (int y = 0; y <= Terrain.HEIGHT - TankType.HEIGHT; y++)
+            for (int y = 0; y <= Terrain.WIDTH - TankType.HEIGHT; y++)
             {
-                for (int x = 0; x <= Terrain.WIDTH - TankType.WIDTH; x++)
+                for (int x = 0; x <= Terrain.HEIGHT - TankType.WIDTH; x++)
                 {
                     int colTiles = 0;
                     for (int iy = 0; iy < TankType.HEIGHT; iy++)
@@ -923,6 +922,9 @@ namespace TankBattleTestSuite
                     {
                         if (battlefield.CheckTankCollide(x, y))
                         {
+                            Console.WriteLine("Collided! shouldn't have for some reason");
+                            Console.WriteLine("We checked {0} across and {1} down which was {2}", y, x, battlefield.IsTileAt(x, y));
+                            Console.WriteLine();
                             SetErrorDescription("Found collision where there shouldn't be one");
                             return false;
                         }
@@ -931,6 +933,9 @@ namespace TankBattleTestSuite
                     {
                         if (!battlefield.CheckTankCollide(x, y))
                         {
+                            Console.WriteLine("DIdn't collide! should have though?");
+                            Console.WriteLine("We checked {0} across and {1} down which was {2}", y, x, battlefield.IsTileAt(x, y));
+                            Console.WriteLine();
                             SetErrorDescription("Didn't find collision where there should be one");
                             return false;
                         }
@@ -946,10 +951,10 @@ namespace TankBattleTestSuite
             Requires(TestTerrain0IsTileAt);
 
             Terrain battlefield = new Terrain();
-            for (int x = 0; x <= Terrain.WIDTH - TankType.WIDTH; x++)
+            for (int x = 0; x <= Terrain.HEIGHT - TankType.WIDTH; x++)
             {
                 int lowestValid = 0;
-                for (int y = 0; y <= Terrain.HEIGHT - TankType.HEIGHT; y++)
+                for (int y = 0; y <= Terrain.WIDTH - TankType.HEIGHT; y++)
                 {
                     int colTiles = 0;
                     for (int iy = 0; iy < TankType.HEIGHT; iy++)
@@ -984,9 +989,9 @@ namespace TankBattleTestSuite
             Requires(TestTerrain0IsTileAt);
 
             Terrain battlefield = new Terrain();
-            for (int y = 0; y < Terrain.HEIGHT; y++)
+            for (int y = 0; y < Terrain.WIDTH; y++)
             {
-                for (int x = 0; x < Terrain.WIDTH; x++)
+                for (int x = 0; x < Terrain.HEIGHT; x++)
                 {
                     if (battlefield.IsTileAt(x, y))
                     {
@@ -1013,14 +1018,14 @@ namespace TankBattleTestSuite
             Requires(TestTerrain0DestroyGround);
 
             Terrain battlefield = new Terrain();
-            for (int x = 0; x < Terrain.WIDTH; x++)
+            for (int x = 0; x < Terrain.HEIGHT; x++)
             {
-                if (battlefield.IsTileAt(x, Terrain.HEIGHT - 1))
+                if (battlefield.IsTileAt(x, Terrain.WIDTH - 1))
                 {
-                    if (battlefield.IsTileAt(x, Terrain.HEIGHT - 2))
+                    if (battlefield.IsTileAt(x, Terrain.WIDTH - 2))
                     {
                         // Seek up and find the first non-set tile
-                        for (int y = Terrain.HEIGHT - 2; y >= 0; y--)
+                        for (int y = Terrain.WIDTH - 2; y >= 0; y--)
                         {
                             if (!battlefield.IsTileAt(x, y))
                             {
@@ -1033,7 +1038,7 @@ namespace TankBattleTestSuite
                                 }
 
                                 // Destroy the bottom-most tile
-                                battlefield.DestroyGround(x, Terrain.HEIGHT - 1, 0.5f);
+                                battlefield.DestroyGround(x, Terrain.WIDTH - 1, 0.5f);
 
                                 // Do a gravity step and make sure it does slip down
                                 battlefield.CalculateGravity();
@@ -1606,7 +1611,7 @@ namespace TankBattleTestSuite
             string[][] classFields = new string[][] {
                 new string[] { "Main" }, // Program
                 new string[] { }, // AIOpponent
-                new string[] { "IsTileAt","CheckTankCollide","TankVerticalPosition","DestroyGround","CalculateGravity","WIDTH","HEIGHT"}, // Terrain
+                new string[] { "IsTileAt","CheckTankCollide","TankVerticalPosition","DestroyGround","CalculateGravity","HEIGHT","WIDTH"}, // Terrain
                 new string[] { "Activate" }, // Blast
                 new string[] { "EnableTankControls","Aim","SetPower","SetWeaponIndex","Launch","InitialiseBuffer"}, // GameplayForm
                 new string[] { "PlayerCount","GetRound","GetRounds","SetPlayer","GetPlayerNumber","GetPlayerTank","PlayerColour","CalculatePlayerPositions","Shuffle","NewGame","CommenceRound","GetBattlefield","DisplayPlayerTanks","CurrentPlayerTank","AddEffect","WeaponEffectStep","DrawWeaponEffects","EndEffect","CheckCollidedTank","DamageArmour","CalculateGravity","TurnOver","CheckWinner","NextRound","Wind"}, // Battle
@@ -1614,7 +1619,7 @@ namespace TankBattleTestSuite
                 new string[] { }, // Bullet
                 new string[] { "CreateTank","GetName","PlayerColour","AddPoint","GetVictories","BeginRound","CommenceTurn","ProjectileHitPos"}, // GenericPlayer
                 new string[] { "GetPlayerNumber","CreateTank","GetTankAngle","Aim","GetPower","SetPower","GetWeapon","SetWeaponIndex","Display","XPos","Y","Launch","DamageArmour","IsAlive","CalculateGravity"}, // ControlledTank
-                new string[] { "DisplayTank","DrawLine","CreateBMP","GetTankArmour","ListWeapons","ActivateWeapon","CreateTank","WIDTH","HEIGHT","NUM_TANKS"}, // TankType
+                new string[] { "DisplayTank","DrawLine","CreateBMP","GetTankArmour","ListWeapons","ActivateWeapon","CreateTank","HEIGHT","WIDTH","NUM_TANKS"}, // TankType
                 new string[] { "ConnectGame","ProcessTimeEvent","Display"} // AttackEffect
             };
 
@@ -1704,43 +1709,95 @@ namespace TankBattleTestSuite
 
         public static void Main()
         {
-            if (1 == 1) { 
-            Terrain ourThing = new Terrain();
+            if (1 == 2) { 
 
-            int HEIGHT = 120;
-            int WIDTH = 160;
-            int mapWide=1;
-            int mapHigh = 1;
+                    bool foundTrue = false;
+                    bool foundFalse = false;
+                    Terrain battlefield = new Terrain();
+                    for (int y = 0; y < Terrain.HEIGHT; y++) {
+                        for (int x = 0; x < Terrain.WIDTH; x++) {
+                            if (x == Terrain.WIDTH)
+                            {
+                                Console.WriteLine();
+                            } else {
+                                foundFalse = true;
+                            }
+                        }
+                    }
 
-            for (int row = 0; row < HEIGHT; row++) {
+                    if (!foundTrue) 
+                    {
+                        Console.WriteLine("We failed! IsTileAt didn't return true for anything");
+                    }
+
+                    if (!foundFalse) 
+                    {
+                        Console.WriteLine("We failed! IsTileAt didn't return false for anything");
+                    }
+                    Console.WriteLine("We passed!"); 
+            }
+
+            if (2 == 3) { 
+            Terrain map = new Terrain();
+
+            for (int row = 0; row < Terrain.HEIGHT; row++) {
                 int counter = 0;
-                mapHigh++;
-                for (int col = 0; col < WIDTH; col++)
-                {
-                    mapWide++;
-                    if (counter == (WIDTH - 1)) {
-                        if(ourThing.IsTileAt(row, col))
+                for (int col = 0; col < Terrain.WIDTH; col++) {
+                    if (counter == (col - 1)) {
+                        if (map.IsTileAt(row, col))
                         {
-                            Console.WriteLine("=");
-                        } else { Console.WriteLine(".");}
+                            Console.WriteLine("#");
+                        }
+                        else
+                        {
+                            Console.WriteLine(".");
+                        }
                         counter = 0;
                     } else {
-                        if (ourThing.IsTileAt(row, col)) {
-                            Console.Write("=");
-                        } else { Console.Write("."); }
-                        counter++;
+                        if (map.IsTileAt(row, col)) {
+                            Console.Write("#");
+                        } else {
+                            Console.Write(".");
+                        }
                     }
 
                 }
             }
-                Console.WriteLine("Our random intiger was {0}",ourThing.IsTileAt(110, 140));
-                Console.WriteLine("this should be 120 or so {0}", ourThing.returnMap().GetLength(0));
-                Console.WriteLine("this should be 160 or so {0} wide", ourThing.returnMap().GetLength(1));
-                Console.WriteLine("creating tankleasdfasdfasdfl");
+        }
+
+            if (4 == 5)
+            {
+                Terrain battlefield = new Terrain();
+                for (int y = 0; y <= Terrain.WIDTH - TankType.HEIGHT; y++) {
+                    for (int x = 0; x <= Terrain.HEIGHT - TankType.WIDTH; x++) {
+                        int colTiles = 0;
+                        for (int iy = 0; iy < TankType.HEIGHT; iy++) {
+                            for (int ix = 0; ix < TankType.WIDTH; ix++) {
+
+                                if (battlefield.IsTileAt(x + ix, y + iy)) {
+                                    colTiles++;
+                                }
+                            }
+                        }
+                        if (colTiles == 0) {
+                            if (battlefield.CheckTankCollide(x, y)) {
+                                Console.WriteLine("Collided! shouldn't have for some reason");
+                                Console.WriteLine("We checked {0} across and {1} down which was {2}",y,x,battlefield.IsTileAt(x,y));
+                                Console.WriteLine();
+                            }
+                        } else {
+                            if (!battlefield.CheckTankCollide(x, y)) {
+                                Console.WriteLine("DIdn't collide! should have though?");
+                                Console.WriteLine("We checked {0} across and {1} down which was {2}", y, x, battlefield.IsTileAt(x, y));
+                                Console.WriteLine();
+
+                            }
+                        }
+                    }
+                }
             }
 
-
-            if (!CheckClasses())
+            if (CheckClasses())
             {
                 UnitTests();
 
@@ -1768,16 +1825,6 @@ namespace TankBattleTestSuite
             }
             Console.WriteLine("\nPress enter to exit.");
             Console.ReadLine();
-
-            //if (1 == 1) { 
-            //         Battle game = new Battle(2, 1);
-            //       GenericPlayer p = CreateTestingPlayer();
-            //     game.NewGame();
-            //   ControlledTank playerTank = new ControlledTank(p, 32, 32, game);
-            // if (playerTank.CreateTank() == playerTank.GetPlayerNumber().CreateTank()) Console.WriteLine("OK");
-            //            Console.WriteLine("playerTank.CreateTank is {0} and getNo is {1} ", playerTank.CreateTank(), playerTank.GetPlayerNumber().CreateTank());
-            //      }
-
 
         }
     }

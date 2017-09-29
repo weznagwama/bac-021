@@ -37,6 +37,22 @@ namespace TankBattle {
                 { 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0 },
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
 
+            if (angle < -67.5) //far left
+            {
+                SmallTank.DrawLine(graphic, 7,6,2,6);
+            }
+            if (angle > -67.5 && angle <= -45) { //bit left
+                SmallTank.DrawLine(graphic, 7, 6, 3, 2);
+            }
+            if (angle > -45 && angle <= 0) { // towards the middle
+                SmallTank.DrawLine(graphic, 7, 6, 7, 1);
+            }
+            if (angle > 0 && angle <= 45) { //right
+                SmallTank.DrawLine(graphic, 7, 6, 1, 2);
+            }
+            if (angle > 45) { //farther right
+                SmallTank.DrawLine(graphic, 7, 6, 1, 2);
+            }
             return graphic;
 
         }
@@ -56,7 +72,7 @@ namespace TankBattle {
             //int weapon is based on strings from listWeapons, input can only be between lenght of array
 
             //Use XPos() and Y() on the ControlledTank to get the tank's coordinates.
-            //Convert the coordinates into floats and add on half the values of TankType.WIDTH and TankType.HEIGHT respectively to them, to get the position at the centre of the tank.
+            //Convert the coordinates into floats and add on half the values of TankType.HEIGHT and TankType.WIDTH respectively to them, to get the position at the centre of the tank.
             //Get the GenericPlayer associated with the ControlledTank passed to ActivateWeapon by using GetPlayerNumber.
             //Create a new Blast to reflect the payload of the weapon.Reasonable values to pass in are 100(for damage), 4(for explosion radius) and 4(for earth destruction radius).
             //Create a new Bullet for the projectile itself.Pass in the X and Y coordinates of the centre of the tank, the angle and power(from ControlledTank's GetTankAngle() and GetPower() respectively), a reasonable value for gravity (e.g. 0.01f), then the Blast and GenericPlayer references we just got.

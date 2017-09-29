@@ -8,10 +8,10 @@ namespace TankBattle
 {
     public class Terrain
     {
-        public const int WIDTH = 160;
         public const int HEIGHT = 120;
+        public const int WIDTH = 160;
 
-        private static bool[,] map = new bool[HEIGHT,WIDTH];
+        private static bool[,] map = new bool[HEIGHT,WIDTH]; //ive used width first, THEN height, which appears to work throughout
         private static int terrainWidth;
         private static int terrainHeight;
         private static int landHeight;
@@ -23,32 +23,34 @@ namespace TankBattle
             Terrain.terrainWidth = WIDTH;
             Terrain.terrainHeight = HEIGHT;
 
-            landHeight = rng.Next(0,HEIGHT-5);
+            landHeight = rng.Next(5,HEIGHT);
             int verticalAmount = HEIGHT-landHeight;
 
             //first run, set landscape
+            //names are wrong but im lazy
             for (int row = 0; row < HEIGHT; row++) {
                 for (int col = 0; col < WIDTH; col++) {
-                    map[row, col] = false;
+                  map[row, col] = false;
                 }
             }
 
             //create the land, set true for tile
-            for (int horiz = 0; horiz < WIDTH; horiz++)
+            for (int col = 0; col < WIDTH; col++)
             {
-                int setIndexAmount = rng.Next(verticalAmount - 1, verticalAmount + 1);
+                int setIndexAmount = rng.Next(verticalAmount - 2, verticalAmount + 2);
 
                 for (int i = setIndexAmount; i < HEIGHT; i++)
                 {
                     //int vert = i - 1;
-                    map[i, horiz] = true;
+                    map[i, col] = true;
                 }     
             }
         }
 
         public bool IsTileAt(int x, int y)
         {
-            if (map[x, y] == false)
+
+         if (map[x, y] == false)
             {
                 return false;
             }
@@ -60,10 +62,15 @@ namespace TankBattle
 
         public bool CheckTankCollide(int x, int y)
         {
-            if (map[x+4, y+3] == false) {
-                return false;
-            } else {
+            if (map[x+3, y+2]|| map[x+3, y + 1]|| map[x+3, y]) { //check col/length
                 return true;
+            }
+            if (map[x + 3, y+2]|| map[x+2, y=2] || map[x+1, y+2] || map[x, y+2]) //cehck row height, checking too far ahead compared to test?
+            {
+                return true;
+            }
+            else {
+                return false;
             }
         }
 
@@ -80,11 +87,6 @@ namespace TankBattle
         public bool CalculateGravity()
         {
             throw new NotImplementedException();
-        }
-
-        public bool[,] returnMap()
-        {
-            return map;
         }
     }
 }

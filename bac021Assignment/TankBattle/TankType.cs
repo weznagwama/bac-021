@@ -19,7 +19,43 @@ namespace TankBattle
 
         public static void DrawLine(int[,] graphic, int X1, int Y1, int X2, int Y2)
         {
-            throw new NotImplementedException();
+            bool steep = Math.Abs(Y2 - Y1) > Math.Abs(X2 - X1);
+            if (steep)
+            {
+                int t;
+                t = X1; // swap X1 and Y1
+                X1 = Y1;
+                Y1 = t;
+                t = X2; // swap X2 and Y2
+                X2 = Y2;
+                Y2 = t;
+            }
+            if (X1 > X2)
+            {
+                int t;
+                t = X1; // swap X1 and X2
+                X1 = X2;
+                X2 = t;
+                t = Y1; // swap Y1 and Y2
+                Y1 = Y2;
+                Y2 = t;
+            }
+            int dx = X2 - X1;
+            int dy = Math.Abs(Y2 - Y1);
+            int error = dx / 2;
+            int ystep = (Y1 < Y2) ? 1 : -1;
+            int y = Y1;
+            for (int x = X1; x <= X2; x++)
+            {
+                graphic[x,y] = 1;
+                error = error - dy;
+                if (error < 0)
+                {
+                    y += ystep;
+                    error += dx;
+                }
+
+            }
         }
 
         public Bitmap CreateBMP(Color tankColour, float angle)
