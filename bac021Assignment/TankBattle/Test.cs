@@ -1732,7 +1732,7 @@ namespace TankBattleTestSuite
             }
             Console.WriteLine("creating tanklel");
 
-            if (1 == 1) { 
+            if (1 == 2) { 
                 Battle game = new Battle(2, 1);
                 GenericPlayer p = CreateTestingPlayer();
                 game = InitialiseGame();
