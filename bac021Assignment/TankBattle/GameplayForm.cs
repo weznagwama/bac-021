@@ -13,15 +13,36 @@ namespace TankBattle
 {
     public partial class GameplayForm : Form
     {
-        private Color landscapeColour;
-        private Random rng = new Random();
-        private Image backgroundImage = null;
-        private int levelWidth = 160;
-        private int levelHeight = 120;
-        private Battle currentGame;
+        private static Color landscapeColour;
+        private static Random rng = new Random();
+        private static Image backgroundImage = null;
+        private static int levelWidth = 160;
+        private static int levelHeight = 120;
+        private static Battle currentGame;
 
-        private BufferedGraphics backgroundGraphics;
-        private BufferedGraphics gameplayGraphics;
+        private static string currentPlayer = "player1";
+        private static int currentWind = 0;
+        private static ControlledTank controlledTank;
+        private static TankType theTank;
+
+        private static BufferedGraphics backgroundGraphics;
+        private static BufferedGraphics gameplayGraphics;
+
+        private static decimal aimAngle;
+        private static int thePower;
+
+        string[] imageFilenames = { "Images\\background1.jpg",
+            "Images\\background2.jpg",
+            "Images\\background3.jpg",
+            "Images\\background4.jpg"};
+
+        Color[] landscapeColours = { Color.FromArgb(255, 0, 0, 0),
+            Color.FromArgb(255, 73, 58, 47),
+            Color.FromArgb(255, 148, 116, 93),
+            Color.FromArgb(255, 133, 119, 109) };
+
+        private Color landscape;
+        private Image image;
 
         public GameplayForm(Battle game)
         {
@@ -31,7 +52,30 @@ namespace TankBattle
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.UserPaint, true);
 
+            currentGame = game;
+            int rand = rng.Next(1, 4);
+
+            backgroundImage = Image.FromFile(imageFilenames[rand]);
+            landscapeColour = landscapeColours[rand];
+
+            // currently broken for whatever reason
+
+            //label1.Text = currentPlayer;
+            //label3.Text = "windspeed here";
+
+            //comboBox1.Items.AddRange(theTank.ListWeapons());
+            //comboBox1.DropDown += new System.EventHandler(comboBox1_SelectedIndexChanged);
+
             InitializeComponent();
+            backgroundGraphics = InitialiseBuffer();
+            gameplayGraphics = InitialiseBuffer();
+            DrawGameplay();
+            NewTurn();
+
+            DrawBackground();
+
+
+
         }
 
         // From https://stackoverflow.com/questions/13999781/tearing-in-my-animation-on-winforms-c-sharp
@@ -47,17 +91,17 @@ namespace TankBattle
 
         public void EnableTankControls()
         {
-            throw new NotImplementedException();
+            controlPanel.Enabled = true;
         }
 
         public void Aim(float angle)
         {
-            throw new NotImplementedException();
+            aimAngle = numericUpDown1.Value;
         }
 
         public void SetPower(int power)
         {
-            throw new NotImplementedException();
+            thePower = trackBar1.Value;
         }
         public void SetWeaponIndex(int weapon)
         {
@@ -107,6 +151,93 @@ namespace TankBattle
         {
             Graphics graphics = displayPanel.CreateGraphics();
             gameplayGraphics.Render(graphics);
+        }
+
+        private void DrawGameplay()
+        {
+            //Renders the backgroundGraphics buffer to the gameplayGraphics buffer: backgroundGraphics.Render(gameplayGraphics.Graphics);
+            backgroundGraphics.Render(gameplayGraphics.Graphics);
+            //Calls currentGame.DisplayPlayerTanks(), passing in gameplayGraphics.Graphics and displayPanel.Size
+            currentGame.DisplayPlayerTanks(gameplayGraphics.Graphics,displayPanel.Size);
+            //Calls currentGame.DrawWeaponEffects(), passing in gameplayGraphics.Graphics and displayPanel.Size
+            
+            //This currently breaks about 5 units tests
+            //currentGame.DrawWeaponEffects(gameplayGraphics.Graphics,displayPanel.Size);
+        }
+
+        private void NewTurn()
+        {
+            //First, get a reference to the current ControlledTank with currentGame.CurrentPlayerTank()
+            //Likewise, get a reference to the current GenericPlayer by calling the ControlledTank's GetPlayerNumber()
+            //Set the form caption to "Tank Battle - Round ? of ?", using methods in currentGame to get the current and total rounds.
+            //Set the BackColor property of controlPanel to the current GenericPlayer's colour.
+            //Set the player name label to the current GenericPlayer's name.
+            //Call Aim() to set the current angle to the current ControlledTank's angle.
+            //Call SetPower() to set the current turret power to the current ControlledTank's power.
+            //Update the wind speed label to show the current wind speed, retrieved from currentGame.Positive values should be shown as E winds, negative values as W winds.For example, 50 would be displayed as "50 E" while -38 would be displayed as "38 W".
+            //Clear the current weapon names from the ComboBox.
+            //Get a reference to the current TankType with ControlledTank's CreateTank() method, then get a list of weapons available to that TankType.
+            //Add each weapon name in the list to the ComboBox.
+            //Call SetWeaponIndex() to set the current weapon to the current ControlledTank's weapon.
+            //Call the current GenericPlayer's CommenceTurn() method, passing in this and currentGame.
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+        }
+
+        private void label1_Click(object sender, EventArgs e) {
+            
+        }
+
+        private void label2_Click(object sender, EventArgs e) {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e) {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e) {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e) {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e) {
+
+        }
+
+        private void powerDisplay_Click(object sender, EventArgs e) {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) {
+            //Next, create ValueChanged(or SelectedIndexChanged) events for the combo control on the control panel.
+            //The methods tied to each of these events should call the appropriate ControlledTank method(SetWeaponindex)
+            //controlledTank.SetWeaponIndex(comboBox1.SelectedValue);
+        }
+
+        private void button1_Click(object sender, EventArgs e) {
+            controlPanel.Enabled = false;
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e) {
+            //Next, create ValueChanged(or SelectedIndexChanged) events for the numericUpDown control on the control panel.
+            //The methods tied to each of these events should call the appropriate ControlledTank method(Aim())
+            controlledTank.Aim((float)numericUpDown1.Value);
+        }
+
+            private void trackBar1_Scroll(object sender, EventArgs e) {
+            //Next, create ValueChanged(or SelectedIndexChanged) events for the TrackBar control on the control panel.
+            //The methods tied to each of these events should call the appropriate ControlledTank SetPower(). 
+            controlledTank.SetPower(trackBar1.Value);
+        }
+
+        private void controlPanel_Paint(object sender, PaintEventArgs e) {
+
         }
     }
 }

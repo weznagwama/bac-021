@@ -1800,6 +1800,8 @@ namespace TankBattleTestSuite
             if (5 == 6)
             {
                 Terrain battlefield = new Terrain();
+                //Console.WriteLine("fartherst tile should be true {0}",battlefield.TankVerticalPosition(155));
+                //Console.ReadLine();
                 for (int x = 0; x <= Terrain.HEIGHT - TankType.WIDTH; x++) {
                     int lowestValid = 0;
                     for (int y = 0; y <= Terrain.WIDTH - TankType.HEIGHT; y++) {
@@ -1822,6 +1824,16 @@ namespace TankBattleTestSuite
                         Console.WriteLine("Tank was placed at {0},{1} when it should have been placed at {0},{2}", x, placedY, lowestValid);
                     } else { Console.WriteLine("Looking good?");}
                 }
+            }
+
+            if (7 == 8) {
+                Battle game = new Battle(2, 1);
+                TankType tank = TankType.CreateTank(1);
+                GenericPlayer player1 = new HumanOpponent("player1", tank, Color.Orange);
+                GenericPlayer player2 = new HumanOpponent("player2", tank, Color.Purple);
+                game.SetPlayer(1, player1);
+                game.SetPlayer(2, player2);
+                game.NewGame();
             }
 
             if (CheckClasses())

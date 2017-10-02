@@ -4,14 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace TankBattle
 {
     public abstract class AttackEffect
     {
+
+        protected static Battle theGame;
+
         public void ConnectGame(Battle game)
         {
-            throw new NotImplementedException();
+            theGame = game;
         }
 
         public abstract void ProcessTimeEvent();
