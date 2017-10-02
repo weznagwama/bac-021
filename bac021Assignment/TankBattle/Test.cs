@@ -867,11 +867,11 @@ namespace TankBattleTestSuite
             bool foundTrue = false;
             bool foundFalse = false;
             Terrain battlefield = new Terrain();
-            for (int y = 0; y < Terrain.WIDTH; y++) // but Y has been used as width, when width is generally X axis
+            for (int y = 0; y < Terrain.HEIGHT; y++) 
             {
-                for (int x = 0; x < Terrain.HEIGHT; x++) //X has been used as vertical axis, which is usually Y?
+                for (int x = 0; x < Terrain.WIDTH; x++) 
                 {
-                    if (battlefield.IsTileAt(x, y)) //as a result, I get OutOfBound exception
+                    if (battlefield.IsTileAt(x, y))
                     {
                         foundTrue = true;
                     }
@@ -1834,6 +1834,45 @@ namespace TankBattleTestSuite
                 game.SetPlayer(1, player1);
                 game.SetPlayer(2, player2);
                 game.NewGame();
+            }
+
+            if (9 == 10)
+            {
+                bool foundTrue = false;
+                bool foundFalse = false;
+
+                Terrain battlefield = new Terrain();
+                for (int y = 0; y < Terrain.HEIGHT; y++) {
+                    for (int x = 0; x < Terrain.WIDTH; x++) {
+                        if (battlefield.IsTileAt(x, y)) {
+                            foundTrue = true;
+                        } else {
+                            foundFalse = true;
+                        }
+                    }
+                }
+
+                if (!foundTrue) {
+                    Console.WriteLine("IsTileAt() did not return true for any tile.");
+                }
+
+                if (!foundFalse) {
+                    Console.WriteLine("IsTileAt() did not return false for any tile.");
+                }
+            }
+
+            if (11 == 12)
+            {
+                int[] positions = Battle.CalculatePlayerPositions(8);
+                for (int i = 0; i < 8; i++) {
+                    if (positions[i] < 0) Console.WriteLine("Your position is off the screen, under 0!");
+                    if (positions[i] > 160) Console.WriteLine("Your position is off the screen, past 160!!");
+                    Console.WriteLine("Position no {0} is position {1}",i,positions[i]);
+                    for (int j = 0; j < i; j++) {
+                        if (positions[j] == positions[i]) Console.WriteLine("You've got 2 people ontop of each other!! possy {0} and {1}",positions[j],positions[i]);
+                    }
+                }
+                Console.WriteLine("All good");
             }
 
             if (CheckClasses())

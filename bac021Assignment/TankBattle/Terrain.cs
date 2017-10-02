@@ -50,6 +50,10 @@ namespace TankBattle
         public bool IsTileAt(int x, int y)
         {
 
+            if (y == 120)
+            {
+                y = 119;
+            }
             if (map[y, x] == false)
             {
                 return false;

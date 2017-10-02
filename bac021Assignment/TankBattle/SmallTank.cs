@@ -9,7 +9,7 @@ namespace TankBattle {
     class SmallTank : TankType
     {
 
-        private static string[] tankWeapons = { "std", "big" };
+        private static string[] tankWeapons = { "Standard Shell", "Large Shell" };
 
         //do we overrite inherited fields here? to test
         private new static int WIDTH = 4;
@@ -70,15 +70,30 @@ namespace TankBattle {
         public override void ActivateWeapon(int weapon, ControlledTank playerTank, Battle currentGame)
         {
             //int weapon is based on strings from listWeapons, input can only be between lenght of array
-
+            string weaponChoice = tankWeapons[weapon];
             //Use XPos() and Y() on the ControlledTank to get the tank's coordinates.
             //Convert the coordinates into floats and add on half the values of TankType.HEIGHT and TankType.WIDTH respectively to them, to get the position at the centre of the tank.
-            //Get the GenericPlayer associated with the ControlledTank passed to ActivateWeapon by using GetPlayerNumber.
-            //Create a new Blast to reflect the payload of the weapon.Reasonable values to pass in are 100(for damage), 4(for explosion radius) and 4(for earth destruction radius).
-            //Create a new Bullet for the projectile itself.Pass in the X and Y coordinates of the centre of the tank, the angle and power(from ControlledTank's GetTankAngle() and GetPower() respectively), a reasonable value for gravity (e.g. 0.01f), then the Blast and GenericPlayer references we just got.
-            //Call Battle's AddEffect(), passing in the newly-created Bullet.
+            var xtemp = playerTank.XPos();
+            var ytemp = playerTank.Y();
+            xtemp = xtemp + (WIDTH / 2);
+            ytemp = ytemp + (HEIGHT / 2);
 
-            throw new NotImplementedException();
+            float xPos = (float) xtemp;
+            float yPos = (float) xtemp;
+            
+            //Get the GenericPlayer associated with the ControlledTank passed to ActivateWeapon by using GetPlayerNumber.
+            var playerNum = playerTank.GetPlayerNumber();
+
+            //Create a new Blast to reflect the payload of the weapon.Reasonable values to pass in are 100(for damage), 4(for explosion radius) and 4(for earth destruction radius).
+            Blast weaponBlast = new Blast(100,4,4);
+            //Create a new Bullet for the projectile itself.Pass in the X and Y coordinates of the centre of the tank, the angle and power
+            //(from ControlledTank's GetTankAngle() and GetPower() respectively), a reasonable value for gravity (e.g. 0.01f), then the Blast 
+            //and GenericPlayer references we just got.
+            float gravity = 0.01f;
+            Bullet weaponBullet = new Bullet(xPos,yPos,playerTank.GetTankAngle(),playerTank.GetPower(),gravity,weaponBlast,playerNum);
+
+            //Call Battle's AddEffect(), passing in the newly-created Bullet.
+            currentGame.AddEffect(weaponBullet);
         }
 
     }
