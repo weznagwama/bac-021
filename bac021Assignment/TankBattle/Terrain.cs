@@ -71,7 +71,7 @@ namespace TankBattle
 
             if (
                 IsTileAt(x,y)       || IsTileAt(x + 1,y)        || IsTileAt(x + 2,y) ||
-                IsTileAt(x, y+1)    || IsTileAt(x + 1, y + 1)   || IsTileAt(x + 2, y + 1) ||
+                IsTileAt(x, y + 1)  || IsTileAt(x + 1, y + 1)   || IsTileAt(x + 2, y + 1) ||
                 IsTileAt(x, y + 2)  || IsTileAt(x + 1, y + 2)   || IsTileAt(x + 2, y + 2) ||
                 IsTileAt(x, y + 3)  || IsTileAt(x + 1, y + 3)   || IsTileAt(x + 2, y + 3)
                 ) //check bottom axis, 3 down incriment across, Y up/down X left/right
@@ -101,9 +101,9 @@ namespace TankBattle
                 {
                     Console.WriteLine("Hit detected at {0} across and {1} down", x,yPos);
                     lowestValidPoint = yPos;
-                    lowestValidPoint--;
-                    Console.WriteLine("This means we had to decrement by 1, which is now {0}", lowestValidPoint);
-                    Console.WriteLine("The result of checking {0}X and {1} ypos, should be FALSE: {2}",x,lowestValidPoint,IsTileAt(x,yPos));
+                    //Console.WriteLine("This means we had to decrement by 1, which is now {0}", lowestValidPoint);
+                    //Console.WriteLine("The result of checking {0}X and {1} ypos, should be FALSE: {2}",x,lowestValidPoint,IsTileAt(x,yPos));
+                    //Console.WriteLine("This in theory should be TRUE though, {0}X and {1} ypos: {2}",x,lowestValidPoint+1,IsTileAt(x,yPos));
                     //Console.WriteLine("X, or across, input was {0}", x);
                     //Console.WriteLine("Hit detected at {0}, so safe return will be {1}. This means our safe coords are {2},{3}."
                      //   ,yPos,lowestValidPoint,x,lowestValidPoint);
