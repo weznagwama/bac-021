@@ -49,11 +49,7 @@ namespace TankBattle
 
         public bool IsTileAt(int x, int y)
         {
-
-            if (y == 120)
-            {
-                y = 119;
-            }
+            //Console.WriteLine("Checkin X (across): {0} - and Y(high): {1}", x, y);
             if (map[y, x] == false)
             {
                 return false;
@@ -66,16 +62,14 @@ namespace TankBattle
 
         public bool CheckTankCollide(int x, int y)
         {
-            // we only need to check 2 axis, because a TRUE cannot be only in the middle, above, left or right only.
-            // index from top left
 
-            // need to add constraints 
+            //this needs work, beleive it's wrong
 
-            if (map[x+3, y]|| map[x+3, y + 1]|| map[x+3, y+2]) //check bottom axis
+            if (IsTileAt(x, y+3)|| IsTileAt(x + 1,y +3)|| IsTileAt(x + 2, y +3)) //check bottom axis
             { 
                 return true;
             }
-            if (map[x, y+2]|| map[x+1, y+2] || map[x+2, y+2] || map[x+3, y+2]) // check right axis
+            if (IsTileAt(x + 2,y)|| IsTileAt(x + 2, y +1 ) || IsTileAt(x + 2,y +2) || IsTileAt(x + 2, y +3)) // check right axis
             { 
                 return true;
             }
@@ -94,11 +88,16 @@ namespace TankBattle
             // or return number-1 once true?
 
             int lowestValidPoint = 0;
-            for (int yPos = 3; yPos < Terrain.HEIGHT - 1; yPos++)
+            for (int yPos = 0; yPos < Terrain.HEIGHT - 1; yPos++)
             {
-                if (this.CheckTankCollide(yPos, x)) //I've screwed up the axis I think?
+                Console.WriteLine("Checking {0} across and {1} down, should hit",x,yPos);
+                if (this.CheckTankCollide(x, yPos)) //I've screwed up the axis I think?
                 {
-                    lowestValidPoint = yPos-1;
+                    Console.WriteLine("Hit detected at {0} across and {1} down", x,yPos);
+                    lowestValidPoint = yPos;
+                    lowestValidPoint--;
+                    Console.WriteLine("This means we had to decrement by 1, which is now {0}", lowestValidPoint);
+                    Console.WriteLine("The result of checking {0}X and {1} ypos, should be FALSE: {2}",x,lowestValidPoint,IsTileAt(x,yPos));
                     //Console.WriteLine("X, or across, input was {0}", x);
                     //Console.WriteLine("Hit detected at {0}, so safe return will be {1}. This means our safe coords are {2},{3}."
                      //   ,yPos,lowestValidPoint,x,lowestValidPoint);

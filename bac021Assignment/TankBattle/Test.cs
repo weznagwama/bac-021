@@ -9,83 +9,67 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
 
-namespace TankBattleTestSuite
-{
-    class RequirementException : Exception
-    {
-        public RequirementException()
-        {
+namespace TankBattleTestSuite {
+    class RequirementException : Exception {
+        public RequirementException() {
         }
 
-        public RequirementException(string message) : base(message)
-        {
+        public RequirementException(string message) : base(message) {
         }
 
-        public RequirementException(string message, Exception inner) : base(message, inner)
-        {
+        public RequirementException(string message, Exception inner) : base(message, inner) {
         }
     }
 
-    class Test
-    {
+    class Test {
         #region Testing Code
 
         private delegate bool TestCase();
 
         private static string ErrorDescription = null;
 
-        private static void SetErrorDescription(string desc)
-        {
+        private static void SetErrorDescription(string desc) {
             ErrorDescription = desc;
         }
 
-        private static bool FloatEquals(float a, float b)
-        {
+        private static bool FloatEquals(float a, float b) {
             if (Math.Abs(a - b) < 0.01) return true;
             return false;
         }
 
         private static Dictionary<string, string> unitTestResults = new Dictionary<string, string>();
 
-        private static void Passed(string name, string comment)
-        {
+        private static void Passed(string name, string comment) {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("[passed] ");
             Console.ResetColor();
             Console.Write("{0}", name);
-            if (comment != "")
-            {
+            if (comment != "") {
                 Console.Write(": {0}", comment);
             }
-            if (ErrorDescription != null)
-            {
+            if (ErrorDescription != null) {
                 throw new Exception("ErrorDescription found for passing test case");
             }
             Console.WriteLine();
         }
-        private static void Failed(string name, string comment)
-        {
+        private static void Failed(string name, string comment) {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write("[failed] ");
             Console.ResetColor();
             Console.Write("{0}", name);
-            if (comment != "")
-            {
+            if (comment != "") {
                 Console.Write(": {0}", comment);
             }
-            if (ErrorDescription != null)
-            {
+            if (ErrorDescription != null) {
                 Console.Write("\n{0}", ErrorDescription);
                 ErrorDescription = null;
             }
             Console.WriteLine();
         }
-        private static void FailedToMeetRequirement(string name, string comment)
-        {
+        private static void FailedToMeetRequirement(string name, string comment) {
             Console.Write("[      ] ");
             Console.Write("{0}", name);
-            if (comment != "")
-            {
+            if (comment != "") {
                 Console.Write(": ");
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.Write("{0}", comment);
@@ -94,49 +78,36 @@ namespace TankBattleTestSuite
             Console.WriteLine();
         }
 
-        private static void DoTest(TestCase test)
-        {
+        private static void DoTest(TestCase test) {
             // Have we already completed this test?
-            if (unitTestResults.ContainsKey(test.Method.ToString()))
-            {
+            if (unitTestResults.ContainsKey(test.Method.ToString())) {
                 return;
             }
 
             bool passed = false;
             bool metRequirement = true;
             string exception = "";
-            try
-            {
+            try {
                 passed = test();
-            }
-            catch (RequirementException e)
-            {
+            } catch (RequirementException e) {
                 metRequirement = false;
                 exception = e.Message;
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 exception = e.GetType().ToString();
             }
 
             string className = test.Method.ToString().Replace("Boolean Test", "").Split('0')[0];
             string fnName = test.Method.ToString().Split('0')[1];
 
-            if (metRequirement)
-            {
-                if (passed)
-                {
+            if (metRequirement) {
+                if (passed) {
                     unitTestResults[test.Method.ToString()] = "Passed";
                     Passed(string.Format("{0}.{1}", className, fnName), exception);
-                }
-                else
-                {
+                } else {
                     unitTestResults[test.Method.ToString()] = "Failed";
                     Failed(string.Format("{0}.{1}", className, fnName), exception);
                 }
-            }
-            else
-            {
+            } else {
                 unitTestResults[test.Method.ToString()] = "Failed";
                 FailedToMeetRequirement(string.Format("{0}.{1}", className, fnName), exception);
             }
@@ -146,13 +117,11 @@ namespace TankBattleTestSuite
         private static Stack<string> errorDescriptionStack = new Stack<string>();
 
 
-        private static void Requires(TestCase test)
-        {
+        private static void Requires(TestCase test) {
             string result;
             bool wasTested = unitTestResults.TryGetValue(test.Method.ToString(), out result);
 
-            if (!wasTested)
-            {
+            if (!wasTested) {
                 // Push the error description onto the stack (only thing that can change, not that it should)
                 errorDescriptionStack.Push(ErrorDescription);
 
@@ -165,25 +134,19 @@ namespace TankBattleTestSuite
                 // Get the proper result for out
                 wasTested = unitTestResults.TryGetValue(test.Method.ToString(), out result);
 
-                if (!wasTested)
-                {
+                if (!wasTested) {
                     throw new Exception("This should never happen");
                 }
             }
 
-            if (result == "Failed")
-            {
+            if (result == "Failed") {
                 string className = test.Method.ToString().Replace("Boolean Test", "").Split('0')[0];
                 string fnName = test.Method.ToString().Split('0')[1];
 
                 throw new RequirementException(string.Format("-> {0}.{1}", className, fnName));
-            }
-            else if (result == "Passed")
-            {
+            } else if (result == "Passed") {
                 return;
-            }
-            else
-            {
+            } else {
                 throw new Exception("This should never happen");
             }
 
@@ -192,8 +155,7 @@ namespace TankBattleTestSuite
         #endregion
 
         #region Test Cases
-        private static Battle InitialiseGame()
-        {
+        private static Battle InitialiseGame() {
             Requires(TestBattle0Battle);
             Requires(TestTankType0CreateTank);
             Requires(TestGenericPlayer0HumanOpponent);
@@ -207,34 +169,28 @@ namespace TankBattleTestSuite
             game.SetPlayer(2, player2);
             return game;
         }
-        private static void Cleanup()
-        {
-            while (Application.OpenForms.Count > 0)
-            {
+        private static void Cleanup() {
+            while (Application.OpenForms.Count > 0) {
                 Application.OpenForms[0].Dispose();
             }
         }
-        private static bool TestBattle0Battle()
-        {
+        private static bool TestBattle0Battle() {
             Battle game = new Battle(2, 1);
             return true;
         }
-        private static bool TestBattle0PlayerCount()
-        {
+        private static bool TestBattle0PlayerCount() {
             Requires(TestBattle0Battle);
 
             Battle game = new Battle(2, 1);
             return game.PlayerCount() == 2;
         }
-        private static bool TestBattle0GetRounds()
-        {
+        private static bool TestBattle0GetRounds() {
             Requires(TestBattle0Battle);
 
             Battle game = new Battle(3, 5);
             return game.GetRounds() == 5;
         }
-        private static bool TestBattle0SetPlayer()
-        {
+        private static bool TestBattle0SetPlayer() {
             Requires(TestBattle0Battle);
             Requires(TestTankType0CreateTank);
 
@@ -244,8 +200,7 @@ namespace TankBattleTestSuite
             game.SetPlayer(1, player);
             return true;
         }
-        private static bool TestBattle0GetPlayerNumber()
-        {
+        private static bool TestBattle0GetPlayerNumber() {
             Requires(TestBattle0Battle);
             Requires(TestTankType0CreateTank);
             Requires(TestGenericPlayer0HumanOpponent);
@@ -256,66 +211,52 @@ namespace TankBattleTestSuite
             game.SetPlayer(1, player);
             return game.GetPlayerNumber(1) == player;
         }
-        private static bool TestBattle0PlayerColour()
-        {
+        private static bool TestBattle0PlayerColour() {
             Color[] arrayOfColours = new Color[8];
-            for (int i = 0; i < 8; i++)
-            {
+            for (int i = 0; i < 8; i++) {
                 arrayOfColours[i] = Battle.PlayerColour(i + 1);
-                for (int j = 0; j < i; j++)
-                {
+                for (int j = 0; j < i; j++) {
                     if (arrayOfColours[j] == arrayOfColours[i]) return false;
                 }
             }
             return true;
         }
-        private static bool TestBattle0CalculatePlayerPositions()
-        {
+        private static bool TestBattle0CalculatePlayerPositions() {
             int[] positions = Battle.CalculatePlayerPositions(8);
-            for (int i = 0; i < 8; i++)
-            {
+            for (int i = 0; i < 8; i++) {
                 if (positions[i] < 0) return false;
                 if (positions[i] > 160) return false;
-                for (int j = 0; j < i; j++)
-                {
+                for (int j = 0; j < i; j++) {
                     if (positions[j] == positions[i]) return false;
                 }
             }
             return true;
         }
-        private static bool TestBattle0Shuffle()
-        {
+        private static bool TestBattle0Shuffle() {
             int[] ar = new int[100];
-            for (int i = 0; i < 100; i++)
-            {
+            for (int i = 0; i < 100; i++) {
                 ar[i] = i;
             }
             Battle.Shuffle(ar);
-            for (int i = 0; i < 100; i++)
-            {
-                if (ar[i] != i)
-                {
+            for (int i = 0; i < 100; i++) {
+                if (ar[i] != i) {
                     return true;
                 }
             }
             return false;
         }
-        private static bool TestBattle0NewGame()
-        {
+        private static bool TestBattle0NewGame() {
             Battle game = InitialiseGame();
             game.NewGame();
 
-            foreach (Form f in Application.OpenForms)
-            {
-                if (f is GameplayForm)
-                {
+            foreach (Form f in Application.OpenForms) {
+                if (f is GameplayForm) {
                     return true;
                 }
             }
             return false;
         }
-        private static bool TestBattle0GetBattlefield()
-        {
+        private static bool TestBattle0GetBattlefield() {
             Requires(TestTerrain0Terrain);
             Battle game = InitialiseGame();
             game.NewGame();
@@ -324,8 +265,7 @@ namespace TankBattleTestSuite
 
             return false;
         }
-        private static bool TestBattle0CurrentPlayerTank()
-        {
+        private static bool TestBattle0CurrentPlayerTank() {
             Requires(TestBattle0Battle);
             Requires(TestTankType0CreateTank);
             Requires(TestGenericPlayer0HumanOpponent);
@@ -341,26 +281,22 @@ namespace TankBattleTestSuite
 
             game.NewGame();
             ControlledTank ptank = game.CurrentPlayerTank();
-            if (ptank.GetPlayerNumber() != player1 && ptank.GetPlayerNumber() != player2)
-            {
+            if (ptank.GetPlayerNumber() != player1 && ptank.GetPlayerNumber() != player2) {
                 return false;
             }
-            if (ptank.CreateTank() != tank)
-            {
+            if (ptank.CreateTank() != tank) {
                 return false;
             }
 
             return true;
         }
 
-        private static bool TestTankType0CreateTank()
-        {
+        private static bool TestTankType0CreateTank() {
             TankType tank = TankType.CreateTank(1);
             if (tank != null) return true;
             else return false;
         }
-        private static bool TestTankType0DisplayTank()
-        {
+        private static bool TestTankType0DisplayTank() {
             Requires(TestTankType0CreateTank);
             TankType tank = TankType.CreateTank(1);
 
@@ -370,12 +306,9 @@ namespace TankBattleTestSuite
             // We don't really care what the tank looks like, but the 45 degree tank
             // should at least look different to the -45 degree tank
             int[,] tankGraphic2 = tank.DisplayTank(-45);
-            for (int y = 0; y < 12; y++)
-            {
-                for (int x = 0; x < 16; x++)
-                {
-                    if (tankGraphic2[y, x] != tankGraphic[y, x])
-                    {
+            for (int y = 0; y < 12; y++) {
+                for (int x = 0; x < 16; x++) {
+                    if (tankGraphic2[y, x] != tankGraphic[y, x]) {
                         return true;
                     }
                 }
@@ -385,8 +318,7 @@ namespace TankBattleTestSuite
 
             return false;
         }
-        private static void DisplayLine(int[,] array)
-        {
+        private static void DisplayLine(int[,] array) {
             string report = "";
             report += "A line drawn from 3,0 to 0,3 on a 4x4 array should look like this:\n";
             report += "0001\n";
@@ -394,23 +326,21 @@ namespace TankBattleTestSuite
             report += "0100\n";
             report += "1000\n";
             report += "The one produced by TankType.DrawLine() looks like this:\n";
-            for (int y = 0; y < 4; y++)
-            {
-                for (int x = 0; x < 4; x++)
-                {
+            for (int y = 0; y < 4; y++) {
+                for (int x = 0; x < 4; x++) {
                     report += array[y, x] == 1 ? "1" : "0";
                 }
                 report += "\n";
             }
             SetErrorDescription(report);
         }
-        private static bool TestTankType0DrawLine()
-        {
+        private static bool TestTankType0DrawLine() {
             int[,] ar = new int[,] { { 0, 0, 0, 0 },
                                      { 0, 0, 0, 0 },
                                      { 0, 0, 0, 0 },
                                      { 0, 0, 0, 0 } };
             TankType.DrawLine(ar, 3, 0, 0, 3);
+
             // Ideally, the line we want to see here is:
             // 0001
             // 0010
@@ -422,17 +352,12 @@ namespace TankBattleTestSuite
 
             int[] rows = new int[4];
             int[] cols = new int[4];
-            for (int y = 0; y < 4; y++)
-            {
-                for (int x = 0; x < 4; x++)
-                {
-                    if (ar[y, x] == 1)
-                    {
+            for (int y = 0; y < 4; y++) {
+                for (int x = 0; x < 4; x++) {
+                    if (ar[y, x] == 1) {
                         rows[y] = 1;
                         cols[x] = 1;
-                    }
-                    else if (ar[y, x] > 1 || ar[y, x] < 0)
-                    {
+                    } else if (ar[y, x] > 1 || ar[y, x] < 0) {
                         // Only values 0 and 1 are permitted
                         SetErrorDescription(string.Format("Somehow the number {0} got into the array.", ar[y, x]));
                         return false;
@@ -440,42 +365,35 @@ namespace TankBattleTestSuite
                 }
             }
 
-            for (int i = 0; i < 4; i++)
-            {
-                if (rows[i] == 0)
-                {
+            for (int i = 0; i < 4; i++) {
+                if (rows[i] == 0) {
                     DisplayLine(ar);
                     return false;
                 }
-                if (cols[i] == 0)
-                {
+                if (cols[i] == 0) {
                     DisplayLine(ar);
                     return false;
                 }
             }
-            if (ar[0, 0] == 1)
-            {
+            if (ar[0, 0] == 1) {
                 DisplayLine(ar);
                 return false;
             }
-            if (ar[3, 3] == 1)
-            {
+            if (ar[3, 3] == 1) {
                 DisplayLine(ar);
                 return false;
             }
 
             return true;
         }
-        private static bool TestTankType0GetTankArmour()
-        {
+        private static bool TestTankType0GetTankArmour() {
             Requires(TestTankType0CreateTank);
             // As long as it's > 0 we're happy
             TankType tank = TankType.CreateTank(1);
             if (tank.GetTankArmour() > 0) return true;
             return false;
         }
-        private static bool TestTankType0ListWeapons()
-        {
+        private static bool TestTankType0ListWeapons() {
             Requires(TestTankType0CreateTank);
             // As long as there's at least one result and it's not null / a blank string, we're happy
             TankType tank = TankType.CreateTank(1);
@@ -485,8 +403,7 @@ namespace TankBattleTestSuite
             return true;
         }
 
-        private static GenericPlayer CreateTestingPlayer()
-        {
+        private static GenericPlayer CreateTestingPlayer() {
             Requires(TestTankType0CreateTank);
             Requires(TestGenericPlayer0HumanOpponent);
 
@@ -495,8 +412,7 @@ namespace TankBattleTestSuite
             return player;
         }
 
-        private static bool TestGenericPlayer0HumanOpponent()
-        {
+        private static bool TestGenericPlayer0HumanOpponent() {
             Requires(TestTankType0CreateTank);
 
             TankType tank = TankType.CreateTank(1);
@@ -504,8 +420,7 @@ namespace TankBattleTestSuite
             if (player != null) return true;
             return false;
         }
-        private static bool TestGenericPlayer0CreateTank()
-        {
+        private static bool TestGenericPlayer0CreateTank() {
             Requires(TestTankType0CreateTank);
             Requires(TestGenericPlayer0HumanOpponent);
 
@@ -514,8 +429,7 @@ namespace TankBattleTestSuite
             if (p.CreateTank() == tank) return true;
             return false;
         }
-        private static bool TestGenericPlayer0GetName()
-        {
+        private static bool TestGenericPlayer0GetName() {
             Requires(TestTankType0CreateTank);
             Requires(TestGenericPlayer0HumanOpponent);
 
@@ -525,8 +439,7 @@ namespace TankBattleTestSuite
             if (p.GetName() == PLAYER_NAME) return true;
             return false;
         }
-        private static bool TestGenericPlayer0PlayerColour()
-        {
+        private static bool TestGenericPlayer0PlayerColour() {
             Requires(TestTankType0CreateTank);
             Requires(TestGenericPlayer0HumanOpponent);
 
@@ -536,14 +449,12 @@ namespace TankBattleTestSuite
             if (p.PlayerColour() == playerColour) return true;
             return false;
         }
-        private static bool TestGenericPlayer0AddPoint()
-        {
+        private static bool TestGenericPlayer0AddPoint() {
             GenericPlayer p = CreateTestingPlayer();
             p.AddPoint();
             return true;
         }
-        private static bool TestGenericPlayer0GetVictories()
-        {
+        private static bool TestGenericPlayer0GetVictories() {
             Requires(TestGenericPlayer0AddPoint);
 
             GenericPlayer p = CreateTestingPlayer();
@@ -552,14 +463,12 @@ namespace TankBattleTestSuite
             if (p.GetVictories() == wins + 1) return true;
             return false;
         }
-        private static bool TestHumanOpponent0BeginRound()
-        {
+        private static bool TestHumanOpponent0BeginRound() {
             GenericPlayer p = CreateTestingPlayer();
             p.BeginRound();
             return true;
         }
-        private static bool TestHumanOpponent0CommenceTurn()
-        {
+        private static bool TestHumanOpponent0CommenceTurn() {
             Requires(TestBattle0NewGame);
             Requires(TestBattle0GetPlayerNumber);
             Battle game = InitialiseGame();
@@ -568,37 +477,29 @@ namespace TankBattleTestSuite
 
             // Find the gameplay form
             GameplayForm gameplayForm = null;
-            foreach (Form f in Application.OpenForms)
-            {
-                if (f is GameplayForm)
-                {
+            foreach (Form f in Application.OpenForms) {
+                if (f is GameplayForm) {
                     gameplayForm = f as GameplayForm;
                 }
             }
-            if (gameplayForm == null)
-            {
+            if (gameplayForm == null) {
                 SetErrorDescription("Gameplay form was not created by Battle.NewGame()");
                 return false;
             }
 
             // Find the control panel
             Panel controlPanel = null;
-            foreach (Control c in gameplayForm.Controls)
-            {
-                if (c is Panel)
-                {
-                    foreach (Control cc in c.Controls)
-                    {
-                        if (cc is NumericUpDown || cc is Label || cc is TrackBar)
-                        {
+            foreach (Control c in gameplayForm.Controls) {
+                if (c is Panel) {
+                    foreach (Control cc in c.Controls) {
+                        if (cc is NumericUpDown || cc is Label || cc is TrackBar) {
                             controlPanel = c as Panel;
                         }
                     }
                 }
             }
 
-            if (controlPanel == null)
-            {
+            if (controlPanel == null) {
                 SetErrorDescription("Control panel was not found in GameplayForm");
                 return false;
             }
@@ -608,30 +509,26 @@ namespace TankBattleTestSuite
 
             game.GetPlayerNumber(1).CommenceTurn(gameplayForm, game);
 
-            if (!controlPanel.Enabled)
-            {
+            if (!controlPanel.Enabled) {
                 SetErrorDescription("Control panel is still disabled after HumanPlayer.NewTurn()");
                 return false;
             }
             return true;
 
         }
-        private static bool TestHumanOpponent0ProjectileHitPos()
-        {
+        private static bool TestHumanOpponent0ProjectileHitPos() {
             GenericPlayer p = CreateTestingPlayer();
             p.ProjectileHitPos(0, 0);
             return true;
         }
 
-        private static bool TestControlledTank0ControlledTank()
-        {
+        private static bool TestControlledTank0ControlledTank() {
             GenericPlayer p = CreateTestingPlayer();
             Battle game = InitialiseGame();
             ControlledTank playerTank = new ControlledTank(p, 32, 32, game);
             return true;
         }
-        private static bool TestControlledTank0GetPlayerNumber()
-        {
+        private static bool TestControlledTank0GetPlayerNumber() {
             Requires(TestControlledTank0ControlledTank);
             GenericPlayer p = CreateTestingPlayer();
             Battle game = InitialiseGame();
@@ -639,8 +536,7 @@ namespace TankBattleTestSuite
             if (playerTank.GetPlayerNumber() == p) return true;
             return false;
         }
-        private static bool TestControlledTank0CreateTank()
-        {
+        private static bool TestControlledTank0CreateTank() {
             Requires(TestControlledTank0ControlledTank);
             Requires(TestGenericPlayer0CreateTank);
             GenericPlayer p = CreateTestingPlayer();
@@ -649,8 +545,7 @@ namespace TankBattleTestSuite
             if (playerTank.CreateTank() == playerTank.GetPlayerNumber().CreateTank()) return true;
             return false;
         }
-        private static bool TestControlledTank0GetTankAngle()
-        {
+        private static bool TestControlledTank0GetTankAngle() {
             Requires(TestControlledTank0ControlledTank);
             GenericPlayer p = CreateTestingPlayer();
             Battle game = InitialiseGame();
@@ -659,8 +554,7 @@ namespace TankBattleTestSuite
             if (angle >= -90 && angle <= 90) return true;
             return false;
         }
-        private static bool TestControlledTank0Aim()
-        {
+        private static bool TestControlledTank0Aim() {
             Requires(TestControlledTank0ControlledTank);
             Requires(TestControlledTank0GetTankAngle);
             float angle = 75;
@@ -671,8 +565,7 @@ namespace TankBattleTestSuite
             if (FloatEquals(playerTank.GetTankAngle(), angle)) return true;
             return false;
         }
-        private static bool TestControlledTank0GetPower()
-        {
+        private static bool TestControlledTank0GetPower() {
             Requires(TestControlledTank0ControlledTank);
             GenericPlayer p = CreateTestingPlayer();
             Battle game = InitialiseGame();
@@ -681,8 +574,7 @@ namespace TankBattleTestSuite
             playerTank.GetPower();
             return true;
         }
-        private static bool TestControlledTank0SetPower()
-        {
+        private static bool TestControlledTank0SetPower() {
             Requires(TestControlledTank0ControlledTank);
             Requires(TestControlledTank0GetPower);
             int power = 65;
@@ -693,8 +585,7 @@ namespace TankBattleTestSuite
             if (playerTank.GetPower() == power) return true;
             return false;
         }
-        private static bool TestControlledTank0GetWeapon()
-        {
+        private static bool TestControlledTank0GetWeapon() {
             Requires(TestControlledTank0ControlledTank);
 
             GenericPlayer p = CreateTestingPlayer();
@@ -704,8 +595,7 @@ namespace TankBattleTestSuite
             playerTank.GetWeapon();
             return true;
         }
-        private static bool TestControlledTank0SetWeaponIndex()
-        {
+        private static bool TestControlledTank0SetWeaponIndex() {
             Requires(TestControlledTank0ControlledTank);
             Requires(TestControlledTank0GetWeapon);
             int weapon = 3;
@@ -716,8 +606,7 @@ namespace TankBattleTestSuite
             if (playerTank.GetWeapon() == weapon) return true;
             return false;
         }
-        private static bool TestControlledTank0Display()
-        {
+        private static bool TestControlledTank0Display() {
             Requires(TestControlledTank0ControlledTank);
             Size bitmapSize = new Size(640, 480);
             Bitmap image = new Bitmap(bitmapSize.Width, bitmapSize.Height);
@@ -728,12 +617,9 @@ namespace TankBattleTestSuite
             playerTank.Display(graphics, bitmapSize);
             graphics.Dispose();
 
-            for (int y = 0; y < bitmapSize.Height; y++)
-            {
-                for (int x = 0; x < bitmapSize.Width; x++)
-                {
-                    if (image.GetPixel(x, y) != image.GetPixel(0, 0))
-                    {
+            for (int y = 0; y < bitmapSize.Height; y++) {
+                for (int x = 0; x < bitmapSize.Width; x++) {
+                    if (image.GetPixel(x, y) != image.GetPixel(0, 0)) {
                         // Something changed in the image, and that's good enough for me
                         return true;
                     }
@@ -742,8 +628,7 @@ namespace TankBattleTestSuite
             SetErrorDescription("Nothing was drawn.");
             return false;
         }
-        private static bool TestControlledTank0XPos()
-        {
+        private static bool TestControlledTank0XPos() {
             Requires(TestControlledTank0ControlledTank);
 
             GenericPlayer p = CreateTestingPlayer();
@@ -754,8 +639,7 @@ namespace TankBattleTestSuite
             if (playerTank.XPos() == x) return true;
             return false;
         }
-        private static bool TestControlledTank0Y()
-        {
+        private static bool TestControlledTank0Y() {
             Requires(TestControlledTank0ControlledTank);
 
             GenericPlayer p = CreateTestingPlayer();
@@ -766,8 +650,7 @@ namespace TankBattleTestSuite
             if (playerTank.Y() == y) return true;
             return false;
         }
-        private static bool TestControlledTank0Launch()
-        {
+        private static bool TestControlledTank0Launch() {
             Requires(TestControlledTank0ControlledTank);
 
             GenericPlayer p = CreateTestingPlayer();
@@ -776,8 +659,7 @@ namespace TankBattleTestSuite
             playerTank.Launch();
             return true;
         }
-        private static bool TestControlledTank0DamageArmour()
-        {
+        private static bool TestControlledTank0DamageArmour() {
             Requires(TestControlledTank0ControlledTank);
             GenericPlayer p = CreateTestingPlayer();
 
@@ -786,8 +668,7 @@ namespace TankBattleTestSuite
             playerTank.DamageArmour(10);
             return true;
         }
-        private static bool TestControlledTank0IsAlive()
-        {
+        private static bool TestControlledTank0IsAlive() {
             Requires(TestControlledTank0ControlledTank);
             Requires(TestControlledTank0DamageArmour);
 
@@ -799,8 +680,7 @@ namespace TankBattleTestSuite
             if (playerTank.IsAlive()) return false;
             return true;
         }
-        private static bool TestControlledTank0CalculateGravity()
-        {
+        private static bool TestControlledTank0CalculateGravity() {
             Requires(TestBattle0GetBattlefield);
             Requires(TestTerrain0DestroyGround);
             Requires(TestControlledTank0ControlledTank);
@@ -813,20 +693,18 @@ namespace TankBattleTestSuite
             Battle game = InitialiseGame();
             game.NewGame();
             // Unfortunately we need to rely on DestroyTerrain() to get rid of any terrain that may be in the way
-            game.GetBattlefield().DestroyGround(Terrain.HEIGHT / 2.0f, Terrain.WIDTH / 2.0f, 20);
-            ControlledTank playerTank = new ControlledTank(p, Terrain.HEIGHT / 2, Terrain.WIDTH / 2, game);
+            game.GetBattlefield().DestroyGround(Terrain.WIDTH / 2.0f, Terrain.HEIGHT / 2.0f, 20);
+            ControlledTank playerTank = new ControlledTank(p, Terrain.WIDTH / 2, Terrain.HEIGHT / 2, game);
             int oldX = playerTank.XPos();
             int oldY = playerTank.Y();
 
             playerTank.CalculateGravity();
 
-            if (playerTank.XPos() != oldX)
-            {
+            if (playerTank.XPos() != oldX) {
                 SetErrorDescription("Caused X coordinate to change.");
                 return false;
             }
-            if (playerTank.Y() != oldY + 1)
-            {
+            if (playerTank.Y() != oldY + 1) {
                 SetErrorDescription("Did not cause Y coordinate to increase by 1.");
                 return false;
             }
@@ -835,107 +713,78 @@ namespace TankBattleTestSuite
             // The tank should have lost 1 armour from falling 1 tile already, so do
             // (initialArmour - 2) damage to the tank then drop it again. That should kill it.
 
-            if (!playerTank.IsAlive())
-            {
+            if (!playerTank.IsAlive()) {
                 SetErrorDescription("Tank died before we could check that fall damage worked properly");
                 return false;
             }
             playerTank.DamageArmour(initialArmour - 2);
-            if (!playerTank.IsAlive())
-            {
+            if (!playerTank.IsAlive()) {
                 SetErrorDescription("Tank died before we could check that fall damage worked properly");
                 return false;
             }
             playerTank.CalculateGravity();
-            if (playerTank.IsAlive())
-            {
+            if (playerTank.IsAlive()) {
                 SetErrorDescription("Tank survived despite taking enough falling damage to destroy it");
                 return false;
             }
 
             return true;
         }
-        private static bool TestTerrain0Terrain()
-        {
+        private static bool TestTerrain0Terrain() {
             Terrain battlefield = new Terrain();
             return true;
         }
-        private static bool TestTerrain0IsTileAt()
-        {
+        private static bool TestTerrain0IsTileAt() {
             Requires(TestTerrain0Terrain);
 
             bool foundTrue = false;
             bool foundFalse = false;
             Terrain battlefield = new Terrain();
-            for (int y = 0; y < Terrain.HEIGHT; y++) 
-            {
-                for (int x = 0; x < Terrain.WIDTH; x++) 
-                {
-                    if (battlefield.IsTileAt(x, y))
-                    {
+            for (int y = 0; y < Terrain.HEIGHT; y++) {
+                for (int x = 0; x < Terrain.WIDTH; x++) {
+                    if (battlefield.IsTileAt(x, y)) {
                         foundTrue = true;
-                    }
-                    else
-                    {
+                    } else {
                         foundFalse = true;
                     }
                 }
             }
 
-            if (!foundTrue)
-            {
+            if (!foundTrue) {
                 SetErrorDescription("IsTileAt() did not return true for any tile.");
                 return false;
             }
 
-            if (!foundFalse)
-            {
+            if (!foundFalse) {
                 SetErrorDescription("IsTileAt() did not return false for any tile.");
                 return false;
             }
 
             return true;
         }
-        private static bool TestTerrain0CheckTankCollide()
-        {
+        private static bool TestTerrain0CheckTankCollide() {
             Requires(TestTerrain0Terrain);
             Requires(TestTerrain0IsTileAt);
 
             Terrain battlefield = new Terrain();
-            for (int y = 0; y <= Terrain.WIDTH - TankType.HEIGHT; y++)
-            {
-                for (int x = 0; x <= Terrain.HEIGHT - TankType.WIDTH; x++)
-                {
+            for (int y = 0; y <= Terrain.HEIGHT - TankType.HEIGHT; y++) {
+                for (int x = 0; x <= Terrain.WIDTH - TankType.WIDTH; x++) {
                     int colTiles = 0;
-                    for (int iy = 0; iy < TankType.HEIGHT; iy++)
-                    {
-                        for (int ix = 0; ix < TankType.WIDTH; ix++)
-                        {
+                    for (int iy = 0; iy < TankType.HEIGHT; iy++) {
+                        for (int ix = 0; ix < TankType.WIDTH; ix++) {
 
-                            if (battlefield.IsTileAt(x + ix, y + iy))
-                            {
+                            if (battlefield.IsTileAt(x + ix, y + iy)) {
                                 colTiles++;
                             }
                         }
                     }
-                    if (colTiles == 0)
-                    {
-                        if (battlefield.CheckTankCollide(x, y))
-                        {
-                            Console.WriteLine("Collided! shouldn't have for some reason");
-                            Console.WriteLine("We checked {0} across and {1} down which was {2}", y, x, battlefield.IsTileAt(x, y));
-                            Console.WriteLine();
+                    if (colTiles == 0) {
+                        if (battlefield.CheckTankCollide(x, y)) {
                             SetErrorDescription("Found collision where there shouldn't be one");
                             return false;
                         }
-                    }
-                    else
-                    {
-                        if (!battlefield.CheckTankCollide(x, y))
-                        {
-                            Console.WriteLine("DIdn't collide! should have though?");
-                            Console.WriteLine("We checked {0} across and {1} down which was {2}", y, x, battlefield.IsTileAt(x, y));
-                            Console.WriteLine();
+                    } else {
+                        if (!battlefield.CheckTankCollide(x, y)) {
                             SetErrorDescription("Didn't find collision where there should be one");
                             return false;
                         }
@@ -945,64 +794,49 @@ namespace TankBattleTestSuite
 
             return true;
         }
-        private static bool TestTerrain0TankVerticalPosition()
-        {
+        private static bool TestTerrain0TankVerticalPosition() {
             Requires(TestTerrain0Terrain);
             Requires(TestTerrain0IsTileAt);
 
             Terrain battlefield = new Terrain();
-            for (int x = 0; x <= Terrain.HEIGHT - TankType.WIDTH; x++)
-            {
+            for (int x = 0; x <= Terrain.WIDTH - TankType.WIDTH; x++) {
                 int lowestValid = 0;
-                for (int y = 0; y <= Terrain.WIDTH - TankType.HEIGHT; y++)
-                {
+                for (int y = 0; y <= Terrain.HEIGHT - TankType.HEIGHT; y++) {
                     int colTiles = 0;
-                    for (int iy = 0; iy < TankType.HEIGHT; iy++)
-                    {
-                        for (int ix = 0; ix < TankType.WIDTH; ix++)
-                        {
+                    for (int iy = 0; iy < TankType.HEIGHT; iy++) {
+                        for (int ix = 0; ix < TankType.WIDTH; ix++) {
 
-                            if (battlefield.IsTileAt(x + ix, y + iy))
-                            {
+                            if (battlefield.IsTileAt(x + ix, y + iy)) {
                                 colTiles++;
                             }
                         }
                     }
-                    if (colTiles == 0)
-                    {
+                    if (colTiles == 0) {
                         lowestValid = y;
                     }
                 }
 
                 int placedY = battlefield.TankVerticalPosition(x);
-                if (placedY != lowestValid)
-                {
+                if (placedY != lowestValid) {
                     SetErrorDescription(string.Format("Tank was placed at {0},{1} when it should have been placed at {0},{2}", x, placedY, lowestValid));
                     return false;
                 }
             }
             return true;
         }
-        private static bool TestTerrain0DestroyGround()
-        {
+        private static bool TestTerrain0DestroyGround() {
             Requires(TestTerrain0Terrain);
             Requires(TestTerrain0IsTileAt);
 
             Terrain battlefield = new Terrain();
-            for (int y = 0; y < Terrain.WIDTH; y++)
-            {
-                for (int x = 0; x < Terrain.HEIGHT; x++)
-                {
-                    if (battlefield.IsTileAt(x, y))
-                    {
+            for (int y = 0; y < Terrain.HEIGHT; y++) {
+                for (int x = 0; x < Terrain.WIDTH; x++) {
+                    if (battlefield.IsTileAt(x, y)) {
                         battlefield.DestroyGround(x, y, 0.5f);
-                        if (battlefield.IsTileAt(x, y))
-                        {
+                        if (battlefield.IsTileAt(x, y)) {
                             SetErrorDescription("Attempted to destroy terrain but it still exists");
                             return false;
-                        }
-                        else
-                        {
+                        } else {
                             return true;
                         }
                     }
@@ -1011,40 +845,32 @@ namespace TankBattleTestSuite
             SetErrorDescription("Did not find any terrain to destroy");
             return false;
         }
-        private static bool TestTerrain0CalculateGravity()
-        {
+        private static bool TestTerrain0CalculateGravity() {
             Requires(TestTerrain0Terrain);
             Requires(TestTerrain0IsTileAt);
             Requires(TestTerrain0DestroyGround);
 
             Terrain battlefield = new Terrain();
-            for (int x = 0; x < Terrain.HEIGHT; x++)
-            {
-                if (battlefield.IsTileAt(x, Terrain.WIDTH - 1))
-                {
-                    if (battlefield.IsTileAt(x, Terrain.WIDTH - 2))
-                    {
+            for (int x = 0; x < Terrain.WIDTH; x++) {
+                if (battlefield.IsTileAt(x, Terrain.HEIGHT - 1)) {
+                    if (battlefield.IsTileAt(x, Terrain.HEIGHT - 2)) {
                         // Seek up and find the first non-set tile
-                        for (int y = Terrain.WIDTH - 2; y >= 0; y--)
-                        {
-                            if (!battlefield.IsTileAt(x, y))
-                            {
+                        for (int y = Terrain.HEIGHT - 2; y >= 0; y--) {
+                            if (!battlefield.IsTileAt(x, y)) {
                                 // Do a gravity step and make sure it doesn't slip down
                                 battlefield.CalculateGravity();
-                                if (!battlefield.IsTileAt(x, y + 1))
-                                {
+                                if (!battlefield.IsTileAt(x, y + 1)) {
                                     SetErrorDescription("Moved down terrain even though there was no room");
                                     return false;
                                 }
 
                                 // Destroy the bottom-most tile
-                                battlefield.DestroyGround(x, Terrain.WIDTH - 1, 0.5f);
+                                battlefield.DestroyGround(x, Terrain.HEIGHT - 1, 0.5f);
 
                                 // Do a gravity step and make sure it does slip down
                                 battlefield.CalculateGravity();
 
-                                if (battlefield.IsTileAt(x, y + 1))
-                                {
+                                if (battlefield.IsTileAt(x, y + 1)) {
                                     SetErrorDescription("Terrain didn't fall");
                                     return false;
                                 }
@@ -1061,8 +887,7 @@ namespace TankBattleTestSuite
             SetErrorDescription("Did not find any appropriate terrain to test");
             return false;
         }
-        private static bool TestAttackEffect0ConnectGame()
-        {
+        private static bool TestAttackEffect0ConnectGame() {
             Requires(TestBlast0Blast);
             Requires(TestBattle0Battle);
 
@@ -1071,16 +896,14 @@ namespace TankBattleTestSuite
             weaponEffect.ConnectGame(game);
             return true;
         }
-        private static bool TestBullet0Bullet()
-        {
+        private static bool TestBullet0Bullet() {
             Requires(TestBlast0Blast);
             GenericPlayer player = CreateTestingPlayer();
             Blast explosion = new Blast(1, 1, 1);
             Bullet projectile = new Bullet(25, 25, 45, 30, 0.02f, explosion, player);
             return true;
         }
-        private static bool TestBullet0ProcessTimeEvent()
-        {
+        private static bool TestBullet0ProcessTimeEvent() {
             Requires(TestBattle0NewGame);
             Requires(TestBlast0Blast);
             Requires(TestBullet0Bullet);
@@ -1099,8 +922,7 @@ namespace TankBattleTestSuite
 
             return true;
         }
-        private static bool TestBullet0Display()
-        {
+        private static bool TestBullet0Display() {
             Requires(TestBattle0NewGame);
             Requires(TestBattle0GetPlayerNumber);
             Requires(TestBlast0Blast);
@@ -1122,12 +944,9 @@ namespace TankBattleTestSuite
             projectile.Display(graphics, bitmapSize);
             graphics.Dispose();
 
-            for (int y = 0; y < bitmapSize.Height; y++)
-            {
-                for (int x = 0; x < bitmapSize.Width; x++)
-                {
-                    if (image.GetPixel(x, y) != image.GetPixel(0, 0))
-                    {
+            for (int y = 0; y < bitmapSize.Height; y++) {
+                for (int x = 0; x < bitmapSize.Width; x++) {
+                    if (image.GetPixel(x, y) != image.GetPixel(0, 0)) {
                         // Something changed in the image, and that's good enough for me
                         return true;
                     }
@@ -1136,15 +955,13 @@ namespace TankBattleTestSuite
             SetErrorDescription("Nothing was drawn.");
             return false;
         }
-        private static bool TestBlast0Blast()
-        {
+        private static bool TestBlast0Blast() {
             GenericPlayer player = CreateTestingPlayer();
             Blast explosion = new Blast(1, 1, 1);
 
             return true;
         }
-        private static bool TestBlast0Activate()
-        {
+        private static bool TestBlast0Activate() {
             Requires(TestBlast0Blast);
             Requires(TestAttackEffect0ConnectGame);
             Requires(TestBattle0GetPlayerNumber);
@@ -1159,8 +976,7 @@ namespace TankBattleTestSuite
 
             return true;
         }
-        private static bool TestBlast0ProcessTimeEvent()
-        {
+        private static bool TestBlast0ProcessTimeEvent() {
             Requires(TestBlast0Blast);
             Requires(TestAttackEffect0ConnectGame);
             Requires(TestBattle0GetPlayerNumber);
@@ -1179,8 +995,7 @@ namespace TankBattleTestSuite
 
             return true;
         }
-        private static bool TestBlast0Display()
-        {
+        private static bool TestBlast0Display() {
             Requires(TestBlast0Blast);
             Requires(TestAttackEffect0ConnectGame);
             Requires(TestBattle0GetPlayerNumber);
@@ -1200,18 +1015,14 @@ namespace TankBattleTestSuite
             explosion.ConnectGame(game);
             explosion.Activate(25, 25);
             // Step it for a bit so we can be sure the explosion is visible
-            for (int i = 0; i < 10; i++)
-            {
+            for (int i = 0; i < 10; i++) {
                 explosion.ProcessTimeEvent();
             }
             explosion.Display(graphics, bitmapSize);
 
-            for (int y = 0; y < bitmapSize.Height; y++)
-            {
-                for (int x = 0; x < bitmapSize.Width; x++)
-                {
-                    if (image.GetPixel(x, y) != image.GetPixel(0, 0))
-                    {
+            for (int y = 0; y < bitmapSize.Height; y++) {
+                for (int x = 0; x < bitmapSize.Width; x++) {
+                    if (image.GetPixel(x, y) != image.GetPixel(0, 0)) {
                         // Something changed in the image, and that's good enough for me
                         return true;
                     }
@@ -1221,8 +1032,7 @@ namespace TankBattleTestSuite
             return false;
         }
 
-        private static GameplayForm InitialiseGameplayForm(out NumericUpDown angleCtrl, out TrackBar powerCtrl, out Button fireCtrl, out Panel controlPanel, out ListBox weaponSelect)
-        {
+        private static GameplayForm InitialiseGameplayForm(out NumericUpDown angleCtrl, out TrackBar powerCtrl, out Button fireCtrl, out Panel controlPanel, out ListBox weaponSelect) {
             Requires(TestBattle0NewGame);
 
             Battle game = InitialiseGame();
@@ -1235,15 +1045,12 @@ namespace TankBattleTestSuite
 
             game.NewGame();
             GameplayForm gameplayForm = null;
-            foreach (Form f in Application.OpenForms)
-            {
-                if (f is GameplayForm)
-                {
+            foreach (Form f in Application.OpenForms) {
+                if (f is GameplayForm) {
                     gameplayForm = f as GameplayForm;
                 }
             }
-            if (gameplayForm == null)
-            {
+            if (gameplayForm == null) {
                 SetErrorDescription("Battle.NewGame() did not create a GameplayForm and that is the only way GameplayForm can be tested");
                 return null;
             }
@@ -1251,11 +1058,9 @@ namespace TankBattleTestSuite
             bool foundDisplayPanel = false;
             bool foundControlPanel = false;
 
-            foreach (Control c in gameplayForm.Controls)
-            {
+            foreach (Control c in gameplayForm.Controls) {
                 // The only controls should be 2 panels
-                if (c is Panel)
-                {
+                if (c is Panel) {
                     // Is this the control panel or the display panel?
                     Panel p = c as Panel;
 
@@ -1269,8 +1074,7 @@ namespace TankBattleTestSuite
                     bool foundPowerLabel = false;
 
 
-                    foreach (Control pc in p.Controls)
-                    {
+                    foreach (Control pc in p.Controls) {
                         controlsFound++;
 
                         // Mandatory controls for the control panel are:
@@ -1279,80 +1083,55 @@ namespace TankBattleTestSuite
                         // A TrackBar for controlling the power
                         // "Power:" and "Angle:" labels
 
-                        if (pc is Label)
-                        {
+                        if (pc is Label) {
                             Label lbl = pc as Label;
-                            if (lbl.Text.ToLower().Contains("angle"))
-                            {
+                            if (lbl.Text.ToLower().Contains("angle")) {
                                 foundAngleLabel = true;
-                            }
-                            else
-                            if (lbl.Text.ToLower().Contains("power"))
-                            {
+                            } else
+                            if (lbl.Text.ToLower().Contains("power")) {
                                 foundPowerLabel = true;
                             }
-                        }
-                        else
-                        if (pc is Button)
-                        {
+                        } else
+                        if (pc is Button) {
                             Button btn = pc as Button;
-                            if (btn.Text.ToLower().Contains("fire"))
-                            {
+                            if (btn.Text.ToLower().Contains("fire")) {
                                 foundFire = true;
                                 fireCtrl = btn;
                             }
-                        }
-                        else
-                        if (pc is TrackBar)
-                        {
+                        } else
+                        if (pc is TrackBar) {
                             foundPower = true;
                             powerCtrl = pc as TrackBar;
-                        }
-                        else
-                        if (pc is NumericUpDown)
-                        {
+                        } else
+                        if (pc is NumericUpDown) {
                             foundAngle = true;
                             angleCtrl = pc as NumericUpDown;
-                        }
-                        else
-                        if (pc is ListBox)
-                        {
+                        } else
+                        if (pc is ListBox) {
                             weaponSelect = pc as ListBox;
                         }
                     }
 
-                    if (controlsFound == 0)
-                    {
+                    if (controlsFound == 0) {
                         foundDisplayPanel = true;
-                    }
-                    else
-                    {
-                        if (!foundFire)
-                        {
+                    } else {
+                        if (!foundFire) {
                             SetErrorDescription("Control panel lacks a \"Fire!\" button OR the display panel incorrectly contains controls");
                             return null;
-                        }
-                        else
-                        if (!foundAngle)
-                        {
+                        } else
+                        if (!foundAngle) {
                             SetErrorDescription("Control panel lacks an angle NumericUpDown OR the display panel incorrectly contains controls");
                             return null;
-                        }
-                        else
-                        if (!foundPower)
-                        {
+                        } else
+                        if (!foundPower) {
                             SetErrorDescription("Control panel lacks a power TrackBar OR the display panel incorrectly contains controls");
                             return null;
-                        }
-                        else
-                        if (!foundAngleLabel)
-                        {
+                        } else
+                        if (!foundAngleLabel) {
                             SetErrorDescription("Control panel lacks an \"Angle:\" label OR the display panel incorrectly contains controls");
                             return null;
-                        }
-                        else
-                        if (!foundPowerLabel)
-                        {
+                        } else
+                        if (!foundPowerLabel) {
                             SetErrorDescription("Control panel lacks a \"Power:\" label OR the display panel incorrectly contains controls");
                             return null;
                         }
@@ -1361,29 +1140,24 @@ namespace TankBattleTestSuite
                         controlPanel = p;
                     }
 
-                }
-                else
-                {
+                } else {
                     SetErrorDescription(string.Format("Unexpected control ({0}) named \"{1}\" found in GameplayForm", c.GetType().FullName, c.Name));
                     return null;
                 }
             }
 
-            if (!foundDisplayPanel)
-            {
+            if (!foundDisplayPanel) {
                 SetErrorDescription("No display panel found");
                 return null;
             }
-            if (!foundControlPanel)
-            {
+            if (!foundControlPanel) {
                 SetErrorDescription("No control panel found");
                 return null;
             }
             return gameplayForm;
         }
 
-        private static bool TestGameplayForm0GameplayForm()
-        {
+        private static bool TestGameplayForm0GameplayForm() {
             NumericUpDown angle;
             TrackBar power;
             Button fire;
@@ -1395,45 +1169,36 @@ namespace TankBattleTestSuite
 
             return true;
         }
-        private static bool TestGameplayForm0EnableTankControls()
-        {
+        private static bool TestGameplayForm0EnableTankControls() {
             Requires(TestGameplayForm0GameplayForm);
             Battle game = InitialiseGame();
             game.NewGame();
 
             // Find the gameplay form
             GameplayForm gameplayForm = null;
-            foreach (Form f in Application.OpenForms)
-            {
-                if (f is GameplayForm)
-                {
+            foreach (Form f in Application.OpenForms) {
+                if (f is GameplayForm) {
                     gameplayForm = f as GameplayForm;
                 }
             }
-            if (gameplayForm == null)
-            {
+            if (gameplayForm == null) {
                 SetErrorDescription("Gameplay form was not created by Battle.NewGame()");
                 return false;
             }
 
             // Find the control panel
             Panel controlPanel = null;
-            foreach (Control c in gameplayForm.Controls)
-            {
-                if (c is Panel)
-                {
-                    foreach (Control cc in c.Controls)
-                    {
-                        if (cc is NumericUpDown || cc is Label || cc is TrackBar)
-                        {
+            foreach (Control c in gameplayForm.Controls) {
+                if (c is Panel) {
+                    foreach (Control cc in c.Controls) {
+                        if (cc is NumericUpDown || cc is Label || cc is TrackBar) {
                             controlPanel = c as Panel;
                         }
                     }
                 }
             }
 
-            if (controlPanel == null)
-            {
+            if (controlPanel == null) {
                 SetErrorDescription("Control panel was not found in GameplayForm");
                 return false;
             }
@@ -1443,16 +1208,14 @@ namespace TankBattleTestSuite
 
             gameplayForm.EnableTankControls();
 
-            if (!controlPanel.Enabled)
-            {
+            if (!controlPanel.Enabled) {
                 SetErrorDescription("Control panel is still disabled after GameplayForm.EnableTankControls()");
                 return false;
             }
             return true;
 
         }
-        private static bool TestGameplayForm0Aim()
-        {
+        private static bool TestGameplayForm0Aim() {
             Requires(TestGameplayForm0GameplayForm);
             NumericUpDown angle;
             TrackBar power;
@@ -1468,14 +1231,12 @@ namespace TankBattleTestSuite
             gameplayForm.Aim(testAngle);
             if (FloatEquals((float)angle.Value, testAngle)) return true;
 
-            else
-            {
+            else {
                 SetErrorDescription(string.Format("Attempted to set angle to {0} but angle is {1}", testAngle, (float)angle.Value));
                 return false;
             }
         }
-        private static bool TestGameplayForm0SetPower()
-        {
+        private static bool TestGameplayForm0SetPower() {
             Requires(TestGameplayForm0GameplayForm);
             NumericUpDown angle;
             TrackBar power;
@@ -1491,14 +1252,12 @@ namespace TankBattleTestSuite
             gameplayForm.SetPower(testPower);
             if (power.Value == testPower) return true;
 
-            else
-            {
+            else {
                 SetErrorDescription(string.Format("Attempted to set power to {0} but power is {1}", testPower, power.Value));
                 return false;
             }
         }
-        private static bool TestGameplayForm0SetWeaponIndex()
-        {
+        private static bool TestGameplayForm0SetWeaponIndex() {
             Requires(TestGameplayForm0GameplayForm);
             NumericUpDown angle;
             TrackBar power;
@@ -1514,8 +1273,7 @@ namespace TankBattleTestSuite
             // WeaponSelect is optional behaviour, so it's okay if it's not implemented here, as long as the method works.
             return true;
         }
-        private static bool TestGameplayForm0Launch()
-        {
+        private static bool TestGameplayForm0Launch() {
             Requires(TestGameplayForm0GameplayForm);
             // This is something we can't really test properly without a proper framework, so for now we'll just click
             // the button and make sure it disables the control panel
@@ -1528,16 +1286,14 @@ namespace TankBattleTestSuite
 
             controlPanel.Enabled = true;
             fire.PerformClick();
-            if (controlPanel.Enabled)
-            {
+            if (controlPanel.Enabled) {
                 SetErrorDescription("Control panel still enabled immediately after clicking fire button");
                 return false;
             }
 
             return true;
         }
-        private static void UnitTests()
-        {
+        private static void UnitTests() {
             DoTest(TestBattle0Battle);
             DoTest(TestBattle0PlayerCount);
             DoTest(TestBattle0GetRounds);
@@ -1600,18 +1356,17 @@ namespace TankBattleTestSuite
             DoTest(TestGameplayForm0SetWeaponIndex);
             DoTest(TestGameplayForm0Launch);
         }
-        
+
         #endregion
-        
+
         #region CheckClasses
 
-        private static bool CheckClasses()
-        {
+        private static bool CheckClasses() {
             string[] classNames = new string[] { "Program", "AIOpponent", "Terrain", "Blast", "GameplayForm", "Battle", "HumanOpponent", "Bullet", "GenericPlayer", "ControlledTank", "TankType", "AttackEffect" };
             string[][] classFields = new string[][] {
                 new string[] { "Main" }, // Program
                 new string[] { }, // AIOpponent
-                new string[] { "IsTileAt","CheckTankCollide","TankVerticalPosition","DestroyGround","CalculateGravity","HEIGHT","WIDTH"}, // Terrain
+                new string[] { "IsTileAt","CheckTankCollide","TankVerticalPosition","DestroyGround","CalculateGravity","WIDTH","HEIGHT"}, // Terrain
                 new string[] { "Activate" }, // Blast
                 new string[] { "EnableTankControls","Aim","SetPower","SetWeaponIndex","Launch","InitialiseBuffer"}, // GameplayForm
                 new string[] { "PlayerCount","GetRound","GetRounds","SetPlayer","GetPlayerNumber","GetPlayerTank","PlayerColour","CalculatePlayerPositions","Shuffle","NewGame","CommenceRound","GetBattlefield","DisplayPlayerTanks","CurrentPlayerTank","AddEffect","WeaponEffectStep","DrawWeaponEffects","EndEffect","CheckCollidedTank","DamageArmour","CalculateGravity","TurnOver","CheckWinner","NextRound","Wind"}, // Battle
@@ -1619,68 +1374,50 @@ namespace TankBattleTestSuite
                 new string[] { }, // Bullet
                 new string[] { "CreateTank","GetName","PlayerColour","AddPoint","GetVictories","BeginRound","CommenceTurn","ProjectileHitPos"}, // GenericPlayer
                 new string[] { "GetPlayerNumber","CreateTank","GetTankAngle","Aim","GetPower","SetPower","GetWeapon","SetWeaponIndex","Display","XPos","Y","Launch","DamageArmour","IsAlive","CalculateGravity"}, // ControlledTank
-                new string[] { "DisplayTank","DrawLine","CreateBMP","GetTankArmour","ListWeapons","ActivateWeapon","CreateTank","HEIGHT","WIDTH","NUM_TANKS"}, // TankType
+                new string[] { "DisplayTank","DrawLine","CreateBMP","GetTankArmour","ListWeapons","ActivateWeapon","CreateTank","WIDTH","HEIGHT","NUM_TANKS"}, // TankType
                 new string[] { "ConnectGame","ProcessTimeEvent","Display"} // AttackEffect
             };
 
             Assembly assembly = Assembly.GetExecutingAssembly();
 
             Console.WriteLine("Checking classes for public methods...");
-            foreach (Type type in assembly.GetTypes())
-            {
-                if (type.IsPublic)
-                {
-                    if (type.Namespace != "TankBattle")
-                    {
+            foreach (Type type in assembly.GetTypes()) {
+                if (type.IsPublic) {
+                    if (type.Namespace != "TankBattle") {
                         Console.WriteLine("Public type {0} is not in the TankBattle namespace.", type.FullName);
                         return false;
-                    }
-                    else
-                    {
+                    } else {
                         int typeIdx = -1;
-                        for (int i = 0; i < classNames.Length; i++)
-                        {
-                            if (type.Name == classNames[i])
-                            {
+                        for (int i = 0; i < classNames.Length; i++) {
+                            if (type.Name == classNames[i]) {
                                 typeIdx = i;
                                 classNames[typeIdx] = null;
                                 break;
                             }
                         }
-                        foreach (MemberInfo memberInfo in type.GetMembers())
-                        {
+                        foreach (MemberInfo memberInfo in type.GetMembers()) {
                             string memberName = memberInfo.Name;
                             bool isInherited = false;
-                            foreach (MemberInfo parentMemberInfo in type.BaseType.GetMembers())
-                            {
-                                if (memberInfo.Name == parentMemberInfo.Name)
-                                {
+                            foreach (MemberInfo parentMemberInfo in type.BaseType.GetMembers()) {
+                                if (memberInfo.Name == parentMemberInfo.Name) {
                                     isInherited = true;
                                     break;
                                 }
                             }
-                            if (!isInherited)
-                            {
-                                if (typeIdx != -1)
-                                {
+                            if (!isInherited) {
+                                if (typeIdx != -1) {
                                     bool fieldFound = false;
-                                    if (memberName[0] != '.')
-                                    {
-                                        foreach (string allowedFields in classFields[typeIdx])
-                                        {
-                                            if (memberName == allowedFields)
-                                            {
+                                    if (memberName[0] != '.') {
+                                        foreach (string allowedFields in classFields[typeIdx]) {
+                                            if (memberName == allowedFields) {
                                                 fieldFound = true;
                                                 break;
                                             }
                                         }
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         fieldFound = true;
                                     }
-                                    if (!fieldFound)
-                                    {
+                                    if (!fieldFound) {
                                         Console.WriteLine("The public field \"{0}\" is not one of the authorised fields for the {1} class.\n", memberName, type.Name);
                                         Console.WriteLine("Remove it or change its access level.");
                                         return false;
@@ -1693,10 +1430,8 @@ namespace TankBattleTestSuite
                     //Console.WriteLine("{0} passed.", type.FullName);
                 }
             }
-            for (int i = 0; i < classNames.Length; i++)
-            {
-                if (classNames[i] != null)
-                {
+            for (int i = 0; i < classNames.Length; i++) {
+                if (classNames[i] != null) {
                     Console.WriteLine("The class \"{0}\" is missing.", classNames[i]);
                     return false;
                 }
@@ -1704,28 +1439,26 @@ namespace TankBattleTestSuite
             Console.WriteLine("All public methods okay.");
             return true;
         }
-        
+
         #endregion
 
-        public static void Main()
-        {
+        public static void Main() {
             if (1 == 2) { 
 
                     bool foundTrue = false;
                     bool foundFalse = false;
                     Terrain battlefield = new Terrain();
-                    for (int y = 0; y < Terrain.HEIGHT; y++) {
-                        for (int x = 0; x < Terrain.WIDTH; x++) {
-                            if (x == Terrain.WIDTH)
-                            {
-                                Console.WriteLine();
+                    for (int y = 0; y < Terrain.WIDTH; y++) {
+                        for (int x = 0; x < Terrain.HEIGHT; x++) {
+                            if (battlefield.IsTileAt(x, y)) {
+                                foundTrue = true;
                             } else {
                                 foundFalse = true;
                             }
                         }
                     }
 
-                    if (!foundTrue) 
+                if (!foundTrue) 
                     {
                         Console.WriteLine("We failed! IsTileAt didn't return true for anything");
                     }
@@ -1802,9 +1535,9 @@ namespace TankBattleTestSuite
                 Terrain battlefield = new Terrain();
                 //Console.WriteLine("fartherst tile should be true {0}",battlefield.TankVerticalPosition(155));
                 //Console.ReadLine();
-                for (int x = 0; x <= Terrain.HEIGHT - TankType.WIDTH; x++) {
+                for (int x = 0; x <= Terrain.WIDTH - TankType.WIDTH; x++) {
                     int lowestValid = 0;
-                    for (int y = 0; y <= Terrain.WIDTH - TankType.HEIGHT; y++) {
+                    for (int y = 0; y <= Terrain.HEIGHT - TankType.HEIGHT; y++) {
                         int colTiles = 0;
                         for (int iy = 0; iy < TankType.HEIGHT; iy++) {
                             for (int ix = 0; ix < TankType.WIDTH; ix++) {
@@ -1836,7 +1569,7 @@ namespace TankBattleTestSuite
                 game.NewGame();
             }
 
-            if (9 == 10)
+            if (9 == 9)
             {
                 bool foundTrue = false;
                 bool foundFalse = false;
