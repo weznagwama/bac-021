@@ -64,15 +64,21 @@ namespace TankBattle
         {
 
             //this needs work, beleive it's wrong
+            //x x    -> Y axis
+            //  x v  X AXIS
+            //  x
+            //xxx
 
-            if (IsTileAt(x, y+3)|| IsTileAt(x + 1,y +3)|| IsTileAt(x + 2, y +3)) //check bottom axis
+            if (
+                IsTileAt(x,y)       || IsTileAt(x + 1,y)        || IsTileAt(x + 2,y) ||
+                IsTileAt(x, y+1)    || IsTileAt(x + 1, y + 1)   || IsTileAt(x + 2, y + 1) ||
+                IsTileAt(x, y + 2)  || IsTileAt(x + 1, y + 2)   || IsTileAt(x + 2, y + 2) ||
+                IsTileAt(x, y + 3)  || IsTileAt(x + 1, y + 3)   || IsTileAt(x + 2, y + 3)
+                ) //check bottom axis, 3 down incriment across, Y up/down X left/right
             { 
                 return true;
             }
-            if (IsTileAt(x + 2,y)|| IsTileAt(x + 2, y +1 ) || IsTileAt(x + 2,y +2) || IsTileAt(x + 2, y +3)) // check right axis
-            { 
-                return true;
-            }
+
             else {
                 return false;
             }
