@@ -8,15 +8,15 @@ namespace StudentGradeOrder {
     class Student : IComparable
     {
         private string firstName;
-        private static string lastName;
-        private static string degree;
-        private static int grade;
+        private string lastName;
+        private string degree;
+        private int grade;
         public Student(string firstName, string lastName, string degree, int grade)
         {
-            firstName = this.firstName;
-            lastName = this.lastName;
-            degree = this.degree;
-            grade = this.grade;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.degree = degree;
+            this.grade = grade;
         }
 
         public override string ToString()
@@ -26,23 +26,16 @@ namespace StudentGradeOrder {
 
         public int CompareTo(object obj)
         {
-            Student objTemp = obj as Student;
+            Student objTemp = (Student)obj;
 
-            if (objTemp > firstName)
-            {
-                return 1;
-            }
-
-            if (this == (Student) obj)
-            {
-                return 0;
-            }
-
-            if (this < (Student) obj)
-            {
-                return -1;
-            }
-            return 0;
+            int result = this.grade.CompareTo(objTemp.grade);
+            if (result == 0)
+                result = objTemp.firstName.CompareTo(this.firstName);
+            if (result == 0)
+                result = objTemp.degree.CompareTo(this.degree);
+            if (result == 0)
+                result = objTemp.lastName.CompareTo(this.lastName);
+            return result;
         }
 
     }
