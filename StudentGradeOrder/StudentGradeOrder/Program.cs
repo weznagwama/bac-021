@@ -8,9 +8,9 @@ namespace StudentGradeOrder {
     class Student : IComparable
     {
         private string firstName;
-        private string lastName;
-        private string degree;
-        private int grade;
+        private static string lastName;
+        private static string degree;
+        private static int grade;
         public Student(string firstName, string lastName, string degree, int grade)
         {
             firstName = this.firstName;
@@ -26,9 +26,9 @@ namespace StudentGradeOrder {
 
         public int CompareTo(object obj)
         {
-            Student objTemp = (Student) obj;
+            Student objTemp = obj as Student;
 
-            if (this > objTemp)
+            if (objTemp > firstName)
             {
                 return 1;
             }
