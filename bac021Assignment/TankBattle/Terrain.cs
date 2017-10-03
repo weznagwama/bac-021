@@ -37,7 +37,7 @@ namespace TankBattle
             //create the land, set true for tile
             for (int col = 0; col < WIDTH; col++)
             {
-                int setIndexAmount = rng.Next(verticalAmount - 2, verticalAmount + 2);
+                int setIndexAmount = rng.Next(verticalAmount - 1, verticalAmount + 1);
 
                 for (int i = setIndexAmount; i < HEIGHT; i++)
                 {
@@ -75,7 +75,7 @@ namespace TankBattle
                 IsTileAt(x, y + 2)  || IsTileAt(x + 1, y + 2)   || IsTileAt(x + 2, y + 2) ||
                 IsTileAt(x, y + 3)  || IsTileAt(x + 1, y + 3)   || IsTileAt(x + 2, y + 3)
                 ) //check bottom axis, 3 down incriment across, Y up/down X left/right
-            { 
+            {
                 return true;
             }
 
@@ -96,10 +96,10 @@ namespace TankBattle
             int lowestValidPoint = 0;
             for (int yPos = 0; yPos < Terrain.HEIGHT - 1; yPos++)
             {
-                Console.WriteLine("Checking {0} across and {1} down, should hit",x,yPos);
+                //Console.WriteLine("Checking {0} across and {1} down, should hit",x,yPos);
                 if (this.CheckTankCollide(x, yPos)) //I've screwed up the axis I think?
                 {
-                    Console.WriteLine("Hit detected at {0} across and {1} down", x,yPos);
+                    //Console.WriteLine("Hit detected at {0} across and {1} down", x,yPos);
                     lowestValidPoint = yPos;
                     //Console.WriteLine("This means we had to decrement by 1, which is now {0}", lowestValidPoint);
                     //Console.WriteLine("The result of checking {0}X and {1} ypos, should be FALSE: {2}",x,lowestValidPoint,IsTileAt(x,yPos));

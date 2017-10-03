@@ -133,7 +133,8 @@ namespace TankBattle
 
             Shuffle(calcedArray);
             //Creating an array of ControlledTank as a private field.There should be the same number of ControlledTanks as there are GenericPlayers in the GenericPlayer array.
-            ControlledTank[] controlledTankArray  = new ControlledTank[playerArray.Length - 1];
+            ControlledTank[] tempArray  = new ControlledTank[playerArray.Length - 1];
+            controlledTankArray = tempArray;
 
             //Initialising the array of ControlledTank by: 
             //finding the horizontal position of the ControlledTank(by looking up the appropriate index of shuffled calcedArray
@@ -261,7 +262,33 @@ namespace TankBattle
 
         public void DamageArmour(float damageX, float damageY, float explosionDamage, float radius)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < controlledTankArray.Length - 1; i++)
+            {
+                if (controlledTankArray[i].IsAlive())
+                {
+                    float middlePos = controlledTankArray[i].XPos() + controlledTankArray[i].Y() +
+                                      (TankType.WIDTH / 2) + (TankType.HEIGHT / 2);
+
+                    double calculation = Math.Sqrt(Math.Pow(controlledTankArray[i].XPos() - damageX, 2) +
+                                                 Math.Pow(controlledTankArray[i].Y() - damageY, 2));
+                    float newCalc = (float) calculation;
+
+                    if (newCalc > radius / 2 && newCalc < radius)
+                    {
+                        float damage = (int) explosionDamage * ((newCalc - radius) / radius); //need to check this newCalc-radius calculation
+                        int newDamage = (int) damage;
+                        controlledTankArray[i].DamageArmour(newDamage);
+                    }
+
+                    if (newCalc < radius/2)
+                    {
+                        //have to cast damage to int because ControlledTank is int
+                        int damage = (int) explosionDamage;
+                        controlledTankArray[i].DamageArmour(damage);
+                    }
+
+                }
+            }
         }
 
         public bool CalculateGravity()

@@ -52,7 +52,7 @@ namespace TankBattle
 
         public void Aim(float angle)
         {
-            throw new NotImplementedException();
+            barrelAngle = angle;
         }
 
         public int GetPower()
@@ -77,7 +77,20 @@ namespace TankBattle
 
         public void Display(Graphics graphics, Size displaySize)
         {
-            throw new NotImplementedException();
+            int drawX1 = displaySize.Width * tankX / Terrain.WIDTH;
+            int drawY1 = displaySize.Height * tankY / Terrain.HEIGHT;
+            int drawX2 = displaySize.Width * (tankX + TankType.WIDTH) / Terrain.WIDTH;
+            int drawY2 = displaySize.Height * (tankY + TankType.HEIGHT) / Terrain.HEIGHT;
+            graphics.DrawImage(lastTank, new Rectangle(drawX1, drawY1, drawX2 - drawX1, drawY2 - drawY1));
+
+            int drawY3 = displaySize.Height * (tankY - TankType.HEIGHT) / Terrain.HEIGHT;
+            Font font = new Font("Arial", 8);
+            Brush brush = new SolidBrush(Color.White);
+
+            int pct = tankDurability * 100 / 100;
+            if (pct < 100) {
+                graphics.DrawString(pct + "%", font, brush, new Point(drawX1, drawY3));
+            }
         }
 
         public int XPos()
@@ -109,7 +122,25 @@ namespace TankBattle
 
         public bool CalculateGravity()
         {
-            throw new NotImplementedException();
+            //Waiting on Terrain.DestroyGround() for this to work
+            if (!IsAlive())
+            {
+                return false;
+            }
+            var tempTerrain = game.GetBattlefield();
+            if (tempTerrain.CheckTankCollide(tankX, tankY + 1))
+            {
+                return false;
+            }
+
+            tankY++;
+            tankDurability--; //falling damage
+
+            if (tankY == Terrain.HEIGHT - TankType.HEIGHT)
+            {
+                tankDurability = 0;
+            }
+            return true;
         }
     }
 }

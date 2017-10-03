@@ -28,8 +28,8 @@ namespace TankBattle
         private static BufferedGraphics backgroundGraphics;
         private static BufferedGraphics gameplayGraphics;
 
-        private static decimal aimAngle;
-        private static int thePower;
+        private static decimal aimAngle = 0;
+        private static int thePower = 0;
 
         string[] imageFilenames = { "Images\\background1.jpg",
             "Images\\background2.jpg",
@@ -101,7 +101,7 @@ namespace TankBattle
 
         public void SetPower(int power)
         {
-            thePower = trackBar1.Value;
+            thePower = power;
         }
         public void SetWeaponIndex(int weapon)
         {
@@ -211,7 +211,7 @@ namespace TankBattle
         }
 
         private void powerDisplay_Click(object sender, EventArgs e) {
-
+            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) {
@@ -227,13 +227,20 @@ namespace TankBattle
         private void numericUpDown1_ValueChanged(object sender, EventArgs e) {
             //Next, create ValueChanged(or SelectedIndexChanged) events for the numericUpDown control on the control panel.
             //The methods tied to each of these events should call the appropriate ControlledTank method(Aim())
-            controlledTank.Aim((float)numericUpDown1.Value);
+            aimAngle = (int)this.numericUpDown1.Value;
+            numericUpDown1.ValueChanged += new EventHandler(numericUpDown1_ValueChanged);
+            float tempAngle = (int) aimAngle;
+            controlledTank.Aim(tempAngle); //is this what this means?
+            
         }
 
             private void trackBar1_Scroll(object sender, EventArgs e) {
             //Next, create ValueChanged(or SelectedIndexChanged) events for the TrackBar control on the control panel.
             //The methods tied to each of these events should call the appropriate ControlledTank SetPower(). 
-            controlledTank.SetPower(trackBar1.Value);
+            thePower = trackBar1.Value;
+            this.trackBar1.ValueChanged += new EventHandler(trackBar1_Scroll);
+            label7.Text = "" + trackBar1.Value;
+            controlledTank.SetPower(thePower);
         }
 
         private void controlPanel_Paint(object sender, PaintEventArgs e) {

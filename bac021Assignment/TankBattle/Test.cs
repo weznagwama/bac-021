@@ -1443,6 +1443,7 @@ namespace TankBattleTestSuite {
         #endregion
 
         public static void Main() {
+            Terrain map = new Terrain();
             if (1 == 2) { 
 
                     bool foundTrue = false;
@@ -1470,24 +1471,20 @@ namespace TankBattleTestSuite {
                     Console.WriteLine("We passed!"); 
             }
 
-            if (2 == 3) { 
-            Terrain map = new Terrain();
-
-            for (int row = 0; row < Terrain.HEIGHT; row++) {
-                int counter = 0;
-                for (int col = 0; col < Terrain.WIDTH; col++) {
-                    if (counter == (col - 1)) {
-                        if (map.IsTileAt(row, col))
+            if (2 == 2) { //map output
+            for (int down = 0; down < Terrain.HEIGHT; down++) {
+                for (int across = 0; across < Terrain.WIDTH; across++) {
+                    if (across == Terrain.WIDTH-2) {
+                        if (map.IsTileAt(across, down))
                         {
-                            Console.WriteLine("#");
+                            Console.WriteLine("#: {0}", down);
                         }
                         else
                         {
-                            Console.WriteLine(".");
+                            Console.WriteLine(".: {0}", down);
                         }
-                        counter = 0;
                     } else {
-                        if (map.IsTileAt(row, col)) {
+                        if (map.IsTileAt(across, down)) {
                             Console.Write("#");
                         } else {
                             Console.Write(".");
@@ -1498,7 +1495,7 @@ namespace TankBattleTestSuite {
             }
         }
 
-            if (4 == 3)
+            if (4 == 3) //check collision
             {
                 Terrain battlefield = new Terrain();
                 for (int y = 0; y <= Terrain.WIDTH - TankType.HEIGHT; y++) {
@@ -1530,18 +1527,18 @@ namespace TankBattleTestSuite {
                 }
             }
 
-            if (5 == 6)
+            if (5 == 6) //tank vertical position
             {
                 Terrain battlefield = new Terrain();
-                //Console.WriteLine("fartherst tile should be true {0}",battlefield.TankVerticalPosition(155));
-                //Console.ReadLine();
+
                 for (int x = 0; x <= Terrain.WIDTH - TankType.WIDTH; x++) {
                     int lowestValid = 0;
+
                     for (int y = 0; y <= Terrain.HEIGHT - TankType.HEIGHT; y++) {
                         int colTiles = 0;
+
                         for (int iy = 0; iy < TankType.HEIGHT; iy++) {
                             for (int ix = 0; ix < TankType.WIDTH; ix++) {
-
                                 if (battlefield.IsTileAt(x + ix, y + iy)) {
                                     colTiles++;
                                 }
@@ -1559,7 +1556,7 @@ namespace TankBattleTestSuite {
                 }
             }
 
-            if (7 == 8) {
+            if (7 == 7) {
                 Battle game = new Battle(2, 1);
                 TankType tank = TankType.CreateTank(1);
                 GenericPlayer player1 = new HumanOpponent("player1", tank, Color.Orange);
@@ -1567,17 +1564,19 @@ namespace TankBattleTestSuite {
                 game.SetPlayer(1, player1);
                 game.SetPlayer(2, player2);
                 game.NewGame();
+                game.GetPlayerTank(0);
+                //line 1161, try this:
+                Console.WriteLine("This should be the currentplayer tank?: {0}", game.GetPlayerTank(0));
             }
 
-            if (9 == 9)
+            if (9 == 10) //IsTileAt
             {
                 bool foundTrue = false;
                 bool foundFalse = false;
 
-                Terrain battlefield = new Terrain();
-                for (int y = 0; y < Terrain.HEIGHT; y++) {
-                    for (int x = 0; x < Terrain.WIDTH; x++) {
-                        if (battlefield.IsTileAt(x, y)) {
+                for (int y = 0; y < Terrain.HEIGHT-1; y++) {
+                    for (int x = 0; x < Terrain.WIDTH-1; x++) {
+                        if (map.IsTileAt(x, y)) {
                             foundTrue = true;
                         } else {
                             foundFalse = true;
@@ -1592,9 +1591,14 @@ namespace TankBattleTestSuite {
                 if (!foundFalse) {
                     Console.WriteLine("IsTileAt() did not return false for any tile.");
                 }
+
+                if (foundTrue && foundFalse)
+                {
+                    Console.WriteLine("Congrats, we found both A OK!");
+                }
             }
 
-            if (11 == 12)
+            if (11 == 12) //place tank or some shit
             {
                 int[] positions = Battle.CalculatePlayerPositions(8);
                 for (int i = 0; i < 8; i++) {
