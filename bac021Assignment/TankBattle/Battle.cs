@@ -7,7 +7,7 @@ namespace TankBattle
 {
     public class Battle
     {
-        private static Battle game;
+        //private static Battle game;
         private static int numplayers;
         private static int numRounds;
         private static GenericPlayer[] playerArray;
@@ -29,6 +29,7 @@ namespace TankBattle
             int[] playerArray = new int[numPlayers];
             AttackEffect[] attackEffect = new AttackEffect[100];
 
+            
             Battle.numRounds = numRounds;
             Battle.numplayers = numPlayers;
         }
@@ -40,8 +41,7 @@ namespace TankBattle
 
         public int GetRound()
         {
-            //unsure yet
-            return numRounds;
+            return currentRound;
         }
 
         public int GetRounds()
@@ -125,16 +125,15 @@ namespace TankBattle
             //Creating an array of GenericPlayer positions by calling CalculatePlayerPositions with the number of GenericPlayers playing the game(hint: get the length of the GenericPlayers array)
             int[] calcedArray = CalculatePlayerPositions(playerArray.Length);
             //Looping through each GenericPlayer and calling its BeginRound method.
-           // foreach (var player in playerArray)
-            //{
-            //    player.BeginRound();
-            //}
+            foreach (var player in playerArray)
+            {
+                player.BeginRound();
+            }
             //Shuffling that array of positions with the Shuffle method.
 
             Shuffle(calcedArray);
             //Creating an array of ControlledTank as a private field.There should be the same number of ControlledTanks as there are GenericPlayers in the GenericPlayer array.
-            ControlledTank[] tempArray  = new ControlledTank[playerArray.Length - 1];
-            controlledTankArray = tempArray;
+            controlledTankArray  = new ControlledTank[playerArray.Length];
 
             //Initialising the array of ControlledTank by: 
             //finding the horizontal position of the ControlledTank(by looking up the appropriate index of shuffled calcedArray
@@ -167,13 +166,13 @@ namespace TankBattle
         {
             //Loop over each ControlledTanks in the array.
             // this breaks Battle.NewGame();
- //           for (int i = 0; i < controlledTankArray.Length-1; i++)
-  //          {
-   //             if (controlledTankArray[i].IsAlive())
-    //           {
-     //               controlledTankArray[i].Display(graphics,displaySize);
-      //          }
-       //     }
+            for (int i = 0; i < controlledTankArray.Length-1; i++)
+            {
+                if (controlledTankArray[i].IsAlive())
+              {
+                    controlledTankArray[i].Display(graphics,displaySize);
+                }
+            }
         }
 
         public ControlledTank CurrentPlayerTank()
@@ -202,10 +201,11 @@ namespace TankBattle
 
         public void DrawWeaponEffects(Graphics graphics, Size displaySize)
         {
+            //this is never getting initialised? and causing errors.
             for (int i = 0; i < attackEffect.Length - 1; i++) {
                 if (attackEffect[i] == null)
                 {
-                    break;
+                    continue;
                 }
                 else
                 {

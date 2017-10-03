@@ -108,6 +108,7 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(217, 5);
             this.comboBox1.Name = "comboBox1";
@@ -201,6 +202,7 @@
             this.KeyPreview = true;
             this.Name = "GameplayForm";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.GameplayForm_Load);
             this.controlPanel.ResumeLayout(false);
             this.controlPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();

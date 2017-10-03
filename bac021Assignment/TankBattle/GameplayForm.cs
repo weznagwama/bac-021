@@ -55,8 +55,8 @@ namespace TankBattle
             currentGame = game;
             int rand = rng.Next(1, 4);
 
-            backgroundImage = Image.FromFile(imageFilenames[rand]);
-            landscapeColour = landscapeColours[rand];
+            this.BackgroundImage = Image.FromFile(imageFilenames[rand]);//doesn't load
+            landscapeColour = landscapeColours[rand]; //broken
 
             // currently broken for whatever reason
 
@@ -110,7 +110,11 @@ namespace TankBattle
 
         public void Launch()
         {
-            throw new NotImplementedException();
+            var tank = currentGame.CurrentPlayerTank();
+            tank.Launch();
+            controlPanel.Enabled = false;
+            timer1.Enabled = true;
+
         }
 
         private void DrawBackground()
@@ -160,26 +164,47 @@ namespace TankBattle
             //Calls currentGame.DisplayPlayerTanks(), passing in gameplayGraphics.Graphics and displayPanel.Size
             currentGame.DisplayPlayerTanks(gameplayGraphics.Graphics,displayPanel.Size);
             //Calls currentGame.DrawWeaponEffects(), passing in gameplayGraphics.Graphics and displayPanel.Size
-            
+            currentGame.DrawWeaponEffects(gameplayGraphics.Graphics,displayPanel.Size);
             //This currently breaks about 5 units tests
-            //currentGame.DrawWeaponEffects(gameplayGraphics.Graphics,displayPanel.Size);
         }
 
         private void NewTurn()
         {
             //First, get a reference to the current ControlledTank with currentGame.CurrentPlayerTank()
+            ControlledTank currentTank = currentGame.CurrentPlayerTank();
+            GenericPlayer currentPlayer = currentTank.GetPlayerNumber();
+            string direction;
             //Likewise, get a reference to the current GenericPlayer by calling the ControlledTank's GetPlayerNumber()
             //Set the form caption to "Tank Battle - Round ? of ?", using methods in currentGame to get the current and total rounds.
+            displayPanel.Text = string.Format("Tank Battle - Round {0} of {1}",currentGame.GetRound(),currentGame.GetRounds());
+
+            controlPanel.BackColor = currentPlayer.PlayerColour();
             //Set the BackColor property of controlPanel to the current GenericPlayer's colour.
+            label1.Text = currentPlayer.GetName();
             //Set the player name label to the current GenericPlayer's name.
+
+            Aim(currentTank.GetTankAngle());
             //Call Aim() to set the current angle to the current ControlledTank's angle.
+            SetPower(currentTank.GetPower());
             //Call SetPower() to set the current turret power to the current ControlledTank's power.
-            //Update the wind speed label to show the current wind speed, retrieved from currentGame.Positive values should be shown as E winds, negative values as W winds.For example, 50 would be displayed as "50 E" while -38 would be displayed as "38 W".
+            if (currentGame.Wind() < 0)
+            {
+                 direction = "W";
+            }
+            else
+            {
+                direction = "E";}
+
+            label3.Text = String.Format("{0} {1}",currentGame.Wind(),direction);
+            //Update the wind speed label to show the current wind speed, retrieved from currentGame.Positive values should be shown as E winds, negative values as W winds.For example, 
+            //50 would be displayed as "50 E" while -38 would be displayed as "38 W".
             //Clear the current weapon names from the ComboBox.
             //Get a reference to the current TankType with ControlledTank's CreateTank() method, then get a list of weapons available to that TankType.
             //Add each weapon name in the list to the ComboBox.
             //Call SetWeaponIndex() to set the current weapon to the current ControlledTank's weapon.
+            SetWeaponIndex(currentTank.GetWeapon());
             //Call the current GenericPlayer's CommenceTurn() method, passing in this and currentGame.
+            currentPlayer.CommenceTurn(this,currentGame);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -228,7 +253,7 @@ namespace TankBattle
             //Next, create ValueChanged(or SelectedIndexChanged) events for the numericUpDown control on the control panel.
             //The methods tied to each of these events should call the appropriate ControlledTank method(Aim())
             aimAngle = (int)this.numericUpDown1.Value;
-            numericUpDown1.ValueChanged += new EventHandler(numericUpDown1_ValueChanged);
+            //numericUpDown1.ValueChanged += new EventHandler(numericUpDown1_ValueChanged);
             float tempAngle = (int) aimAngle;
             controlledTank.Aim(tempAngle); //is this what this means?
             
@@ -238,12 +263,16 @@ namespace TankBattle
             //Next, create ValueChanged(or SelectedIndexChanged) events for the TrackBar control on the control panel.
             //The methods tied to each of these events should call the appropriate ControlledTank SetPower(). 
             thePower = trackBar1.Value;
-            this.trackBar1.ValueChanged += new EventHandler(trackBar1_Scroll);
+            //this.trackBar1.ValueChanged += new EventHandler(trackBar1_Scroll);
             label7.Text = "" + trackBar1.Value;
             controlledTank.SetPower(thePower);
         }
 
         private void controlPanel_Paint(object sender, PaintEventArgs e) {
+
+        }
+
+        private void GameplayForm_Load(object sender, EventArgs e) {
 
         }
     }

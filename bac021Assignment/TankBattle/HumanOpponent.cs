@@ -20,7 +20,7 @@ namespace TankBattle
 
         public override void BeginRound()
         {
-            //throw new NotImplementedException();
+            
         }
 
         public override void CommenceTurn(GameplayForm gameplayForm, Battle currentGame)

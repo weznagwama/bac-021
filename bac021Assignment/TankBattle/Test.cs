@@ -1556,7 +1556,7 @@ namespace TankBattleTestSuite {
                 }
             }
 
-            if (7 == 7) {
+            if (7 == 8) {
                 Battle game = new Battle(2, 1);
                 TankType tank = TankType.CreateTank(1);
                 GenericPlayer player1 = new HumanOpponent("player1", tank, Color.Orange);
