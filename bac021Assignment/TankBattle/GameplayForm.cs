@@ -247,7 +247,7 @@ namespace TankBattle
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) {
             //Next, create ValueChanged(or SelectedIndexChanged) events for the combo control on the control panel.
             //The methods tied to each of these events should call the appropriate ControlledTank method(SetWeaponindex)
-            //controlledTank.SetWeaponIndex(comboBox1.SelectedValue);
+            currentGame.controlledTankArray[currentGame.currentPlayer].SetWeaponIndex((int)comboBox1.SelectedValue);
         }
 
         private void button1_Click(object sender, EventArgs e) {
