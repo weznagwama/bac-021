@@ -23,7 +23,7 @@ namespace TankBattle
             Terrain.terrainWidth = WIDTH;
             Terrain.terrainHeight = HEIGHT;
 
-            landHeight = rng.Next(5,HEIGHT);
+            landHeight = rng.Next(10,HEIGHT);
             int verticalAmount = HEIGHT-landHeight;
 
             //first run, set landscape

@@ -1444,34 +1444,46 @@ namespace TankBattleTestSuite {
 
         public static void Main() {
             Terrain map = new Terrain();
-            if (1 == 2) { 
 
-                    bool foundTrue = false;
-                    bool foundFalse = false;
-                    Terrain battlefield = new Terrain();
-                    for (int y = 0; y < Terrain.WIDTH; y++) {
-                        for (int x = 0; x < Terrain.HEIGHT; x++) {
-                            if (battlefield.IsTileAt(x, y)) {
-                                foundTrue = true;
-                            } else {
-                                foundFalse = true;
-                            }
+            if (1 == 2) {
+                bool foundTrue = false;
+                bool foundFalse = false;
+                Terrain battlefield = new Terrain();
+                for (int y = 0; y < Terrain.HEIGHT; y++) {
+                    for (int x = 0; x < Terrain.WIDTH; x++) {
+                        if (battlefield.IsTileAt(x, y)) {
+                            foundTrue = true;
+                        } else {
+                            foundFalse = true;
                         }
                     }
+                }
 
-                if (!foundTrue) 
-                    {
-                        Console.WriteLine("We failed! IsTileAt didn't return true for anything");
-                    }
+                if (!foundTrue) {
+                    Console.WriteLine("We failed! IsTileAt didn't return true for anything");
+                }
 
-                    if (!foundFalse) 
-                    {
-                        Console.WriteLine("We failed! IsTileAt didn't return false for anything");
-                    }
-                    Console.WriteLine("We passed!"); 
+                if (!foundFalse) {
+                    Console.WriteLine("We failed! IsTileAt didn't return false for anything");
+                }
+                Console.WriteLine("We passed!");
             }
 
-            if (2 == 2) { //map output
+            TankType tank2 = new SmallTank();
+            GenericPlayer P = new HumanOpponent("tristan",tank2,Color.AliceBlue);
+            GenericPlayer P2 = new HumanOpponent("tristan2", tank2, Color.Chocolate);
+            Battle game2 = new Battle(2,5);
+            game2.SetPlayer(1,P);
+            game2.SetPlayer(2,P2);
+            ControlledTank tristanTank = new ControlledTank(P,32,32,game2);
+            ControlledTank tristankTank2 = new ControlledTank(P2,80,32,game2);
+            game2.NewGame();
+            Console.WriteLine("current player tank Vertical is {0}", game2.CurrentPlayerTank().Y());
+            Console.WriteLine("current player tank horizopntal is {0}", game2.CurrentPlayerTank().XPos());
+
+
+
+            if (2 == 3) { //map output
             for (int down = 0; down < Terrain.HEIGHT; down++) {
                 for (int across = 0; across < Terrain.WIDTH; across++) {
                     if (across == Terrain.WIDTH-2) {
@@ -1561,11 +1573,9 @@ namespace TankBattleTestSuite {
                 TankType tank = TankType.CreateTank(1);
                 GenericPlayer player1 = new HumanOpponent("player1", tank, Color.Orange);
                 GenericPlayer player2 = new HumanOpponent("player2", tank, Color.Purple);
+
                 game.SetPlayer(1, player1);
                 game.SetPlayer(2, player2);
-                game.NewGame();
-                game.GetPlayerTank(0);
-                //line 1161, try this:
                 Console.WriteLine("This should be the currentplayer tank?: {0}", game.GetPlayerTank(0));
             }
 
@@ -1641,6 +1651,10 @@ namespace TankBattleTestSuite {
             Console.WriteLine("\nPress enter to exit.");
             Console.ReadLine();
 
+
+
+            ////now do current player tank
         }
+
     }
 }

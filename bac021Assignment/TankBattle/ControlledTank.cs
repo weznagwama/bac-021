@@ -30,9 +30,9 @@ namespace TankBattle
             this.tankY = tankY;
             this.game = game;
 
-            playaTank = player.CreateTank();
+            playaTank = this.player.CreateTank();
             tankDurability = playaTank.GetTankArmour();
-            lastTank = playaTank.CreateBMP(player.PlayerColour(), barrelAngle);
+            lastTank = playaTank.CreateBMP(this.player.PlayerColour(), barrelAngle);
          
         }
 

@@ -18,18 +18,18 @@ namespace TankBattle
         private static Image backgroundImage = null;
         private static int levelWidth = 160;
         private static int levelHeight = 120;
-        private static Battle currentGame;
+        private Battle currentGame;
 
         private static string currentPlayer = "player1";
         private static int currentWind = 0;
-        private static ControlledTank controlledTank;
+        //private static ControlledTank controlledTank;
         private static TankType theTank;
 
         private static BufferedGraphics backgroundGraphics;
         private static BufferedGraphics gameplayGraphics;
 
-        private static decimal aimAngle = 0;
-        private static int thePower = 0;
+        decimal aimAngle;
+        int thePower;
 
         string[] imageFilenames = { "Images\\background1.jpg",
             "Images\\background2.jpg",
@@ -55,14 +55,14 @@ namespace TankBattle
             currentGame = game;
             int rand = rng.Next(1, 4);
 
-            this.BackgroundImage = Image.FromFile(imageFilenames[rand]);//doesn't load
-            landscapeColour = landscapeColours[rand]; //broken
+            backgroundImage = Image.FromFile(imageFilenames[rand]);//doesn't load
+            landscapeColour = landscapeColours[rand]; //
 
-            // currently broken for whatever reason
+            string playerName = Battle.playerArray[currentGame.currentPlayer].GetName();
+            //label1.Text = playerName; - this is fucked for some reason
+            //label3.Text = "windspeed here"; - this is also fucked
 
-            //label1.Text = currentPlayer;
-            //label3.Text = "windspeed here";
-
+            // drop down list, research this
             //comboBox1.Items.AddRange(theTank.ListWeapons());
             //comboBox1.DropDown += new System.EventHandler(comboBox1_SelectedIndexChanged);
 
@@ -96,16 +96,16 @@ namespace TankBattle
 
         public void Aim(float angle)
         {
-            aimAngle = numericUpDown1.Value;
+            currentGame.controlledTankArray[currentGame.currentPlayer].Aim(angle);
         }
 
         public void SetPower(int power)
         {
-            thePower = power;
+            currentGame.controlledTankArray[currentGame.currentPlayer].SetPower(power);
         }
         public void SetWeaponIndex(int weapon)
         {
-            throw new NotImplementedException();
+            currentGame.CurrentPlayerTank().SetWeaponIndex(weapon);
         }
 
         public void Launch()
@@ -183,9 +183,9 @@ namespace TankBattle
             label1.Text = currentPlayer.GetName();
             //Set the player name label to the current GenericPlayer's name.
 
-            Aim(currentTank.GetTankAngle());
+            currentTank.Aim(currentTank.GetTankAngle());
             //Call Aim() to set the current angle to the current ControlledTank's angle.
-            SetPower(currentTank.GetPower());
+            currentTank.SetPower(currentTank.GetPower());
             //Call SetPower() to set the current turret power to the current ControlledTank's power.
             if (currentGame.Wind() < 0)
             {
@@ -200,9 +200,14 @@ namespace TankBattle
             //50 would be displayed as "50 E" while -38 would be displayed as "38 W".
             //Clear the current weapon names from the ComboBox.
             //Get a reference to the current TankType with ControlledTank's CreateTank() method, then get a list of weapons available to that TankType.
-            //Add each weapon name in the list to the ComboBox.
+            TankType currentTankType = currentTank.CreateTank();
+            var weapons = currentTankType.ListWeapons();
+            foreach (var weapon in weapons)
+            {
+                //add to the combobox
+            }
             //Call SetWeaponIndex() to set the current weapon to the current ControlledTank's weapon.
-            SetWeaponIndex(currentTank.GetWeapon());
+            this.SetWeaponIndex(currentTank.GetWeapon());
             //Call the current GenericPlayer's CommenceTurn() method, passing in this and currentGame.
             currentPlayer.CommenceTurn(this,currentGame);
         }
@@ -253,19 +258,18 @@ namespace TankBattle
             //Next, create ValueChanged(or SelectedIndexChanged) events for the numericUpDown control on the control panel.
             //The methods tied to each of these events should call the appropriate ControlledTank method(Aim())
             aimAngle = (int)this.numericUpDown1.Value;
-            //numericUpDown1.ValueChanged += new EventHandler(numericUpDown1_ValueChanged);
+            Console.WriteLine("Our value of our thing is {0}",numericUpDown1.Value);
             float tempAngle = (int) aimAngle;
-            controlledTank.Aim(tempAngle); //is this what this means?
+            currentGame.controlledTankArray[currentGame.currentPlayer].Aim(tempAngle);
+            
             
         }
 
-            private void trackBar1_Scroll(object sender, EventArgs e) {
+        private void trackBar1_Scroll(object sender, EventArgs e) {
             //Next, create ValueChanged(or SelectedIndexChanged) events for the TrackBar control on the control panel.
             //The methods tied to each of these events should call the appropriate ControlledTank SetPower(). 
-            thePower = trackBar1.Value;
-            //this.trackBar1.ValueChanged += new EventHandler(trackBar1_Scroll);
             label7.Text = "" + trackBar1.Value;
-            controlledTank.SetPower(thePower);
+            currentGame.controlledTankArray[currentGame.currentPlayer].SetPower(trackBar1.Value);
         }
 
         private void controlPanel_Paint(object sender, PaintEventArgs e) {

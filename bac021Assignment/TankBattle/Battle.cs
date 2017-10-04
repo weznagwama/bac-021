@@ -10,16 +10,16 @@ namespace TankBattle
         //private static Battle game;
         private static int numplayers;
         private static int numRounds;
-        private static GenericPlayer[] playerArray;
-        private static ControlledTank[] controlledTankArray;
-        private static AttackEffect[] attackEffect;
+        internal static GenericPlayer[] playerArray;
+        internal ControlledTank[] controlledTankArray;
+        internal AttackEffect[] attackEffect = new AttackEffect[100];
 
-        private static Terrain newTerrain;
+        private Terrain newTerrain;
         private static int windSpeed;
 
         private static int currentRound;
         private static int startingPlayer;
-        private static int currentPlayer;
+        internal int currentPlayer;
 
         static Random rng = new Random();
 
@@ -121,7 +121,7 @@ namespace TankBattle
             currentPlayer = startingPlayer;
 
             //Creating a new Terrain, which is also stored as a private field of Battle.
-            Battle.newTerrain =  new Terrain();
+            newTerrain =  new Terrain();
             //Creating an array of GenericPlayer positions by calling CalculatePlayerPositions with the number of GenericPlayers playing the game(hint: get the length of the GenericPlayers array)
             int[] calcedArray = CalculatePlayerPositions(playerArray.Length);
             //Looping through each GenericPlayer and calling its BeginRound method.
@@ -139,7 +139,6 @@ namespace TankBattle
             //finding the horizontal position of the ControlledTank(by looking up the appropriate index of shuffled calcedArray
             for (int i = 0; i < controlledTankArray.Length-1; i++)
             {
-                Console.WriteLine("creating controlled tank array");
                 var tankHoriz = newTerrain.TankVerticalPosition(calcedArray[i]);
                 controlledTankArray[i] = new ControlledTank(
                     playerArray[i],
@@ -188,15 +187,24 @@ namespace TankBattle
                 if (attackEffect[i] == null)
                 {
                     attackEffect[i] = weaponEffect;
-                    break;
+                    continue;
                 }
-                break;
             }
         }
 
         public bool WeaponEffectStep()
         {
-            throw new NotImplementedException();
+            bool anyWeapon = false;
+            for (int i = 0; i < attackEffect.Length - 1; i++) {
+                if (attackEffect[i] == null) {
+                    continue;
+                } else
+                {
+                    anyWeapon = true;
+                    attackEffect[i].ProcessTimeEvent();
+                }
+            }
+            return anyWeapon;
         }
 
         public void DrawWeaponEffects(Graphics graphics, Size displaySize)
