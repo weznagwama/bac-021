@@ -1485,7 +1485,8 @@ namespace TankBattleTestSuite {
 
             }
 
-
+            TitleForm form = new TitleForm();
+            form.Show();
 
             if (2 == 3) { //map output
             for (int down = 0; down < Terrain.HEIGHT; down++) {
@@ -1626,7 +1627,7 @@ namespace TankBattleTestSuite {
                 Console.WriteLine("All good");
             }
 
-            if (CheckClasses())
+            if (!CheckClasses())
             {
                 UnitTests();
 
@@ -1655,6 +1656,7 @@ namespace TankBattleTestSuite {
           
             Console.WriteLine("\nPress enter to exit.");
             Console.ReadLine();
+
 
 
 
