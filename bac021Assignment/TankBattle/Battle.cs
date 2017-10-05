@@ -13,6 +13,7 @@ namespace TankBattle
         internal static GenericPlayer[] playerArray;
         internal ControlledTank[] controlledTankArray;
         internal AttackEffect[] attackEffect = new AttackEffect[100];
+        internal GameplayForm gPlayForm;
 
         private Terrain newTerrain;
         private static int windSpeed;
@@ -152,7 +153,7 @@ namespace TankBattle
             windSpeed = rng.Next(-100, 101);
 
             //Creating a new GameplayForm and Show()ing it.
-            GameplayForm gPlayForm = new GameplayForm(this);
+            gPlayForm = new GameplayForm(this);
             gPlayForm.Show();
         }
 
@@ -301,22 +302,72 @@ namespace TankBattle
 
         public bool CalculateGravity()
         {
-            throw new NotImplementedException();
+            bool isCalled = false;
+            if (newTerrain.CalculateGravity())
+            {
+                isCalled = true;
+            }
+            for (int i = 0; i < controlledTankArray.Length - 1; i++)
+            {
+                if (controlledTankArray[i].CalculateGravity())
+                {
+                    isCalled = true;
+                    return isCalled;
+                }
+            }
+            //If the bool keeping track of whether anything moved is set to true, return true. Otherwise return false.
+            return isCalled;
+
         }
 
         public bool TurnOver()
         {
-            throw new NotImplementedException();
+            int anyAlive = 0;
+            for (int i = 0; i < controlledTankArray.Length - 1; i++) {
+                if (controlledTankArray[i].IsAlive()) {
+                    anyAlive++;
+                }
+            }
+            if (anyAlive >= 2) {
+                currentPlayer++;
+                if (controlledTankArray[currentPlayer].IsAlive()) {
+                    //this player is now the current player?
+                }
+                windSpeed = rng.Next(windSpeed - 10, windSpeed + 11);
+                return true;
+            } else {
+                this.CheckWinner();
+                return false;
+            }
         }
 
         public void CheckWinner()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < controlledTankArray.Length - 1; i++)
+            {
+                if (controlledTankArray[i].IsAlive())
+                {
+                    playerArray[i].AddPoint();
+                }
+            }
         }
 
         public void NextRound()
         {
             currentRound++;
+            if (currentRound <= Battle.numRounds)
+            {
+                startingPlayer++;
+                if (startingPlayer == Battle.numplayers)
+                {
+                    startingPlayer = 0;
+                }
+            }
+            else
+            {
+                gPlayForm.Show();
+            }
+            
 
         }
         

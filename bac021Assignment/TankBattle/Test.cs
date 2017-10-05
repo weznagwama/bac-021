@@ -1469,17 +1469,21 @@ namespace TankBattleTestSuite {
                 Console.WriteLine("We passed!");
             }
 
-            TankType tank2 = new SmallTank();
-            GenericPlayer P = new HumanOpponent("tristan",tank2,Color.AliceBlue);
-            GenericPlayer P2 = new HumanOpponent("tristan2", tank2, Color.Chocolate);
-            Battle game2 = new Battle(2,5);
-            game2.SetPlayer(1,P);
-            game2.SetPlayer(2,P2);
-            ControlledTank tristanTank = new ControlledTank(P,32,32,game2);
-            ControlledTank tristankTank2 = new ControlledTank(P2,80,32,game2);
-            game2.NewGame();
-            Console.WriteLine("current player tank Vertical is {0}", game2.CurrentPlayerTank().Y());
-            Console.WriteLine("current player tank horizopntal is {0}", game2.CurrentPlayerTank().XPos());
+            if (10 == 11)
+            {
+                TankType tank2 = new SmallTank();
+                GenericPlayer P = new HumanOpponent("tristan", tank2, Color.AliceBlue);
+                GenericPlayer P2 = new HumanOpponent("tristan2", tank2, Color.Chocolate);
+                Battle game2 = new Battle(2, 5);
+                game2.SetPlayer(1, P);
+                game2.SetPlayer(2, P2);
+                ControlledTank tristanTank = new ControlledTank(P, 32, 32, game2);
+                ControlledTank tristankTank2 = new ControlledTank(P2, 80, 32, game2);
+                game2.NewGame();
+                Console.WriteLine("current player tank Vertical is {0}", game2.CurrentPlayerTank().Y());
+                Console.WriteLine("current player tank horizopntal is {0}", game2.CurrentPlayerTank().XPos());
+
+            }
 
 
 
@@ -1648,6 +1652,7 @@ namespace TankBattleTestSuite {
                     return;
                 }
             }
+          
             Console.WriteLine("\nPress enter to exit.");
             Console.ReadLine();
 
