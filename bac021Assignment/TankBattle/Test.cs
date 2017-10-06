@@ -1480,13 +1480,19 @@ namespace TankBattleTestSuite {
                 ControlledTank tristanTank = new ControlledTank(P, 32, 32, game2);
                 ControlledTank tristankTank2 = new ControlledTank(P2, 80, 32, game2);
                 game2.NewGame();
+                float angle = 50;
+                tristanTank.Aim(angle);
+                tristankTank2.Aim(angle);
+                if (FloatEquals(tristanTank.GetTankAngle(), angle)) {
+                    Console.WriteLine("TRUE");
+                } else {
+                    Console.WriteLine("FALSE");
+                }
                 Console.WriteLine("current player tank Vertical is {0}", game2.CurrentPlayerTank().Y());
                 Console.WriteLine("current player tank horizopntal is {0}", game2.CurrentPlayerTank().XPos());
 
             }
 
-            TitleForm form = new TitleForm();
-            form.Show();
 
             if (2 == 3) { //map output
             for (int down = 0; down < Terrain.HEIGHT; down++) {
@@ -1627,6 +1633,23 @@ namespace TankBattleTestSuite {
                 Console.WriteLine("All good");
             }
 
+            if (12 == 12)
+            {
+                float angle = 75;
+                GenericPlayer p = CreateTestingPlayer();
+                Battle game = InitialiseGame();
+                ControlledTank playerTank = new ControlledTank(p, 32, 32, game);
+                playerTank.Aim(angle);
+                if (FloatEquals(playerTank.GetTankAngle(), angle))
+                {
+                    Console.WriteLine("TRUE");
+                }
+                else
+                {
+                    Console.WriteLine("FALSE");
+                }
+                
+            }
             if (CheckClasses())
             {
                 UnitTests();

@@ -58,7 +58,7 @@ namespace TankBattle
             backgroundImage = Image.FromFile(imageFilenames[rand]);//doesn't load
             landscapeColour = landscapeColours[rand]; //
 
-            string playerName = Battle.playerArray[currentGame.currentPlayer].GetName();
+            string playerName = currentGame.playerArray[currentGame.currentPlayer].GetName();
             //label1.Text = playerName; - this is fucked for some reason
             //label3.Text = "windspeed here"; - this is also fucked
 
