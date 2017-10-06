@@ -1627,7 +1627,7 @@ namespace TankBattleTestSuite {
                 Console.WriteLine("All good");
             }
 
-            if (!CheckClasses())
+            if (CheckClasses())
             {
                 UnitTests();
 

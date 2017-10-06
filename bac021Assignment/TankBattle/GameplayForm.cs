@@ -257,15 +257,12 @@ namespace TankBattle
         private void numericUpDown1_ValueChanged(object sender, EventArgs e) {
             //Next, create ValueChanged(or SelectedIndexChanged) events for the numericUpDown control on the control panel.
             //The methods tied to each of these events should call the appropriate ControlledTank method(Aim())
-            aimAngle = (int)this.numericUpDown1.Value;
-            Console.WriteLine("Our value of our thing is {0}",numericUpDown1.Value);
-            float tempAngle = (int) aimAngle;
-            currentGame.controlledTankArray[currentGame.currentPlayer].Aim(tempAngle);
+            currentGame.controlledTankArray[currentGame.currentPlayer].Aim((int)numericUpDown1.Value);
             
             
         }
 
-        private void trackBar1_Scroll(object sender, EventArgs e) {
+        private void trackBar1_ValueChanged(object sender, EventArgs e) {
             //Next, create ValueChanged(or SelectedIndexChanged) events for the TrackBar control on the control panel.
             //The methods tied to each of these events should call the appropriate ControlledTank SetPower(). 
             label7.Text = "" + trackBar1.Value;

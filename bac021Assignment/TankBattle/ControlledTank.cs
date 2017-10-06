@@ -16,9 +16,9 @@ namespace TankBattle
         private int tankY;
         private Battle game;
 
-        private static float barrelAngle = 0;
-        private static int tankPower = 25;
-        private static int currentWeapon = 0;
+        private float barrelAngle;
+        private static int tankPower;
+        private static int currentWeapon;
 
         private static int tankDurability;
         private static Bitmap lastTank; 
@@ -29,6 +29,10 @@ namespace TankBattle
             this.tankX = tankX;
             this.tankY = tankY;
             this.game = game;
+
+            barrelAngle = 0;
+            tankPower = 25;
+            currentWeapon = 0;
 
             playaTank = this.player.CreateTank();
             tankDurability = playaTank.GetTankArmour();
