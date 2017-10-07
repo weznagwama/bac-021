@@ -15,8 +15,8 @@ namespace TankBattle
         private static int earthDestructionRadius;
 
         private float blastLifespan;
-        private static float xPos;
-        private static float yPos;
+        private float xPos;
+        private float yPos;
 
         public Blast(int explosionDamage, int explosionRadius, int earthDestructionRadius)
         {
@@ -25,23 +25,23 @@ namespace TankBattle
 
         public void Activate(float x, float y)
         {
-            xPos = x;
-            xPos = y;
+            this.xPos = x;
+            this.xPos = y;
             blastLifespan = 1.0f;
     }
 
         public override void ProcessTimeEvent()
         {
-            theGame.DamageArmour(xPos,yPos,explosionDamage,explosionRadius);
+            theGame.DamageArmour(this.xPos,this.yPos,explosionDamage,explosionRadius);
             Terrain ourStuff = theGame.GetBattlefield();
-            ourStuff.DestroyGround(xPos,yPos,earthDestructionRadius);
+            ourStuff.DestroyGround(this.xPos,this.yPos,earthDestructionRadius);
             theGame.EndEffect(this);
         }
 
         public override void Display(Graphics graphics, Size displaySize)
         {
-            xPos = (float)xPos * displaySize.Width / Terrain.WIDTH;
-            yPos = (float)yPos * displaySize.Height / Terrain.HEIGHT;
+            var xPos = (float)this.xPos * displaySize.Width / Terrain.WIDTH;
+            var yPos = (float)this.yPos * displaySize.Height / Terrain.HEIGHT;
             float radius = displaySize.Width * (float)((1.0 - blastLifespan) * explosionRadius * 3.0 / 2.0) / Terrain.WIDTH;
 
             int alpha = 0, red = 0, green = 0, blue = 0;

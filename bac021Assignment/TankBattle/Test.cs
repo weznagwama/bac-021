@@ -1427,7 +1427,7 @@ namespace TankBattleTestSuite {
                         }
                     }
 
-                    //Console.WriteLine("{0} passed.", type.FullName);
+                    Console.WriteLine("{0} passed.", type.FullName);
                 }
             }
             for (int i = 0; i < classNames.Length; i++) {
@@ -1444,6 +1444,11 @@ namespace TankBattleTestSuite {
 
         public static void Main() {
             Terrain map = new Terrain();
+            TitleForm newFormlel = new TitleForm();
+
+            newFormlel.Visible = true;
+            //newFormlel.Show();
+
 
             if (1 == 2) {
                 bool foundTrue = false;
@@ -1469,7 +1474,7 @@ namespace TankBattleTestSuite {
                 Console.WriteLine("We passed!");
             }
 
-            if (10 == 11)
+            if (10 == 10)
             {
                 TankType tank2 = new SmallTank();
                 GenericPlayer P = new HumanOpponent("tristan", tank2, Color.AliceBlue);
@@ -1479,7 +1484,8 @@ namespace TankBattleTestSuite {
                 game2.SetPlayer(2, P2);
                 ControlledTank tristanTank = new ControlledTank(P, 32, 32, game2);
                 ControlledTank tristankTank2 = new ControlledTank(P2, 80, 32, game2);
-                game2.NewGame();
+                game2.CommenceRound();
+                GameplayForm gPlayForm = new GameplayForm(game2); // something in stuck in a loop somewhere perhaps, the screens just freeze.
                 float angle = 50;
                 tristanTank.Aim(angle);
                 tristankTank2.Aim(angle);
@@ -1633,7 +1639,7 @@ namespace TankBattleTestSuite {
                 Console.WriteLine("All good");
             }
 
-            if (12 == 12)
+            if (12 == 13)
             {
                 float angle = 75;
                 GenericPlayer p = CreateTestingPlayer();
@@ -1650,7 +1656,7 @@ namespace TankBattleTestSuite {
                 }
                 
             }
-            if (CheckClasses())
+            if (!CheckClasses())
             {
                 UnitTests();
 
@@ -1677,6 +1683,7 @@ namespace TankBattleTestSuite {
                 }
             }
           
+
             Console.WriteLine("\nPress enter to exit.");
             Console.ReadLine();
 

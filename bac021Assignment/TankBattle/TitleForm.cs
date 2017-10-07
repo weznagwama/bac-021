@@ -26,5 +26,9 @@ namespace TankBattle
             game.SetPlayer(2, player2);
             game.NewGame();
         }
+
+        private void TitleForm_Load(object sender, EventArgs e) {
+
+        }
     }
 }

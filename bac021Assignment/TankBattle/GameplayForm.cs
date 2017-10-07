@@ -56,11 +56,11 @@ namespace TankBattle {
             landscapeColour = landscapeColours[rand]; //
 
             string playerName = currentGame.playerArray[currentGame.currentPlayer].GetName();
-            label1.Text = playerName;
+            //label1.Text = playerName;
             //label3.Text = "windspeed here"; - breaks 10 unit tests
 
             // drop down list, research this
-            comboBox1.Items.AddRange(theTank.ListWeapons());
+            //comboBox1.Items.AddRange(theTank.ListWeapons());
 
             InitializeComponent();
             backgroundGraphics = InitialiseBuffer();

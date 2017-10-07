@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -54,53 +55,37 @@ namespace TankBattle
             {
                 return false;
             }
-            else
-            {
-                return true;
-            }
+            return true;
         }
 
         public bool CheckTankCollide(int x, int y)
         {
-
-            //this needs work, beleive it's wrong
-            //x x    -> Y axis
-            //  x v  X AXIS
-            //  x
-            //xxx
+            var oneSixty = x;
+            var oneTwenty = y;
 
             if (
-                IsTileAt(x,y)       || IsTileAt(x + 1,y)        || IsTileAt(x + 2,y) ||
-                IsTileAt(x, y + 1)  || IsTileAt(x + 1, y + 1)   || IsTileAt(x + 2, y + 1) ||
-                IsTileAt(x, y + 2)  || IsTileAt(x + 1, y + 2)   || IsTileAt(x + 2, y + 2) ||
-                IsTileAt(x, y + 3)  || IsTileAt(x + 1, y + 3)   || IsTileAt(x + 2, y + 3)
-                ) //check bottom axis, 3 down incriment across, Y up/down X left/right
+                IsTileAt(oneSixty, oneTwenty) || IsTileAt(oneSixty + 1, oneTwenty) || IsTileAt(oneSixty + 2, oneTwenty) ||
+                IsTileAt(oneSixty, oneTwenty + 1) || IsTileAt(oneSixty + 1, oneTwenty + 1) || IsTileAt(oneSixty + 2, oneTwenty + 1) ||
+                IsTileAt(oneSixty, oneTwenty + 2) || IsTileAt(oneSixty + 1, oneTwenty + 2) || IsTileAt(oneSixty + 2, oneTwenty + 2) ||
+                IsTileAt(oneSixty, oneTwenty + 3) || IsTileAt(oneSixty + 1, oneTwenty + 3) || IsTileAt(oneSixty + 2, oneTwenty + 3)) 
             {
                 return true;
             }
 
-            else {
-                return false;
-            }
+            return false;
         }
 
         public int TankVerticalPosition(int x)
         {
 
-            // checks for lowest vertical positon of tank, returning the Y coord
-            // takes X input, which is across, makes sense(??)
-            // starting at 0 of HEIGHT, enumerate through each index of column
-            // returning CheckTankCollide(). Return number once true?
-            // or return number-1 once true?
-
             int lowestValidPoint = 0;
-            for (int yPos = 0; yPos < Terrain.HEIGHT - 1; yPos++)
+            for (int oneTwenty = 0; oneTwenty < Terrain.HEIGHT - 1; oneTwenty++)
             {
                 //Console.WriteLine("Checking {0} across and {1} down, should hit",x,yPos);
-                if (this.CheckTankCollide(x, yPos)) //I've screwed up the axis I think?
+                if (this.CheckTankCollide(x, oneTwenty)) //I've screwed up the axis I think?
                 {
                     //Console.WriteLine("Hit detected at {0} across and {1} down", x,yPos);
-                    lowestValidPoint = yPos;
+                    lowestValidPoint = oneTwenty;
                     //Console.WriteLine("This means we had to decrement by 1, which is now {0}", lowestValidPoint);
                     //Console.WriteLine("The result of checking {0}X and {1} ypos, should be FALSE: {2}",x,lowestValidPoint,IsTileAt(x,yPos));
                     //Console.WriteLine("This in theory should be TRUE though, {0}X and {1} ypos: {2}",x,lowestValidPoint+1,IsTileAt(x,yPos));
@@ -115,12 +100,59 @@ namespace TankBattle
 
         public void DestroyGround(float destroyX, float destroyY, float radius)
         {
-            throw new NotImplementedException();
+            for (int oneTwenty = 0; oneTwenty < HEIGHT; oneTwenty++)
+            {
+                for (int oneSixty = 0; oneSixty < WIDTH; oneSixty++)
+                {
+                    double calculation = Math.Sqrt(Math.Pow(oneSixty - destroyX, 2) +
+                                                   Math.Pow(oneTwenty - destroyY, 2));
+                    float newCalc = (float)calculation;
+                    if (newCalc < radius)
+                    {
+                        map[oneTwenty, oneSixty] = false;
+                    }
+                }
+            }
         }
 
         public bool CalculateGravity()
         {
-            throw new NotImplementedException();
+            bool wasMoved = false;
+            bool movedRequired = false;
+            int counter = 0;
+
+            do {                                                                    // stuck in infiniteloop
+                counter ++ ;
+                for (int oneSixty = WIDTH - 1; oneSixty == 0; oneSixty--)            // start per WIDTH
+                {
+                    Console.WriteLine($"oneSixty is {oneSixty}");
+                    for (int oneTwenty = HEIGHT - 1; oneTwenty == 0; oneTwenty--)    //inner per height
+                    {
+                        int currentVertCheck = oneTwenty;                           //used as temp below
+                        counter++;
+                        for (int vertCheck = currentVertCheck - 1; vertCheck == 0; vertCheck--) //Checking one tile above our curreont one
+                        {
+                            if (                                            // if the below 3 tiles look like this
+                                this.IsTileAt(oneSixty, vertCheck - 1) &&   // X
+                                (!this.IsTileAt(oneSixty, vertCheck)) &&    // .
+                                this.IsTileAt(oneSixty, oneTwenty))         // X
+                            {
+                                map[vertCheck - 1, oneSixty] = false;
+                                map[vertCheck, oneSixty] = true;
+                                movedRequired = true;   //swap the top two match files, set movedRequired to true
+                                wasMoved = true;        // I think this might be redundant
+                            }
+
+                        }
+                    }
+                }
+                if (counter == 119)
+                {
+                    movedRequired = true;
+                }
+
+            } while (movedRequired == false);
+            return wasMoved;
         }
     }
 }

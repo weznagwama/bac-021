@@ -264,7 +264,6 @@ namespace TankBattle {
             for (int i = 0; i < controlledTankArray.Length - 1; i++) {
                 if (controlledTankArray[i].CalculateGravity()) {
                     isCalled = true;
-                    return isCalled;
                 }
             }
             //If the bool keeping track of whether anything moved is set to true, return true. Otherwise return false.

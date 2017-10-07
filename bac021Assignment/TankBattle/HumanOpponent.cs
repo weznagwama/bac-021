@@ -31,7 +31,7 @@ namespace TankBattle
         public override void ProjectileHitPos(float x, float y)
         {
             //There's no specification for this...
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }

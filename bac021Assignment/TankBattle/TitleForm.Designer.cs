@@ -86,6 +86,7 @@
             this.MinimizeBox = false;
             this.Name = "TitleForm";
             this.Text = "Tank Battle";
+            this.Load += new System.EventHandler(this.TitleForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

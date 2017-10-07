@@ -9,8 +9,8 @@ namespace TankBattle
 {
     public class Bullet : AttackEffect
     {
-        private static float xFloat;
-        private static float yFloat;
+        private float xFloat;
+        private float yFloat;
         private static float gravity;
         private static Blast explosion;
         private static GenericPlayer player;
@@ -63,8 +63,8 @@ namespace TankBattle
         public override void Display(Graphics graphics, Size size)
         {
             //xfloat could be wrong here?
-            xFloat = (float)xFloat * size.Width / Terrain.WIDTH;
-            yFloat = (float)yFloat * size.Height / Terrain.HEIGHT;
+            xFloat = (float)this.xFloat * size.Width / Terrain.WIDTH;
+            yFloat = (float)this.yFloat * size.Height / Terrain.HEIGHT;
             float s = size.Width / Terrain.WIDTH;
 
             RectangleF r = new RectangleF(xFloat - s / 2.0f, yFloat - s / 2.0f, s, s);
