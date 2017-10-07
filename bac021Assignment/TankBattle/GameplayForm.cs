@@ -11,20 +11,22 @@ using System.Windows.Forms;
 
 namespace TankBattle {
     public partial class GameplayForm : Form {
-        private static Color landscapeColour;
-        private static Random rng = new Random();
-        private static Image backgroundImage = null;
-        private static int levelWidth = 160;
-        private static int levelHeight = 120;
+        private Color landscapeColour;
+        private Random rng = new Random();
+        private Image backgroundImage;
+        private int levelWidth = 160;
+        private int levelHeight = 120;
         private Battle currentGame;
 
-        private static string currentPlayer = "player1";
-        private static int currentWind = 0;
+        private string currentPlayer = "player1";
+        private  int currentWind = 0;
         //private static ControlledTank controlledTank;
-        private static TankType theTank;
+        private TankType theTank;
 
-        private static BufferedGraphics backgroundGraphics;
-        private static BufferedGraphics gameplayGraphics;
+        private string playerName;
+
+        private BufferedGraphics backgroundGraphics;
+        private BufferedGraphics gameplayGraphics;
 
         decimal aimAngle;
         int thePower;
@@ -40,7 +42,7 @@ namespace TankBattle {
             Color.FromArgb(255, 133, 119, 109) };
 
         private Color landscape;
-        private Image image;
+        //private Image image;
 
         public GameplayForm(Battle game) {
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
@@ -55,9 +57,8 @@ namespace TankBattle {
             backgroundImage = Image.FromFile(imageFilenames[0]);//doesn't load
             landscapeColour = landscapeColours[rand]; //
 
-            string playerName = currentGame.playerArray[currentGame.currentPlayer].GetName();
-            //label1.Text = playerName;
-            //label3.Text = "windspeed here"; - breaks 10 unit tests
+            playerName = currentGame.playerArray[currentGame.currentPlayer].GetName();
+           
 
             // drop down list, research this
             //comboBox1.Items.AddRange(theTank.ListWeapons());
@@ -89,10 +90,12 @@ namespace TankBattle {
 
         public void Aim(float angle) {
             currentGame.controlledTankArray[currentGame.currentPlayer].Aim(angle);
+            numericUpDown1.Value = (decimal) angle;
         }
 
         public void SetPower(int power) {
             currentGame.controlledTankArray[currentGame.currentPlayer].SetPower(power);
+            trackBar1.Value = power;
         }
         public void SetWeaponIndex(int weapon) {
             currentGame.CurrentPlayerTank().SetWeaponIndex(weapon);
@@ -161,7 +164,7 @@ namespace TankBattle {
 
             controlPanel.BackColor = currentPlayer.PlayerColour();
             //Set the BackColor property of controlPanel to the current GenericPlayer's colour.
-            label1.Text = currentPlayer.GetName();
+            label9.Text = currentPlayer.GetName();
             //Set the player name label to the current GenericPlayer's name.
 
             currentTank.Aim(currentTank.GetTankAngle());
@@ -202,7 +205,7 @@ namespace TankBattle {
         }
 
         private void label3_Click(object sender, EventArgs e) {
-
+            label3.Text = "windspeed here";
         }
 
         private void label4_Click(object sender, EventArgs e) {
@@ -252,6 +255,10 @@ namespace TankBattle {
 
         private void GameplayForm_Load(object sender, EventArgs e) {
 
+        }
+
+        private void label9_Click(object sender, EventArgs e) {
+            label9.Text = this.playerName;
         }
     }
 }

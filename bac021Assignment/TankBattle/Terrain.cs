@@ -85,7 +85,7 @@ namespace TankBattle
                 if (this.CheckTankCollide(x, oneTwenty)) //I've screwed up the axis I think?
                 {
                     //Console.WriteLine("Hit detected at {0} across and {1} down", x,yPos);
-                    lowestValidPoint = oneTwenty;
+                    lowestValidPoint = oneTwenty-1;
                     //Console.WriteLine("This means we had to decrement by 1, which is now {0}", lowestValidPoint);
                     //Console.WriteLine("The result of checking {0}X and {1} ypos, should be FALSE: {2}",x,lowestValidPoint,IsTileAt(x,yPos));
                     //Console.WriteLine("This in theory should be TRUE though, {0}X and {1} ypos: {2}",x,lowestValidPoint+1,IsTileAt(x,yPos));
@@ -121,37 +121,31 @@ namespace TankBattle
             bool movedRequired = false;
             int counter = 0;
 
-            do {                                                                    // stuck in infiniteloop
-                counter ++ ;
+
                 for (int oneSixty = WIDTH - 1; oneSixty == 0; oneSixty--)            // start per WIDTH
                 {
                     Console.WriteLine($"oneSixty is {oneSixty}");
-                    for (int oneTwenty = HEIGHT - 1; oneTwenty == 0; oneTwenty--)    //inner per height
+                    for (int oneTwenty = HEIGHT - 1; oneTwenty < 0; oneTwenty--)    //inner per height
                     {
+                        Console.WriteLine($"Checking block {oneTwenty} high");
                         int currentVertCheck = oneTwenty;                           //used as temp below
                         counter++;
-                        for (int vertCheck = currentVertCheck - 1; vertCheck == 0; vertCheck--) //Checking one tile above our curreont one
+                        for (int vertCheck = currentVertCheck - 1; vertCheck < 0; vertCheck--) //Checking one tile above our curreont one
                         {
                             if (                                            // if the below 3 tiles look like this
                                 this.IsTileAt(oneSixty, vertCheck - 1) &&   // X
                                 (!this.IsTileAt(oneSixty, vertCheck)) &&    // .
                                 this.IsTileAt(oneSixty, oneTwenty))         // X
                             {
-                                map[vertCheck - 1, oneSixty] = false;
+                            Console.WriteLine("We found a spot! Swapping the things");
+                            map[vertCheck - 1, oneSixty] = false;
                                 map[vertCheck, oneSixty] = true;
-                                movedRequired = true;   //swap the top two match files, set movedRequired to true
                                 wasMoved = true;        // I think this might be redundant
                             }
 
                         }
                     }
                 }
-                if (counter == 119)
-                {
-                    movedRequired = true;
-                }
-
-            } while (movedRequired == false);
             return wasMoved;
         }
     }

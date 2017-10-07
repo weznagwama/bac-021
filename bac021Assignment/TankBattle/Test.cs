@@ -1446,7 +1446,7 @@ namespace TankBattleTestSuite {
             Terrain map = new Terrain();
             TitleForm newFormlel = new TitleForm();
 
-            newFormlel.Visible = true;
+
             //newFormlel.Show();
 
 
@@ -1474,7 +1474,7 @@ namespace TankBattleTestSuite {
                 Console.WriteLine("We passed!");
             }
 
-            if (10 == 10)
+            if (10 == 11)
             {
                 TankType tank2 = new SmallTank();
                 GenericPlayer P = new HumanOpponent("tristan", tank2, Color.AliceBlue);
@@ -1485,7 +1485,7 @@ namespace TankBattleTestSuite {
                 ControlledTank tristanTank = new ControlledTank(P, 32, 32, game2);
                 ControlledTank tristankTank2 = new ControlledTank(P2, 80, 32, game2);
                 game2.CommenceRound();
-                GameplayForm gPlayForm = new GameplayForm(game2); // something in stuck in a loop somewhere perhaps, the screens just freeze.
+                //GameplayForm gPlayForm = new GameplayForm(game2); // something in stuck in a loop somewhere perhaps, the screens just freeze.
                 float angle = 50;
                 tristanTank.Aim(angle);
                 tristankTank2.Aim(angle);
@@ -1656,7 +1656,7 @@ namespace TankBattleTestSuite {
                 }
                 
             }
-            if (!CheckClasses())
+            if (CheckClasses())
             {
                 UnitTests();
 
