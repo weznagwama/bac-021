@@ -1446,8 +1446,8 @@ namespace TankBattleTestSuite {
             Terrain map = new Terrain();
             TitleForm newFormlel = new TitleForm();
 
-
-            //newFormlel.Show();
+            newFormlel.Enabled = true;
+            newFormlel.Show();
 
 
             if (1 == 2) {
@@ -1499,11 +1499,11 @@ namespace TankBattleTestSuite {
 
             }
 
-
-            if (2 == 3) { //map output
+            map.DestroyGround(20, Terrain.HEIGHT - 30, 10.5f);
+            if (2 == 2) { //map output
             for (int down = 0; down < Terrain.HEIGHT; down++) {
                 for (int across = 0; across < Terrain.WIDTH; across++) {
-                    if (across == Terrain.WIDTH-2) {
+                    if (across == Terrain.WIDTH-1) {
                         if (map.IsTileAt(across, down))
                         {
                             Console.WriteLine("#: {0}", down);
@@ -1523,6 +1523,28 @@ namespace TankBattleTestSuite {
                 }
             }
         }
+
+            
+            map.CalculateGravity();
+
+            for (int down = 0; down < Terrain.HEIGHT; down++) {
+                for (int across = 0; across < Terrain.WIDTH; across++) {
+                    if (across == Terrain.WIDTH - 1) {
+                        if (map.IsTileAt(across, down)) {
+                            Console.WriteLine("#: {0}", down);
+                        } else {
+                            Console.WriteLine(".: {0}", down);
+                        }
+                    } else {
+                        if (map.IsTileAt(across, down)) {
+                            Console.Write("#");
+                        } else {
+                            Console.Write(".");
+                        }
+                    }
+
+                }
+            }
 
             if (4 == 3) //check collision
             {
