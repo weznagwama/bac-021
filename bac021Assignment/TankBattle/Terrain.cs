@@ -114,19 +114,14 @@ namespace TankBattle
         public bool CalculateGravity()
         {
             bool wasMoved = false;
-
-                
                 for (int oneTwenty = HEIGHT - 1; oneTwenty > 0; oneTwenty--) // start per WIDTH
                 {
-                //Console.WriteLine($"Checking across begin {oneSixty}");
                     for (int oneSixty = 0; oneSixty < WIDTH; oneSixty++)   //inner per height
                     {
-                    //Console.WriteLine($"Checking UP {oneTwenty}");
                     if (!IsTileAt(oneSixty, oneTwenty) && IsTileAt(oneSixty, oneTwenty - 1))
                         {
-                        Console.WriteLine("Hit detected, swapping tiles");
-                        map[oneSixty, oneTwenty] = true;
-                        map[oneSixty, oneTwenty - 1] = false;
+                        map[oneTwenty, oneSixty] = true;
+                        map[oneTwenty-1, oneSixty] = false;
                         wasMoved = true;
 
                         }

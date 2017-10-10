@@ -1446,7 +1446,7 @@ namespace TankBattleTestSuite {
             Terrain map = new Terrain();
             TitleForm newFormlel = new TitleForm();
 
-            map.DestroyGround(0, Terrain.HEIGHT - 1, 0.5f);
+            //map.DestroyGround(0, Terrain.HEIGHT - 1, 0.5f);
             newFormlel.Enabled = true;
             //newFormlel.Show();
 
@@ -1501,7 +1501,7 @@ namespace TankBattleTestSuite {
             }
 
             
-            if (2 == 2) { //map output
+            if (2 == 3) { //map output
             for (int down = 0; down < Terrain.HEIGHT; down++) {
                 for (int across = 0; across < Terrain.WIDTH; across++) {
                     if (across == Terrain.WIDTH-1) {
@@ -1524,32 +1524,7 @@ namespace TankBattleTestSuite {
                 }
             }
         }
-            Console.WriteLine();
-            Console.WriteLine("Caling grav");
-            Console.WriteLine();
-            map.CalculateGravity();
-
-            for (int down = 0; down < Terrain.HEIGHT; down++) {
-                for (int across = 0; across < Terrain.WIDTH; across++) {
-                    if (across == Terrain.WIDTH - 1) {
-                        if (map.IsTileAt(across, down)) {
-                            Console.WriteLine("#: {0}", down);
-                        } else {
-                            Console.WriteLine(".: {0}", down);
-                        }
-                    } else {
-                        if (map.IsTileAt(across, down)) {
-                            Console.Write("#");
-                        } else {
-                            Console.Write(".");
-                        }
-                    }
-
-                }
-            }
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("done");
+           
 
             if (4 == 3) //check collision
             {
@@ -1683,7 +1658,7 @@ namespace TankBattleTestSuite {
                 }
                 
             }
-            if (!CheckClasses())
+            if (CheckClasses())
             {
                 UnitTests();
 
