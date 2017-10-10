@@ -53,15 +53,13 @@ namespace TankBattle {
 
             currentGame = game;
             int rand = rng.Next(1, 4);
-
-            backgroundImage = Image.FromFile(imageFilenames[0]);//doesn't load
+           
+            backgroundImage = new Bitmap(imageFilenames[rand]);//doesn't load
             landscapeColour = landscapeColours[rand]; //
-
             playerName = currentGame.playerArray[currentGame.currentPlayer].GetName();
            
 
-            // drop down list, research this
-            //comboBox1.Items.AddRange(theTank.ListWeapons());
+           
 
             InitializeComponent();
             backgroundGraphics = InitialiseBuffer();
@@ -70,6 +68,7 @@ namespace TankBattle {
             NewTurn();
 
             DrawBackground();
+            label10.Text = "0";
 
 
 
@@ -181,12 +180,12 @@ namespace TankBattle {
             //Update the wind speed label to show the current wind speed, retrieved from currentGame.Positive values should be shown as E winds, negative values as W winds.For example, 
             //50 would be displayed as "50 E" while -38 would be displayed as "38 W".
             //Clear the current weapon names from the ComboBox.
+
             //Get a reference to the current TankType with ControlledTank's CreateTank() method, then get a list of weapons available to that TankType.
             TankType currentTankType = currentTank.CreateTank();
             var weapons = currentTankType.ListWeapons();
-            foreach (var weapon in weapons) {
-                //add to the combobox
-            }
+            comboBox1.DataSource = weapons;
+
             //Call SetWeaponIndex() to set the current weapon to the current ControlledTank's weapon.
             this.SetWeaponIndex(currentTank.GetWeapon());
             //Call the current GenericPlayer's CommenceTurn() method, passing in this and currentGame.
@@ -205,7 +204,7 @@ namespace TankBattle {
         }
 
         private void label3_Click(object sender, EventArgs e) {
-            label3.Text = "windspeed here";
+            //label3.Text = "windspeed here";
         }
 
         private void label4_Click(object sender, EventArgs e) {
@@ -220,18 +219,18 @@ namespace TankBattle {
 
         }
 
-        private void powerDisplay_Click(object sender, EventArgs e) {
-
-        }
-
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) {
             //Next, create ValueChanged(or SelectedIndexChanged) events for the combo control on the control panel.
             //The methods tied to each of these events should call the appropriate ControlledTank method(SetWeaponindex)
-            currentGame.controlledTankArray[currentGame.currentPlayer].SetWeaponIndex((int)comboBox1.SelectedValue);
+            currentGame.controlledTankArray[currentGame.currentPlayer].SetWeaponIndex(0);
         }
 
         private void button1_Click(object sender, EventArgs e) {
+            
+            var currentOne = currentGame.CurrentPlayerTank();
+            currentOne.Launch();
             controlPanel.Enabled = false;
+            timer1.Enabled = true;
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e) {
@@ -245,7 +244,7 @@ namespace TankBattle {
         private void trackBar1_ValueChanged(object sender, EventArgs e) {
             //Next, create ValueChanged(or SelectedIndexChanged) events for the TrackBar control on the control panel.
             //The methods tied to each of these events should call the appropriate ControlledTank SetPower(). 
-            label7.Text = "" + trackBar1.Value;
+            label10.Text = "" + trackBar1.Value;
             currentGame.controlledTankArray[currentGame.currentPlayer].SetPower(trackBar1.Value);
         }
 
@@ -259,6 +258,10 @@ namespace TankBattle {
 
         private void label9_Click(object sender, EventArgs e) {
             label9.Text = this.playerName;
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
         }
     }
 }

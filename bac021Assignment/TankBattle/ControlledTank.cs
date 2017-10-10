@@ -110,8 +110,8 @@ namespace TankBattle
         {
             //This causes the ControlledTank to fire its current weapon.This method should call its own CreateTank() method, 
             //then call ActivateWeapon() on that TankType, passing in the current weapon, the this reference and the private Battle field of ControlledTank.
-            this.CreateTank();
-            playaTank.ActivateWeapon(currentWeapon,this,game);
+            var whatIsThis = CreateTank();
+            whatIsThis.ActivateWeapon(currentWeapon,this,game);
         }
 
         public void DamageArmour(int damageAmount)

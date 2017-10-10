@@ -79,7 +79,7 @@ namespace TankBattle {
             ytemp = ytemp + (HEIGHT / 2);
 
             float xPos = (float) xtemp;
-            float yPos = (float) xtemp;
+            float yPos = (float) ytemp;
             
             //Get the GenericPlayer associated with the ControlledTank passed to ActivateWeapon by using GetPlayerNumber.
             var playerNum = playerTank.GetPlayerNumber();
