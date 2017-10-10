@@ -69,6 +69,7 @@ namespace TankBattle {
 
             DrawBackground();
             label10.Text = "0";
+            label11.Text = currentGame.GetRounds().ToString();
 
 
 
@@ -143,11 +144,8 @@ namespace TankBattle {
         }
 
         private void DrawGameplay() {
-            //Renders the backgroundGraphics buffer to the gameplayGraphics buffer: backgroundGraphics.Render(gameplayGraphics.Graphics);
             backgroundGraphics.Render(gameplayGraphics.Graphics);
-            //Calls currentGame.DisplayPlayerTanks(), passing in gameplayGraphics.Graphics and displayPanel.Size
             currentGame.DisplayPlayerTanks(gameplayGraphics.Graphics, displayPanel.Size);
-            //Calls currentGame.DrawWeaponEffects(), passing in gameplayGraphics.Graphics and displayPanel.Size
             currentGame.DrawWeaponEffects(gameplayGraphics.Graphics, displayPanel.Size);
             //This currently breaks about 5 units tests
         }
@@ -293,8 +291,8 @@ namespace TankBattle {
             //The methods tied to each of these events should call the appropriate ControlledTank SetPower(). 
             label10.Text = "" + trackBar1.Value;
             currentGame.controlledTankArray[currentGame.currentPlayer].SetPower(trackBar1.Value);
-            displayPanel.Invalidate();
-            DrawGameplay();
+            //displayPanel.Invalidate();
+            //DrawGameplay();
         }
 
         private void controlPanel_Paint(object sender, PaintEventArgs e) {
@@ -311,6 +309,10 @@ namespace TankBattle {
 
         private void label10_Click(object sender, EventArgs e)
         {
+        }
+
+        private void label11_Click(object sender, EventArgs e) {
+
         }
     }
 }

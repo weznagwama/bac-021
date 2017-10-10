@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 
 namespace TankBattle
@@ -14,6 +10,7 @@ namespace TankBattle
         private float bulletGravity;
         private Blast bulletExplosion;
         private GenericPlayer thePlayer;
+
 
         private static float xVol;
         private static float yVol;
@@ -36,31 +33,32 @@ namespace TankBattle
 
         public override void ProcessTimeEvent()
         {
+
             //do this 10 times
             for (int i = 0; i < 9; i++)
             {
-                int windSpeed = theGame.Wind();
+
+
+                int windSpeed = gameWindSpeed;
                 xFloat = xFloat + xVol;
                 yFloat = yFloat + yVol;
                 xFloat = xFloat + (windSpeed / 1000.0f);
                 if (xFloat >= Terrain.WIDTH)
                 {
                     theGame.EndEffect(this);
-                    return;
                 }
+
                 if (yFloat >= Terrain.HEIGHT)
                 {
                     theGame.EndEffect(this);
-                    return;
                 }
 
-                if (theGame.CheckCollidedTank(xFloat, yFloat))
+               if (theGame.CheckCollidedTank((float)Math.Round(xFloat,0), (float)Math.Round(yFloat,0)))
                 {
                     thePlayer.ProjectileHitPos(xFloat,yFloat);
                     bulletExplosion.Activate(xFloat,yFloat);
                     theGame.AddEffect(bulletExplosion);
                     theGame.EndEffect(this);
-                    return;
                 }
                 yVol = yVol + bulletGravity;
             }
@@ -69,7 +67,6 @@ namespace TankBattle
 
         public override void Display(Graphics graphics, Size size)
         {
-            //xfloat could be wrong here?
             xFloat = xFloat * size.Width / Terrain.WIDTH;
             yFloat = yFloat * size.Height / Terrain.HEIGHT;
             float s = size.Width / Terrain.WIDTH;

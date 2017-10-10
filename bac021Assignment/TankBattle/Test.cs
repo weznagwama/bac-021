@@ -1444,11 +1444,7 @@ namespace TankBattleTestSuite {
 
         public static void Main() {
             Terrain map = new Terrain();
-            TitleForm newFormlel = new TitleForm();
-
-            //map.DestroyGround(0, Terrain.HEIGHT - 1, 0.5f);
-            newFormlel.Enabled = true;
-            //newFormlel.Show();
+            Program.Main();
 
 
             if (1 == 2) {
@@ -1501,7 +1497,7 @@ namespace TankBattleTestSuite {
             }
 
             
-            if (2 == 3) { //map output
+            if (2 == 2) { //map output
             for (int down = 0; down < Terrain.HEIGHT; down++) {
                 for (int across = 0; across < Terrain.WIDTH; across++) {
                     if (across == Terrain.WIDTH-1) {
@@ -1658,7 +1654,7 @@ namespace TankBattleTestSuite {
                 }
                 
             }
-            if (CheckClasses())
+            if (!CheckClasses())
             {
                 UnitTests();
 

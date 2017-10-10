@@ -16,7 +16,7 @@ namespace TankBattle
         private int tankY;
         private Battle game;
 
-        private static float barrelAngle;
+        private float barrelAngle;
         private static int tankPower;
         private static int currentWeapon;
 
@@ -30,7 +30,7 @@ namespace TankBattle
             this.tankY = tankY;
             this.game = game;
 
-            barrelAngle = 0;
+            barrelAngle = 20; //this works, so it's the redraw calculationm that doesn't work. Either setting the angle or redrawing?
             tankPower = 25;
             currentWeapon = 0;
 

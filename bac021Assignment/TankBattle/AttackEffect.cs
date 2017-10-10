@@ -11,11 +11,14 @@ namespace TankBattle
     public abstract class AttackEffect
     {
 
-        protected static Battle theGame;
+        protected Battle theGame;
+        protected int gameWindSpeed;
 
         public void ConnectGame(Battle game)
         {
             theGame = game;
+            gameWindSpeed = theGame.Wind();
+
         }
 
         public abstract void ProcessTimeEvent();

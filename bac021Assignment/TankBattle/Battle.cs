@@ -6,11 +6,11 @@ using System.Windows.Forms.VisualStyles;
 namespace TankBattle {
     public class Battle {
         //private static Battle game;
-        private static int numplayers;
-        private static int numRounds;
+        private int numplayers;
+        private int numRounds;
         internal GenericPlayer[] playerArray;
         internal ControlledTank[] controlledTankArray;
-        internal AttackEffect[] attackEffect = new AttackEffect[100];
+        internal AttackEffect[] attackEffect;
         internal GameplayForm gPlayForm;
 
         private Terrain newTerrain;
@@ -23,13 +23,13 @@ namespace TankBattle {
         static Random rng = new Random();
 
         public Battle(int numPlayers, int numRounds) {
-            this.playerArray = new GenericPlayer[numPlayers];
-            int[] playerArray = new int[numPlayers];
-            AttackEffect[] attackEffect = new AttackEffect[100];
+            playerArray = new GenericPlayer[numPlayers];
+            //int[] playerArray = new int[numPlayers];
+            attackEffect = new AttackEffect[100];
 
 
-            Battle.numRounds = numRounds;
-            Battle.numplayers = numPlayers;
+            this.numRounds = numRounds;
+            this.numplayers = numPlayers;
         }
 
         public int PlayerCount() {
@@ -128,11 +128,8 @@ namespace TankBattle {
                     this);
 
             }
-
-            //Initialising the wind speed, another private field of Battle, to a random number between -100 and 100.
             windSpeed = rng.Next(-100, 101);
 
-            //Creating a new GameplayForm and Show()ing it.
             gPlayForm = new GameplayForm(this);
             gPlayForm.Show();
         }
@@ -142,8 +139,7 @@ namespace TankBattle {
         }
 
         public void DisplayPlayerTanks(Graphics graphics, Size displaySize) {
-            //Loop over each ControlledTanks in the array.
-            // this breaks Battle.NewGame();
+
             for (int i = 0; i < controlledTankArray.Length - 1; i++) {
                 if (controlledTankArray[i].IsAlive()) {
                     controlledTankArray[i].Display(graphics, displaySize);
@@ -160,7 +156,7 @@ namespace TankBattle {
             for (int i = 0; i < attackEffect.Length - 1; i++) {
                 if (attackEffect[i] == null) {
                     attackEffect[i] = weaponEffect;
-                    continue;
+                    break;
                 }
             }
         }
@@ -169,7 +165,6 @@ namespace TankBattle {
             bool anyWeapon = false;
             for (int i = 0; i < attackEffect.Length - 1; i++) {
                 if (attackEffect[i] == null) {
-                    continue;
                 } else {
                     anyWeapon = true;
                     attackEffect[i].ProcessTimeEvent();
@@ -182,7 +177,6 @@ namespace TankBattle {
             //this is never getting initialised? and causing errors.
             for (int i = 0; i < attackEffect.Length - 1; i++) {
                 if (attackEffect[i] == null) {
-                    continue;
                 } else {
                     attackEffect[i].Display(graphics, displaySize);
                 }
@@ -203,7 +197,7 @@ namespace TankBattle {
                 return false;
             }
             // If the Terrain contains something at that location(hint: use IsTileAt), return true.
-            if (newTerrain.IsTileAt((int)projectileX, (int)projectileY)) //are these axis correct?
+            if (newTerrain.IsTileAt((int)Math.Round(projectileX,0), (int)Math.Round(projectileY,0))) //are these axis correct?
             {
                 return true;
             }
@@ -301,9 +295,9 @@ namespace TankBattle {
 
         public void NextRound() {
             currentRound++;
-            if (currentRound <= Battle.numRounds) {
+            if (currentRound <= numRounds) {
                 startingPlayer++;
-                if (startingPlayer == Battle.numplayers) {
+                if (startingPlayer == numplayers) {
                     startingPlayer = 0;
                 }
             } else {
