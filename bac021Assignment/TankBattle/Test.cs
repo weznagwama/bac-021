@@ -1446,8 +1446,9 @@ namespace TankBattleTestSuite {
             Terrain map = new Terrain();
             TitleForm newFormlel = new TitleForm();
 
+            map.DestroyGround(0, Terrain.HEIGHT - 1, 0.5f);
             newFormlel.Enabled = true;
-            newFormlel.Show();
+            //newFormlel.Show();
 
 
             if (1 == 2) {
@@ -1499,7 +1500,7 @@ namespace TankBattleTestSuite {
 
             }
 
-            map.DestroyGround(20, Terrain.HEIGHT - 30, 10.5f);
+            
             if (2 == 2) { //map output
             for (int down = 0; down < Terrain.HEIGHT; down++) {
                 for (int across = 0; across < Terrain.WIDTH; across++) {
@@ -1523,8 +1524,9 @@ namespace TankBattleTestSuite {
                 }
             }
         }
-
-            
+            Console.WriteLine();
+            Console.WriteLine("Caling grav");
+            Console.WriteLine();
             map.CalculateGravity();
 
             for (int down = 0; down < Terrain.HEIGHT; down++) {
@@ -1545,6 +1547,9 @@ namespace TankBattleTestSuite {
 
                 }
             }
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("done");
 
             if (4 == 3) //check collision
             {
@@ -1678,7 +1683,7 @@ namespace TankBattleTestSuite {
                 }
                 
             }
-            if (CheckClasses())
+            if (!CheckClasses())
             {
                 UnitTests();
 
