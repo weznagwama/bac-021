@@ -35,9 +35,10 @@ namespace TankBattle
         {
 
             //do this 10 times
+            // stuck in a loop somewhere
             for (int i = 0; i < 9; i++)
             {
-
+                Battle bulletGame = theGame;
 
                 int windSpeed = gameWindSpeed;
                 xFloat = xFloat + xVol;
@@ -45,20 +46,20 @@ namespace TankBattle
                 xFloat = xFloat + (windSpeed / 1000.0f);
                 if (xFloat >= Terrain.WIDTH)
                 {
-                    theGame.EndEffect(this);
+                    bulletGame.EndEffect(this);
                 }
 
                 if (yFloat >= Terrain.HEIGHT)
                 {
-                    theGame.EndEffect(this);
+                    bulletGame.EndEffect(this);
                 }
 
-               if (theGame.CheckCollidedTank((float)Math.Round(xFloat,0), (float)Math.Round(yFloat,0)))
+               if (bulletGame.CheckCollidedTank(xFloat, yFloat))
                 {
                     thePlayer.ProjectileHitPos(xFloat,yFloat);
                     bulletExplosion.Activate(xFloat,yFloat);
-                    theGame.AddEffect(bulletExplosion);
-                    theGame.EndEffect(this);
+                    bulletGame.AddEffect(bulletExplosion);
+                    bulletGame.EndEffect(this);
                 }
                 yVol = yVol + bulletGravity;
             }

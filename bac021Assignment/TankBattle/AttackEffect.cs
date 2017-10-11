@@ -17,7 +17,7 @@ namespace TankBattle
         public void ConnectGame(Battle game)
         {
             theGame = game;
-            gameWindSpeed = theGame.Wind();
+            gameWindSpeed = game.Wind();
 
         }
 

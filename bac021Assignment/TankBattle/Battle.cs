@@ -152,13 +152,17 @@ namespace TankBattle {
             return controlledTankArray[currentPlayer];
         }
 
-        public void AddEffect(AttackEffect weaponEffect) {
+        public void AddEffect(AttackEffect weaponEffect)
+        {
+            int upTo = 0;
             for (int i = 0; i < attackEffect.Length - 1; i++) {
                 if (attackEffect[i] == null) {
                     attackEffect[i] = weaponEffect;
+                    upTo = i;
                     break;
                 }
             }
+            attackEffect[upTo].ConnectGame(this);
         }
 
         public bool WeaponEffectStep() {
