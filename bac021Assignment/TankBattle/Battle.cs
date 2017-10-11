@@ -168,8 +168,7 @@ namespace TankBattle {
         public bool WeaponEffectStep() {
             bool anyWeapon = false;
             for (int i = 0; i < attackEffect.Length - 1; i++) {
-                if (attackEffect[i] == null) {
-                } else {
+                if (attackEffect[i] != null) {
                     anyWeapon = true;
                     attackEffect[i].ProcessTimeEvent();
                 }
