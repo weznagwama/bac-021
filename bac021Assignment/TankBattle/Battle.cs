@@ -5,6 +5,15 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
+
+// BUGS:
+//
+// - timer tick event is completely wrong
+// turn doesn't flick to new player
+// - control panel doesn't reenable
+// tank angle graphic doesn't redraw
+// when a tank is hit, both of them display the reduced armour above their head - controlled tank display perhaps?
+
 namespace TankBattle {
     public class Battle {
         //private static Battle game;
