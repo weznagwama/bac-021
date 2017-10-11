@@ -119,7 +119,7 @@ namespace TankBattle {
 
             //Initialising the array of ControlledTank by: 
             //finding the horizontal position of the ControlledTank(by looking up the appropriate index of shuffled calcedArray
-            for (int i = 0; i < controlledTankArray.Length - 1; i++) {
+            for (int i = 0; i < controlledTankArray.Length; i++) {
                 var tankHoriz = newTerrain.TankVerticalPosition(calcedArray[i]);
                 controlledTankArray[i] = new ControlledTank(
                     playerArray[i],
@@ -140,7 +140,7 @@ namespace TankBattle {
 
         public void DisplayPlayerTanks(Graphics graphics, Size displaySize) {
 
-            for (int i = 0; i < controlledTankArray.Length - 1; i++) {
+            for (int i = 0; i < controlledTankArray.Length; i++) {
                 if (controlledTankArray[i].IsAlive()) {
                     controlledTankArray[i].Display(graphics, displaySize);
                 }

@@ -18,7 +18,7 @@ namespace TankBattle
         }
 
         private void newGameButton_Click(object sender, EventArgs e) {
-            Battle game = new Battle(2, 1);
+            Battle game = new Battle(2, 5);
             TankType tank = new SmallTank();
             GenericPlayer player1 = new HumanOpponent("Player 1", tank, Battle.PlayerColour(1));
             GenericPlayer player2 = new HumanOpponent("Player 2", tank, Battle.PlayerColour(2));

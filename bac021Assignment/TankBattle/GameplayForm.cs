@@ -196,30 +196,36 @@ namespace TankBattle {
         private void timer1_Tick(object sender, EventArgs e) {
             //First, call currentGame.WeaponEffectStep() to handle all Bullets and Blasts.
             //If it returned false(all attack animations have ended):
-            bool animStill = currentGame.WeaponEffectStep(); //broken here, this codeblock needs evaluation because it gets skipped
+            bool animStill = false; //broken here, this codeblock needs evaluation because it gets skipped
             bool gravcheck = true;
 
-            while (!animStill) {
-                currentGame.CalculateGravity();
-                DrawBackground();
-                DrawGameplay();
-                displayPanel.Invalidate();
-                while (gravcheck) {
-                    gravcheck = currentGame.CalculateGravity();
-                    // this has to go back to !anim still
+            if (!currentGame.WeaponEffectStep())
+            {
+                while (!animStill) 
+                {
+                    while (gravcheck) 
+                    {
+                        currentGame.CalculateGravity();
+                        DrawBackground();
+                        DrawGameplay();
+                        displayPanel.Invalidate();
+                        gravcheck = currentGame.CalculateGravity();
+                    }
+                    timer1.Enabled = false;
+                    if (currentGame.TurnOver()) {
+                        NewTurn();
+                    } else {
+                        displayPanel.Dispose();
+                        currentGame.NextRound();
+                    }
+                    animStill = currentGame.WeaponEffectStep();
+                    DrawGameplay();
+                    displayPanel.Invalidate();
                 }
-                timer1.Enabled = false;
-                if (currentGame.TurnOver()) {
-                    NewTurn();
-                } else {
-                    displayPanel.Dispose();
-                    currentGame.NextRound();
-                }
-                animStill = currentGame.WeaponEffectStep();
             }
-            DrawGameplay();
-            displayPanel.Invalidate();
-           
+
+            
+
             //Call currentGame.CalculateGravity() to handle all the after - attack gravity cleanup.
             //Call DrawBackground() and DrawGameplay() to redraw everything after potentially moving terrain.
             //Call the displayPanel's Invalidate() method to trigger a redraw.
@@ -283,6 +289,7 @@ namespace TankBattle {
             //The methods tied to each of these events should call the appropriate ControlledTank method(Aim())
             currentGame.controlledTankArray[currentGame.currentPlayer].Aim((int)numericUpDown1.Value);
             displayPanel.Invalidate();
+            DrawBackground();
             DrawGameplay();
 
 

@@ -1497,7 +1497,7 @@ namespace TankBattleTestSuite {
             }
 
             
-            if (2 == 2) { //map output
+            if (2 == 3) { //map output
             for (int down = 0; down < Terrain.HEIGHT; down++) {
                 for (int across = 0; across < Terrain.WIDTH; across++) {
                     if (across == Terrain.WIDTH-1) {
