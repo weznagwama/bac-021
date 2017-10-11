@@ -1471,8 +1471,7 @@ namespace TankBattleTestSuite {
                 Console.WriteLine("We passed!");
             }
 
-            if (10 == 11)
-            {
+            if (10 == 11) {
                 TankType tank2 = new SmallTank();
                 GenericPlayer P = new HumanOpponent("tristan", tank2, Color.AliceBlue);
                 GenericPlayer P2 = new HumanOpponent("tristan2", tank2, Color.Chocolate);
@@ -1496,31 +1495,28 @@ namespace TankBattleTestSuite {
 
             }
 
-            
-            if (2 == 3) { //map output
-            for (int down = 0; down < Terrain.HEIGHT; down++) {
-                for (int across = 0; across < Terrain.WIDTH; across++) {
-                    if (across == Terrain.WIDTH-1) {
-                        if (map.IsTileAt(across, down))
-                        {
-                            Console.WriteLine("#: {0}", down);
-                        }
-                        else
-                        {
-                            Console.WriteLine(".: {0}", down);
-                        }
-                    } else {
-                        if (map.IsTileAt(across, down)) {
-                            Console.Write("#");
-                        } else {
-                            Console.Write(".");
-                        }
-                    }
 
+            if (2 == 3) { //map output
+                for (int down = 0; down < Terrain.HEIGHT; down++) {
+                    for (int across = 0; across < Terrain.WIDTH; across++) {
+                        if (across == Terrain.WIDTH - 1) {
+                            if (map.IsTileAt(across, down)) {
+                                Console.WriteLine("#: {0}", down);
+                            } else {
+                                Console.WriteLine(".: {0}", down);
+                            }
+                        } else {
+                            if (map.IsTileAt(across, down)) {
+                                Console.Write("#");
+                            } else {
+                                Console.Write(".");
+                            }
+                        }
+
+                    }
                 }
             }
-        }
-           
+
 
             if (4 == 3) //check collision
             {
@@ -1539,7 +1535,7 @@ namespace TankBattleTestSuite {
                         if (colTiles == 0) {
                             if (battlefield.CheckTankCollide(x, y)) {
                                 Console.WriteLine("Collided! shouldn't have for some reason");
-                                Console.WriteLine("We checked {0} down and {1} across which was {2}",x,y,battlefield.IsTileAt(x,y));
+                                Console.WriteLine("We checked {0} down and {1} across which was {2}", x, y, battlefield.IsTileAt(x, y));
                                 Console.WriteLine();
                             }
                         } else {
@@ -1579,7 +1575,7 @@ namespace TankBattleTestSuite {
                     int placedY = battlefield.TankVerticalPosition(x);
                     if (placedY != lowestValid) {
                         Console.WriteLine("Tank was placed at {0},{1} when it should have been placed at {0},{2}", x, placedY, lowestValid);
-                    } else { Console.WriteLine("Looking good?");}
+                    } else { Console.WriteLine("Looking good?"); }
                 }
             }
 
@@ -1599,8 +1595,8 @@ namespace TankBattleTestSuite {
                 bool foundTrue = false;
                 bool foundFalse = false;
 
-                for (int y = 0; y < Terrain.HEIGHT-1; y++) {
-                    for (int x = 0; x < Terrain.WIDTH-1; x++) {
+                for (int y = 0; y < Terrain.HEIGHT - 1; y++) {
+                    for (int x = 0; x < Terrain.WIDTH - 1; x++) {
                         if (map.IsTileAt(x, y)) {
                             foundTrue = true;
                         } else {
@@ -1617,8 +1613,7 @@ namespace TankBattleTestSuite {
                     Console.WriteLine("IsTileAt() did not return false for any tile.");
                 }
 
-                if (foundTrue && foundFalse)
-                {
+                if (foundTrue && foundFalse) {
                     Console.WriteLine("Congrats, we found both A OK!");
                 }
             }
@@ -1629,30 +1624,26 @@ namespace TankBattleTestSuite {
                 for (int i = 0; i < 8; i++) {
                     if (positions[i] < 0) Console.WriteLine("Your position is off the screen, under 0!");
                     if (positions[i] > 160) Console.WriteLine("Your position is off the screen, past 160!!");
-                    Console.WriteLine("Position no {0} is position {1}",i,positions[i]);
+                    Console.WriteLine("Position no {0} is position {1}", i, positions[i]);
                     for (int j = 0; j < i; j++) {
-                        if (positions[j] == positions[i]) Console.WriteLine("You've got 2 people ontop of each other!! possy {0} and {1}",positions[j],positions[i]);
+                        if (positions[j] == positions[i]) Console.WriteLine("You've got 2 people ontop of each other!! possy {0} and {1}", positions[j], positions[i]);
                     }
                 }
                 Console.WriteLine("All good");
             }
 
-            if (12 == 13)
-            {
+            if (12 == 13) {
                 float angle = 75;
                 GenericPlayer p = CreateTestingPlayer();
                 Battle game = InitialiseGame();
                 ControlledTank playerTank = new ControlledTank(p, 32, 32, game);
                 playerTank.Aim(angle);
-                if (FloatEquals(playerTank.GetTankAngle(), angle))
-                {
+                if (FloatEquals(playerTank.GetTankAngle(), angle)) {
                     Console.WriteLine("TRUE");
-                }
-                else
-                {
+                } else {
                     Console.WriteLine("FALSE");
                 }
-                
+
             }
             if (!CheckClasses())
             {

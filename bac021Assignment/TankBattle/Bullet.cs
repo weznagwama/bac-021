@@ -40,16 +40,11 @@ namespace TankBattle
             {
                 Battle bulletGame = theGame;
 
-                int windSpeed = gameWindSpeed;
+                int windSpeed = bulletGame.Wind();
                 xFloat = xFloat + xVol;
                 yFloat = yFloat + yVol;
                 xFloat = xFloat + (windSpeed / 1000.0f);
-                if (xFloat >= Terrain.WIDTH)
-                {
-                    bulletGame.EndEffect(this);
-                }
-
-                if (yFloat >= Terrain.HEIGHT)
+                if (xFloat >= Terrain.WIDTH || xFloat < 0 || yFloat >= Terrain.HEIGHT)
                 {
                     bulletGame.EndEffect(this);
                 }
@@ -62,6 +57,7 @@ namespace TankBattle
                     bulletGame.EndEffect(this);
                 }
                 yVol = yVol + bulletGravity;
+
             }
             
         }

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
 namespace TankBattle {
@@ -99,26 +101,14 @@ namespace TankBattle {
         }
 
         public void CommenceRound() {
-
-            //Initialising a private field of Battle representing the current player to the value of the starting GenericPlayer field(see NewGame).
             currentPlayer = startingPlayer;
-
-            //Creating a new Terrain, which is also stored as a private field of Battle.
             newTerrain = new Terrain();
-            //Creating an array of GenericPlayer positions by calling CalculatePlayerPositions with the number of GenericPlayers playing the game(hint: get the length of the GenericPlayers array)
             int[] calcedArray = CalculatePlayerPositions(playerArray.Length);
-            //Looping through each GenericPlayer and calling its BeginRound method.
-            foreach (var player in playerArray) {
+           foreach (var player in playerArray) {
                 player.BeginRound();
             }
-            //Shuffling that array of positions with the Shuffle method.
-
             Shuffle(calcedArray);
-            //Creating an array of ControlledTank as a private field.There should be the same number of ControlledTanks as there are GenericPlayers in the GenericPlayer array.
             controlledTankArray = new ControlledTank[playerArray.Length];
-
-            //Initialising the array of ControlledTank by: 
-            //finding the horizontal position of the ControlledTank(by looking up the appropriate index of shuffled calcedArray
             for (int i = 0; i < controlledTankArray.Length; i++) {
                 var tankHoriz = newTerrain.TankVerticalPosition(calcedArray[i]);
                 controlledTankArray[i] = new ControlledTank(
@@ -148,7 +138,6 @@ namespace TankBattle {
         }
 
         public ControlledTank CurrentPlayerTank() {
-            //needs NewGame() to be run.
             return controlledTankArray[currentPlayer];
         }
 
@@ -177,7 +166,6 @@ namespace TankBattle {
         }
 
         public void DrawWeaponEffects(Graphics graphics, Size displaySize) {
-            //this is never getting initialised? and causing errors.
             for (int i = 0; i < attackEffect.Length - 1; i++) {
                 if (attackEffect[i] == null) {
                 } else {
@@ -302,11 +290,12 @@ namespace TankBattle {
                 startingPlayer++;
                 if (startingPlayer == numplayers) {
                     startingPlayer = 0;
+                    CommenceRound();
                 }
             } else {
-                gPlayForm.Show();
+                var gPlayForm1 = new TitleForm();;
+                gPlayForm1.Show();
             }
-
 
         }
 

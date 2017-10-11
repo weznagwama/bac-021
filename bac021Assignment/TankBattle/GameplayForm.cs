@@ -64,6 +64,7 @@ namespace TankBattle {
             InitializeComponent();
             backgroundGraphics = InitialiseBuffer();
             gameplayGraphics = InitialiseBuffer();
+            DrawBackground();
             DrawGameplay();
             NewTurn();
 
@@ -155,14 +156,10 @@ namespace TankBattle {
             ControlledTank currentTank = currentGame.CurrentPlayerTank();
             GenericPlayer currentPlayer = currentTank.GetPlayerNumber();
             string direction;
-            //Likewise, get a reference to the current GenericPlayer by calling the ControlledTank's GetPlayerNumber()
-            //Set the form caption to "Tank Battle - Round ? of ?", using methods in currentGame to get the current and total rounds.
             displayPanel.Text = string.Format("Tank Battle - Round {0} of {1}", currentGame.GetRound(), currentGame.GetRounds());
 
             controlPanel.BackColor = currentPlayer.PlayerColour();
-            //Set the BackColor property of controlPanel to the current GenericPlayer's colour.
             label9.Text = currentPlayer.GetName();
-            //Set the player name label to the current GenericPlayer's name.
 
             currentTank.Aim(currentTank.GetTankAngle());
             //Call Aim() to set the current angle to the current ControlledTank's angle.
@@ -215,30 +212,18 @@ namespace TankBattle {
                     if (currentGame.TurnOver()) {
                         NewTurn();
                     } else {
-                        displayPanel.Dispose();
+                        //displayPanel.Dispose();
                         currentGame.NextRound();
                     }
-                    animStill = currentGame.WeaponEffectStep();
-                    DrawGameplay();
-                    displayPanel.Invalidate();
-                }
-            }
+                    //animStill = currentGame.WeaponEffectStep();
+                    animStill = true;
 
+                }
+                DrawGameplay();
+                displayPanel.Invalidate();
+            }
             
 
-            //Call currentGame.CalculateGravity() to handle all the after - attack gravity cleanup.
-            //Call DrawBackground() and DrawGameplay() to redraw everything after potentially moving terrain.
-            //Call the displayPanel's Invalidate() method to trigger a redraw.
-            //If currentGame.CalculateGravity() returned true(Some terrain / tanks were moved):
-            //Return.
-            //If it returned false(No terrain / tanks were moved):
-            //Disable the timer.
-            //Call currentGame's TurnOver() method.
-            //If it returned true, the round continues.Call NewTurn();
-            //Otherwise, close the form by calling Dispose(), then currentGame's NextRound() method.
-            //Return.
-            //Otherwise, attack animations are still ongoing.Call DrawGameplay() and displayPanel's Invalidate() method.
-            //Return.
         }
 
         private void label1_Click(object sender, EventArgs e) {
@@ -250,7 +235,6 @@ namespace TankBattle {
         }
 
         private void label3_Click(object sender, EventArgs e) {
-            //label3.Text = "windspeed here";
         }
 
         private void label4_Click(object sender, EventArgs e) {
@@ -288,9 +272,8 @@ namespace TankBattle {
             //Next, create ValueChanged(or SelectedIndexChanged) events for the numericUpDown control on the control panel.
             //The methods tied to each of these events should call the appropriate ControlledTank method(Aim())
             currentGame.controlledTankArray[currentGame.currentPlayer].Aim((int)numericUpDown1.Value);
-            displayPanel.Invalidate();
-            DrawBackground();
             DrawGameplay();
+            displayPanel.Invalidate();
 
 
         }

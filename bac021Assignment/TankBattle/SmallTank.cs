@@ -39,19 +39,19 @@ namespace TankBattle {
 
             if (angle < -67.5) //far left
             {
-                SmallTank.DrawLine(graphic, 7,6,2,6);
+                DrawLine(graphic, 7,6,2,6);
             }
             if (angle > -67.5 && angle <= -45) { //bit left
-                SmallTank.DrawLine(graphic, 7, 6, 3, 2);
+                DrawLine(graphic, 7, 6, 3, 2);
             }
             if (angle > -45 && angle <= 0) { // towards the middle
-                SmallTank.DrawLine(graphic, 7, 6, 7, 1);
+                DrawLine(graphic, 7, 6, 7, 1);
             }
             if (angle > 0 && angle <= 45) { //right
-                SmallTank.DrawLine(graphic, 7, 6, 1, 2);
+                DrawLine(graphic, 7, 6, 1, 2);
             }
             if (angle > 45) { //farther right
-                SmallTank.DrawLine(graphic, 7, 6, 1, 2);
+                DrawLine(graphic, 7, 6, 1, 2);
             }
             return graphic;
 
