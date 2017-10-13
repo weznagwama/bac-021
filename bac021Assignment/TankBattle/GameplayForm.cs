@@ -16,10 +16,10 @@ namespace TankBattle {
         private Image backgroundImage;
         private int levelWidth = 160;
         private int levelHeight = 120;
-        private Battle currentGame;
+        private static Battle currentGame;
 
-        private string currentPlayer = "player1";
-        private  int currentWind = 0;
+        //private int currentPlayer = currentGame.currentPlayer;
+        private int currentWind = 0;
         //private static ControlledTank controlledTank;
         private TankType theTank;
 
@@ -148,11 +148,9 @@ namespace TankBattle {
             backgroundGraphics.Render(gameplayGraphics.Graphics);
             currentGame.DisplayPlayerTanks(gameplayGraphics.Graphics, displayPanel.Size);
             currentGame.DrawWeaponEffects(gameplayGraphics.Graphics, displayPanel.Size);
-            //This currently breaks about 5 units tests
         }
 
         private void NewTurn() {
-            //First, get a reference to the current ControlledTank with currentGame.CurrentPlayerTank()
             ControlledTank currentTank = currentGame.CurrentPlayerTank();
             GenericPlayer currentPlayer = currentTank.GetPlayerNumber();
             string direction;
@@ -162,9 +160,7 @@ namespace TankBattle {
             label9.Text = currentPlayer.GetName();
 
             currentTank.Aim(currentTank.GetTankAngle());
-            //Call Aim() to set the current angle to the current ControlledTank's angle.
             currentTank.SetPower(currentTank.GetPower());
-            //Call SetPower() to set the current turret power to the current ControlledTank's power.
             if (currentGame.Wind() < 0) {
                 direction = "W";
             } else {
@@ -172,59 +168,54 @@ namespace TankBattle {
             }
 
             label3.Text = String.Format("{0} {1}", currentGame.Wind(), direction);
-            //Update the wind speed label to show the current wind speed, retrieved from currentGame.Positive values should be shown as E winds, negative values as W winds.For example, 
-            //50 would be displayed as "50 E" while -38 would be displayed as "38 W".
-            //Clear the current weapon names from the ComboBox.
+
+            comboBox1.DataSource = null;
             comboBox1.Items.Clear();
             comboBox1.ResetText();
-
-            //Get a reference to the current TankType with ControlledTank's CreateTank() method, then get a list of weapons available to that TankType.
 
             TankType currentTankType = currentTank.CreateTank();
             var weapons = currentTankType.ListWeapons();
             comboBox1.DataSource = weapons;
 
-            //Call SetWeaponIndex() to set the current weapon to the current ControlledTank's weapon.
             this.SetWeaponIndex(currentTank.GetWeapon());
-            //Call the current GenericPlayer's CommenceTurn() method, passing in this and currentGame.
             currentPlayer.CommenceTurn(this, currentGame);
         }
 
-        private void timer1_Tick(object sender, EventArgs e) {
+        private void timer1_Tick(object sender, EventArgs e)
+        {
             //First, call currentGame.WeaponEffectStep() to handle all Bullets and Blasts.
             //If it returned false(all attack animations have ended):
             bool animStill = false; //broken here, this codeblock needs evaluation because it gets skipped
-            bool gravcheck = true;
+            bool gravCheck = true;
 
             if (!currentGame.WeaponEffectStep())
             {
-                while (!animStill) 
-                {
-                    while (gravcheck) 
-                    {
-                        currentGame.CalculateGravity();
-                        DrawBackground();
-                        DrawGameplay();
-                        displayPanel.Invalidate();
-                        gravcheck = currentGame.CalculateGravity();
-                    }
-                    timer1.Enabled = false;
-                    if (currentGame.TurnOver()) {
-                        NewTurn();
-                    } else {
-                        //displayPanel.Dispose();
-                        currentGame.NextRound();
-                    }
-                    //animStill = currentGame.WeaponEffectStep();
-                    animStill = true;
 
+                gravCheck = currentGame.CalculateGravity();
+                DrawBackground();
+                DrawGameplay();
+                displayPanel.Invalidate();
+                if (gravCheck)
+                {
+                    return;
                 }
+                timer1.Enabled = false;
+                bool turnover = currentGame.TurnOver();
+                if (turnover) {
+                    NewTurn();
+                } else {
+                    displayPanel.Dispose();
+                    currentGame.NextRound();
+                    return;
+                }
+            }
+            else
+            {
                 DrawGameplay();
                 displayPanel.Invalidate();
             }
-            
-
         }
+        
 
         private void label1_Click(object sender, EventArgs e) {
 
@@ -250,8 +241,7 @@ namespace TankBattle {
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) {
-            //Next, create ValueChanged(or SelectedIndexChanged) events for the combo control on the control panel.
-            //The methods tied to each of these events should call the appropriate ControlledTank method(SetWeaponindex)
+
             ControlledTank currentTank = currentGame.CurrentPlayerTank();
             TankType currentTankType = currentTank.CreateTank();
             var weapons = currentTankType.ListWeapons();
@@ -269,8 +259,6 @@ namespace TankBattle {
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e) {
-            //Next, create ValueChanged(or SelectedIndexChanged) events for the numericUpDown control on the control panel.
-            //The methods tied to each of these events should call the appropriate ControlledTank method(Aim())
             currentGame.controlledTankArray[currentGame.currentPlayer].Aim((int)numericUpDown1.Value);
             DrawGameplay();
             displayPanel.Invalidate();
@@ -279,12 +267,10 @@ namespace TankBattle {
         }
 
         private void trackBar1_ValueChanged(object sender, EventArgs e) {
-            //Next, create ValueChanged(or SelectedIndexChanged) events for the TrackBar control on the control panel.
-            //The methods tied to each of these events should call the appropriate ControlledTank SetPower(). 
+
             label10.Text = "" + trackBar1.Value;
             currentGame.controlledTankArray[currentGame.currentPlayer].SetPower(trackBar1.Value);
-            //displayPanel.Invalidate();
-            //DrawGameplay();
+
         }
 
         private void controlPanel_Paint(object sender, PaintEventArgs e) {

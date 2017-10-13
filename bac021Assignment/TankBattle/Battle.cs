@@ -146,7 +146,9 @@ namespace TankBattle {
             }
         }
 
-        public ControlledTank CurrentPlayerTank() {
+        public ControlledTank CurrentPlayerTank()
+        {
+            //var temp = currentPlayer - 1;
             return controlledTankArray[currentPlayer];
         }
 
@@ -210,13 +212,12 @@ namespace TankBattle {
 
             foreach (var tank in controlledTankArray) {
                 if (tank == controlledTankArray[currentPlayer]) {
-                    break; //current player
                 }
-                if (projectileX >= tank.XPos() && (projectileX) <= (tank.XPos() + 3))// need to verify this
+                else if (projectileX >= tank.XPos() && (projectileX) <= (tank.XPos() + 3))// need to verify this
                 {
                     return true;
                 }
-                if (projectileY >= tank.Y() && (projectileY) <= (tank.Y() + 2)) { //need to verify this
+                else if (projectileY >= tank.Y() && (projectileY) <= (tank.Y() + 2)) { //need to verify this
                     return true;
                 }
             }
@@ -267,15 +268,19 @@ namespace TankBattle {
 
         public bool TurnOver() {
             int anyAlive = 0;
-            for (int i = 0; i < controlledTankArray.Length - 1; i++) {
+            for (int i = 0; i < controlledTankArray.Length; i++) {
                 if (controlledTankArray[i].IsAlive()) {
                     anyAlive++;
                 }
             }
             if (anyAlive >= 2) {
-                currentPlayer++;
-                if (controlledTankArray[currentPlayer].IsAlive()) {
-                    //this player is now the current player?
+                if (controlledTankArray[currentPlayer].IsAlive())
+                {
+                    currentPlayer++;
+                    if (currentPlayer == numplayers)
+                    {
+                        currentPlayer = 0;
+                    }
                 }
                 windSpeed = rng.Next(windSpeed - 10, windSpeed + 11);
                 return true;
@@ -298,9 +303,9 @@ namespace TankBattle {
             if (currentRound <= numRounds) {
                 startingPlayer++;
                 if (startingPlayer == numplayers) {
-                    startingPlayer = 0;
-                    CommenceRound();
+                    startingPlayer = 0; 
                 }
+                CommenceRound();
             } else {
                 var gPlayForm1 = new TitleForm();;
                 gPlayForm1.Show();

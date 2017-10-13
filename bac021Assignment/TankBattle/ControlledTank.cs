@@ -20,7 +20,7 @@ namespace TankBattle
         private static int tankPower;
         private static int currentWeapon;
 
-        private static int tankDurability;
+        private int tankDurability;
         private static Bitmap lastTank; 
 
         public ControlledTank(GenericPlayer player, int tankX, int tankY, Battle game)
