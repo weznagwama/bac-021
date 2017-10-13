@@ -47,8 +47,11 @@ namespace TankBattle
 
         public override void Display(Graphics graphics, Size displaySize)
         {
-            xPos = xPos * displaySize.Width / Terrain.WIDTH;
-            yPos = yPos * displaySize.Height / Terrain.HEIGHT;
+            var tempX = xPos;
+            var tempY = yPos;
+
+            tempX = xPos * displaySize.Width / Terrain.WIDTH;
+            tempY = yPos * displaySize.Height / Terrain.HEIGHT;
             var radius = displaySize.Width * (float)((1.0 - blastLifeSpan) * boomRadius * 3.0 / 2.0) / Terrain.WIDTH;
 
             int alpha = 0, red = 0, green = 0, blue = 0;
@@ -66,7 +69,7 @@ namespace TankBattle
                 green = 255;
                 blue = (int)((blastLifeSpan * 3.0 - 2.0) * 255);
             }
-            RectangleF rect = new RectangleF(xPos - radius, yPos - radius, radius*2, radius * 2);
+            RectangleF rect = new RectangleF(tempX - radius, tempY - radius, radius*2, radius * 2);
             Brush b = new SolidBrush(Color.FromArgb(alpha, red, green, blue));
 
             graphics.FillEllipse(b, rect);
