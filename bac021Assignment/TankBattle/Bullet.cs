@@ -34,9 +34,7 @@ namespace TankBattle
         public override void ProcessTimeEvent()
         {
 
-            //do this 10 times
-            // stuck in a loop somewhere
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < 10; i++)
             {
                 Battle bulletGame = theGame;
 

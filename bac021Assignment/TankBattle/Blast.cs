@@ -35,10 +35,14 @@ namespace TankBattle
         public override void ProcessTimeEvent()
         {
             blastLifeSpan = (float) (blastLifeSpan - 0.05);
-            theGame.DamageArmour(xPos,yPos,boomDamage,boomRadius);
-            Terrain ourStuff = theGame.GetBattlefield();
-            ourStuff.DestroyGround(xPos,yPos,globeDestructionRadius);
-            theGame.EndEffect(this);
+            if (blastLifeSpan <= 0)
+            {
+                theGame.DamageArmour(xPos, yPos, boomDamage, boomRadius);
+                Terrain ourStuff = theGame.GetBattlefield();
+                ourStuff.DestroyGround(xPos, yPos, globeDestructionRadius);
+                theGame.EndEffect(this);
+            }
+
         }
 
         public override void Display(Graphics graphics, Size displaySize)
@@ -62,7 +66,7 @@ namespace TankBattle
                 green = 255;
                 blue = (int)((blastLifeSpan * 3.0 - 2.0) * 255);
             }
-            RectangleF rect = new RectangleF(xPos - radius, yPos - radius, 2, radius * 4);
+            RectangleF rect = new RectangleF(xPos - radius, yPos - radius, radius*2, radius * 2);
             Brush b = new SolidBrush(Color.FromArgb(alpha, red, green, blue));
 
             graphics.FillEllipse(b, rect);

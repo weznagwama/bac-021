@@ -2,6 +2,7 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
@@ -252,27 +253,18 @@ namespace TankBattle {
         }
 
         public bool CalculateGravity() {
-            bool isCalled = false;
-            if (newTerrain.CalculateGravity()) {
-                isCalled = true;
-            }
+            bool isCalled = newTerrain.CalculateGravity();
             for (int i = 0; i < controlledTankArray.Length - 1; i++) {
                 if (controlledTankArray[i].CalculateGravity()) {
                     isCalled = true;
                 }
             }
-            //If the bool keeping track of whether anything moved is set to true, return true. Otherwise return false.
             return isCalled;
 
         }
 
         public bool TurnOver() {
-            int anyAlive = 0;
-            for (int i = 0; i < controlledTankArray.Length; i++) {
-                if (controlledTankArray[i].IsAlive()) {
-                    anyAlive++;
-                }
-            }
+            int anyAlive = controlledTankArray.Count(t => t.IsAlive());
             if (anyAlive >= 2) {
                 if (controlledTankArray[currentPlayer].IsAlive())
                 {
