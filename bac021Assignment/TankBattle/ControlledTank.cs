@@ -30,7 +30,7 @@ namespace TankBattle
             this.tankY = tankY;
             this.game = game;
 
-            barrelAngle = 20; //this works, so it's the redraw calculationm that doesn't work. Either setting the angle or redrawing?
+            barrelAngle = 0; // this works, so it's the tank redraw which isn't working.
             tankPower = 25;
             currentWeapon = 0;
 
@@ -110,8 +110,11 @@ namespace TankBattle
         {
             //This causes the ControlledTank to fire its current weapon.This method should call its own CreateTank() method, 
             //then call ActivateWeapon() on that TankType, passing in the current weapon, the this reference and the private Battle field of ControlledTank.
-            var whatIsThis = CreateTank();
-            whatIsThis.ActivateWeapon(currentWeapon,this,game);
+
+            //var whatIsThis = CreateTank();
+            //whatIsThis.ActivateWeapon(currentWeapon,this,game);
+
+            playaTank.ActivateWeapon(currentWeapon,this,game);
         }
 
         public void DamageArmour(int damageAmount)
@@ -126,7 +129,6 @@ namespace TankBattle
 
         public bool CalculateGravity()
         {
-            //Waiting on Terrain.DestroyGround() for this to work
             if (!IsAlive())
             {
                 return false;

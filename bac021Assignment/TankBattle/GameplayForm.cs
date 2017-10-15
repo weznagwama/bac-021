@@ -154,7 +154,7 @@ namespace TankBattle {
             ControlledTank currentTank = currentGame.CurrentPlayerTank();
             GenericPlayer currentPlayer = currentTank.GetPlayerNumber();
             string direction;
-            displayPanel.Text = string.Format("Tank Battle - Round {0} of {1}", currentGame.GetRound(), currentGame.GetRounds());
+            this.Text = string.Format("Tank Battle - Round {0} of {1}", currentGame.GetRound(), currentGame.GetRounds());
 
             controlPanel.BackColor = currentPlayer.PlayerColour();
             label9.Text = currentPlayer.GetName();
@@ -183,14 +183,12 @@ namespace TankBattle {
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            //First, call currentGame.WeaponEffectStep() to handle all Bullets and Blasts.
-            //If it returned false(all attack animations have ended):
+
             bool animStill = false; //broken here, this codeblock needs evaluation because it gets skipped
             bool gravCheck = true;
 
             if (!currentGame.WeaponEffectStep())
             {
-
                 gravCheck = currentGame.CalculateGravity();
                 DrawBackground();
                 DrawGameplay();

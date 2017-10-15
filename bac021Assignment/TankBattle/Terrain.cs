@@ -52,7 +52,17 @@ namespace TankBattle
         {
             var oneSixty = x;
             var oneTwenty = y;
-            
+
+            if (oneTwenty == 120)
+            {
+                oneTwenty = 119;
+            }
+
+            if (oneSixty == 160)
+            {
+                oneSixty = 159;
+            }
+
             if (map[oneTwenty, oneSixty] == false)
             {
                 return false;

@@ -193,13 +193,15 @@ namespace TankBattle {
             }
         }
 
-        public bool CheckCollidedTank(float projectileX, float projectileY) {
+        public bool CheckCollidedTank(float projectileX, float projectileY)
+        {
             // If the coordinates given are outside the map boundaries(less than 0 or greater than Terrain.WIDTH or Terrain.HEIGHT respectively), return false.
-            if (projectileX < 0 || projectileX > Terrain.WIDTH || projectileY < 0 || projectileY > Terrain.HEIGHT) {
+            if (projectileX < 0 || projectileX > Terrain.WIDTH || projectileY < 0 || projectileY > Terrain.HEIGHT)
+            {
                 return false;
             }
             // If the Terrain contains something at that location(hint: use IsTileAt), return true.
-            if (newTerrain.IsTileAt((int)Math.Round(projectileX,0), (int)Math.Round(projectileY,0))) //are these axis correct?
+            if (newTerrain.IsTileAt((int) Math.Round(projectileX, 0), (int) Math.Round(projectileY, 0)))
             {
                 return true;
             }
@@ -210,19 +212,29 @@ namespace TankBattle {
             // the width and height are stored in TankType.WIDTH and TankType.HEIGHT.
             // Note that collisions can never occur against the current player's ControlledTank. Otherwise shots fired by a tank would instantly hit that same tank.
 
-            foreach (var tank in controlledTankArray) {
-                if (tank == controlledTankArray[currentPlayer]) {
-                }
-                else if (projectileX >= tank.XPos() && (projectileX) <= (tank.XPos() + 3))// need to verify this
+            foreach (var tank in controlledTankArray)
+            {
+                if (tank.GetPlayerNumber() == controlledTankArray[currentPlayer].GetPlayerNumber())
                 {
-                    return true;
+                    continue;
                 }
-                else if (projectileY >= tank.Y() && (projectileY) <= (tank.Y() + 2)) { //need to verify this
-                    return true;
+                for (int iy = (int) Math.Round(projectileY, 0);
+                    iy < (int) Math.Round(projectileY, 0) + TankType.HEIGHT;
+                    iy++)
+                {
+                    for (int ix = (int) Math.Round(projectileX);
+                        ix < (int) Math.Round(projectileX) + TankType.WIDTH;
+                        ix++)
+                    {
+
+                        if (newTerrain.IsTileAt(ix,iy))
+                        {
+                            return true;
+                        }
+                    }
                 }
             }
             return false;
-
         }
 
         public void DamageArmour(float damageX, float damageY, float explosionDamage, float radius) {

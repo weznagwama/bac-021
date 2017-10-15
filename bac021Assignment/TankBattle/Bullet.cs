@@ -62,11 +62,11 @@ namespace TankBattle
 
         public override void Display(Graphics graphics, Size size)
         {
-            xFloat = xFloat * size.Width / Terrain.WIDTH;
-            yFloat = yFloat * size.Height / Terrain.HEIGHT;
+            float x = xFloat * size.Width / Terrain.WIDTH;
+            float y = yFloat * size.Height / Terrain.HEIGHT;
             float s = size.Width / Terrain.WIDTH;
 
-            RectangleF r = new RectangleF(xFloat - s / 2.0f, yFloat - s / 2.0f, s, s);
+            RectangleF r = new RectangleF(x - s / 2.0f, y - s / 2.0f, s, s);
             Brush b = new SolidBrush(Color.WhiteSmoke);
 
             graphics.FillEllipse(b, r);
