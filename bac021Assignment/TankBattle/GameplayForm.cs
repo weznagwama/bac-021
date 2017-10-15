@@ -18,9 +18,7 @@ namespace TankBattle {
         private int levelHeight = 120;
         private static Battle currentGame;
 
-        //private int currentPlayer = currentGame.currentPlayer;
         private int currentWind = 0;
-        //private static ControlledTank controlledTank;
         private TankType theTank;
 
         private string playerName;
@@ -40,9 +38,6 @@ namespace TankBattle {
             Color.FromArgb(255, 73, 58, 47),
             Color.FromArgb(255, 148, 116, 93),
             Color.FromArgb(255, 133, 119, 109) };
-
-        //private Color landscape;
-        //private Image image;
 
         public GameplayForm(Battle game) {
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
