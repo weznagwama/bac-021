@@ -161,6 +161,9 @@ namespace TankBattle {
 
             currentTank.Aim(currentTank.GetTankAngle());
             currentTank.SetPower(currentTank.GetPower());
+            numericUpDown1.Value = (decimal)currentTank.GetTankAngle();
+            trackBar1.Value = currentTank.GetPower();
+
             if (currentGame.Wind() < 0) {
                 direction = "W";
             } else {

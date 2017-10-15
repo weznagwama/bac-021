@@ -21,14 +21,12 @@ namespace TankBattle
 
         public Terrain()
         {
-            Terrain.terrainWidth = WIDTH;
-            Terrain.terrainHeight = HEIGHT;
+            terrainWidth = WIDTH;
+            terrainHeight = HEIGHT;
 
             landHeight = rng.Next(10,HEIGHT);
             int verticalAmount = HEIGHT-landHeight;
 
-            //first run, set landscape
-            //names are wrong but im lazy
             for (int row = 0; row < HEIGHT; row++) {
                 for (int col = 0; col < WIDTH; col++) {
                   map[row, col] = false;
@@ -38,11 +36,9 @@ namespace TankBattle
             //create the land, set true for tile
             for (int col = 0; col < WIDTH; col++)
             {
-                int setIndexAmount = rng.Next(verticalAmount - 1, verticalAmount + 2);
-                //int setIndexAmount = verticalAmount;
+                int setIndexAmount = rng.Next(verticalAmount - 2, verticalAmount + 2);
                 for (int i = setIndexAmount; i < HEIGHT; i++)
                 {
-                    //int vert = i - 1;
                     map[i, col] = true;
                 }     
             }
@@ -53,12 +49,12 @@ namespace TankBattle
             var oneSixty = x;
             var oneTwenty = y;
 
-            if (oneTwenty == 120)
+            if (oneTwenty >= 120)
             {
                 oneTwenty = 119;
             }
 
-            if (oneSixty == 160)
+            if (oneSixty >= 160)
             {
                 oneSixty = 159;
             }

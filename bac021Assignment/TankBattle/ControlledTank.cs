@@ -17,7 +17,7 @@ namespace TankBattle
         private Battle game;
 
         private float barrelAngle;
-        private static int tankPower;
+        private int tankPower;
         private static int currentWeapon;
 
         private int tankDurability;

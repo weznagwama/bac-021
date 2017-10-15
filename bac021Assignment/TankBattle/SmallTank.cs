@@ -85,7 +85,7 @@ namespace TankBattle {
             var playerNum = playerTank.GetPlayerNumber();
 
             //Create a new Blast to reflect the payload of the weapon.Reasonable values to pass in are 100(for damage), 4(for explosion radius) and 4(for earth destruction radius).
-            Blast weaponBlast = new Blast(100,5,4);
+            Blast weaponBlast = new Blast(100,4,4);
             //Create a new Bullet for the projectile itself.Pass in the X and Y coordinates of the centre of the tank, the angle and power
             //(from ControlledTank's GetTankAngle() and GetPower() respectively), a reasonable value for gravity (e.g. 0.01f), then the Blast 
             //and GenericPlayer references we just got.

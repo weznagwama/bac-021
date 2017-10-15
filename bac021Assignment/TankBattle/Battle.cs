@@ -149,7 +149,6 @@ namespace TankBattle {
 
         public ControlledTank CurrentPlayerTank()
         {
-            //var temp = currentPlayer - 1;
             return controlledTankArray[currentPlayer];
         }
 
@@ -201,8 +200,9 @@ namespace TankBattle {
                 return false;
             }
             // If the Terrain contains something at that location(hint: use IsTileAt), return true.
-            if (newTerrain.IsTileAt((int) Math.Round(projectileX, 0), (int) Math.Round(projectileY, 0)))
-            {
+            // rounding error I think
+            //if (newTerrain.IsTileAt((int) Math.Round(projectileX, 0), (int) Math.Round(projectileY, 0)))
+            if (newTerrain.IsTileAt((int)projectileX,(int)projectileY)) {
                 return true;
             }
 
@@ -218,12 +218,12 @@ namespace TankBattle {
                 {
                     continue;
                 }
-                for (int iy = (int) Math.Round(projectileY, 0);
-                    iy < (int) Math.Round(projectileY, 0) + TankType.HEIGHT;
+                for (int iy = (int)projectileY;
+                    iy < (int) projectileY + TankType.HEIGHT;
                     iy++)
                 {
-                    for (int ix = (int) Math.Round(projectileX);
-                        ix < (int) Math.Round(projectileX) + TankType.WIDTH;
+                    for (int ix = (int) projectileX;
+                        ix < (int) projectileX + TankType.WIDTH;
                         ix++)
                     {
 
@@ -238,7 +238,7 @@ namespace TankBattle {
         }
 
         public void DamageArmour(float damageX, float damageY, float explosionDamage, float radius) {
-            for (int i = 0; i < controlledTankArray.Length - 1; i++) {
+            for (int i = 0; i < controlledTankArray.Length; i++) {
                 if (controlledTankArray[i].IsAlive()) {
                     float middlePos = controlledTankArray[i].XPos() + controlledTankArray[i].Y() +
                                       (TankType.WIDTH / 2) + (TankType.HEIGHT / 2);
@@ -246,6 +246,12 @@ namespace TankBattle {
                     double calculation = Math.Sqrt(Math.Pow(controlledTankArray[i].XPos() - damageX, 2) +
                                                    Math.Pow(controlledTankArray[i].Y() - damageY, 2));
                     float newCalc = (float)calculation;
+                    newCalc = middlePos-(float)calculation;
+
+                    if (newCalc > radius)
+                    {
+                        controlledTankArray[i].DamageArmour(0);
+                    }
 
                     if (newCalc > radius / 2 && newCalc < radius) {
                         float damage = (int)explosionDamage * ((newCalc - radius) / radius); //need to check this newCalc-radius calculation
@@ -254,7 +260,6 @@ namespace TankBattle {
                     }
 
                     if (newCalc < radius / 2) {
-                        //have to cast damage to int because ControlledTank is int
                         int damage = (int)explosionDamage;
                         controlledTankArray[i].DamageArmour(damage);
                     }
@@ -265,7 +270,7 @@ namespace TankBattle {
 
         public bool CalculateGravity() {
             bool isCalled = newTerrain.CalculateGravity();
-            for (int i = 0; i < controlledTankArray.Length - 1; i++) {
+            for (int i = 0; i < controlledTankArray.Length; i++) {
                 if (controlledTankArray[i].CalculateGravity()) {
                     isCalled = true;
                 }
@@ -277,13 +282,13 @@ namespace TankBattle {
         public bool TurnOver() {
             int anyAlive = controlledTankArray.Count(t => t.IsAlive());
             if (anyAlive >= 2) {
+                currentPlayer++;
+                if (currentPlayer == numplayers) {
+                    currentPlayer = 0;
+                }
                 if (controlledTankArray[currentPlayer].IsAlive())
                 {
-                    currentPlayer++;
-                    if (currentPlayer == numplayers)
-                    {
-                        currentPlayer = 0;
-                    }
+
                 }
                 windSpeed = rng.Next(windSpeed - 10, windSpeed + 11);
                 return true;
