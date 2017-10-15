@@ -41,7 +41,7 @@ namespace TankBattle {
             Color.FromArgb(255, 148, 116, 93),
             Color.FromArgb(255, 133, 119, 109) };
 
-        private Color landscape;
+        //private Color landscape;
         //private Image image;
 
         public GameplayForm(Battle game) {
@@ -52,7 +52,7 @@ namespace TankBattle {
             SetStyle(ControlStyles.UserPaint, true);
 
             currentGame = game;
-            int rand = rng.Next(1, 4);
+            int rand = rng.Next(0, 4);
            
             backgroundImage = new Bitmap(imageFilenames[rand]);
             landscapeColour = landscapeColours[rand];
