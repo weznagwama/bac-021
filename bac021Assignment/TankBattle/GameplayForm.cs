@@ -51,10 +51,7 @@ namespace TankBattle {
            
             backgroundImage = new Bitmap(imageFilenames[rand]);
             landscapeColour = landscapeColours[rand];
-            playerName = currentGame.playerArray[currentGame.currentPlayer].GetName();
-           
-
-           
+            playerName = Battle.playerArray[currentGame.currentPlayer].GetName();
 
             InitializeComponent();
             backgroundGraphics = InitialiseBuffer();

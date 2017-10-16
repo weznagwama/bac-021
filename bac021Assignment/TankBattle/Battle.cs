@@ -20,7 +20,7 @@ namespace TankBattle {
         //private static Battle game;
         private int numplayers;
         private int numRounds;
-        internal GenericPlayer[] playerArray;
+        internal static GenericPlayer[] playerArray;
         internal ControlledTank[] controlledTankArray;
         internal AttackEffect[] attackEffect;
         internal GameplayForm gPlayForm;
@@ -69,7 +69,7 @@ namespace TankBattle {
         }
 
         public static Color PlayerColour(int playerNum) {
-            Color c = Color.FromArgb(playerNum);
+            var c = playerArray[playerNum].PlayerColour();
             return c;
         }
 
@@ -167,7 +167,7 @@ namespace TankBattle {
 
         public bool WeaponEffectStep() {
             bool anyWeapon = false;
-            for (int i = 0; i < attackEffect.Length - 1; i++) {
+            for (int i = 0; i < attackEffect.Length; i++) {
                 if (attackEffect[i] == null) continue;
                 anyWeapon = true;
                 attackEffect[i].ProcessTimeEvent();
@@ -244,7 +244,9 @@ namespace TankBattle {
                                       (TankType.WIDTH / 2) + (TankType.HEIGHT / 2);
 
                     double calculation = Math.Sqrt(Math.Pow(controlledTankArray[i].XPos() - damageX, 2) +
-                                                   Math.Pow(controlledTankArray[i].Y() - damageY, 2));
+                                                   Math.Pow(controlledTankArray[i].Y() - damageY, 2)); // this doesn't work i dont think
+
+
                     float newCalc = (float)calculation;
                     newCalc = middlePos-(float)calculation;
 
@@ -254,7 +256,7 @@ namespace TankBattle {
                     }
 
                     if (newCalc > radius / 2 && newCalc < radius) {
-                        float damage = (int)explosionDamage * ((newCalc - radius) / radius); //need to check this newCalc-radius calculation
+                        float damage = (int)explosionDamage * ((newCalc - radius) / radius); 
                         int newDamage = (int)damage;
                         controlledTankArray[i].DamageArmour(newDamage);
                     }

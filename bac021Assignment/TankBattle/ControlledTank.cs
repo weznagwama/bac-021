@@ -36,7 +36,7 @@ namespace TankBattle
 
             playaTank = this.player.CreateTank();
             tankDurability = playaTank.GetTankArmour();
-            lastTank = playaTank.CreateBMP(this.player.PlayerColour(), barrelAngle);
+            lastTank = playaTank.CreateBMP(player.PlayerColour(), barrelAngle);
          
         }
 
