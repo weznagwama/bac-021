@@ -9,11 +9,10 @@ using System.Windows.Forms.VisualStyles;
 
 // BUGS:
 //
-// - timer tick event is completely wrong
-// turn doesn't flick to new player
-// - control panel doesn't reenable
-// tank angle graphic doesn't redraw
-// when a tank is hit, both of them display the reduced armour above their head - controlled tank display perhaps?
+// damagearmour doesnt work
+// ground goes below screen
+// player tank colour only works for second player, which applies to both players
+// tank doesn't redraw when angle changed, but works fine for angle configured in smalltank on first draw
 
 namespace TankBattle {
     public class Battle {
@@ -74,7 +73,7 @@ namespace TankBattle {
         }
 
         public static int[] CalculatePlayerPositions(int numPlayers) {
-            // need to verify this one
+
             int counter = 0;
             int[] temp = new int[numPlayers];
 
@@ -95,7 +94,7 @@ namespace TankBattle {
         }
 
         public static void Shuffle(int[] array) {
-            //from previous assessment
+            //from AMS assessment
             for (var i = array.Length - 1; i > 0; i--) {
                 var temp = array[i];
                 var index = rng.Next(0, i + 1);
@@ -194,23 +193,14 @@ namespace TankBattle {
 
         public bool CheckCollidedTank(float projectileX, float projectileY)
         {
-            // If the coordinates given are outside the map boundaries(less than 0 or greater than Terrain.WIDTH or Terrain.HEIGHT respectively), return false.
             if (projectileX < 0 || projectileX > Terrain.WIDTH || projectileY < 0 || projectileY > Terrain.HEIGHT)
             {
                 return false;
             }
-            // If the Terrain contains something at that location(hint: use IsTileAt), return true.
-            // rounding error I think
-            //if (newTerrain.IsTileAt((int) Math.Round(projectileX, 0), (int) Math.Round(projectileY, 0)))
+
             if (newTerrain.IsTileAt((int)projectileX,(int)projectileY)) {
                 return true;
             }
-
-            // If there is a ControlledTank at that location, return true.
-            // To detect collisions against ControlledTanks, loop through the array of ControlledTanks and check if the point described by projectileX, projectileY 
-            // is inside the rectangle occupied by ControlledTank. The position of the ControlledTank can be found using the XPos() and Y() methods, while 
-            // the width and height are stored in TankType.WIDTH and TankType.HEIGHT.
-            // Note that collisions can never occur against the current player's ControlledTank. Otherwise shots fired by a tank would instantly hit that same tank.
 
             foreach (var tank in controlledTankArray)
             {
@@ -240,15 +230,15 @@ namespace TankBattle {
         public void DamageArmour(float damageX, float damageY, float explosionDamage, float radius) {
             for (int i = 0; i < controlledTankArray.Length; i++) {
                 if (controlledTankArray[i].IsAlive()) {
-                    float middlePos = controlledTankArray[i].XPos() + controlledTankArray[i].Y() +
-                                      (TankType.WIDTH / 2) + (TankType.HEIGHT / 2);
+                    float middleX = controlledTankArray[i].XPos() + (TankType.WIDTH / 2); 
+                    float middleY = controlledTankArray[i].Y() + (TankType.HEIGHT / 2);
 
-                    double calculation = Math.Sqrt(Math.Pow(controlledTankArray[i].XPos() - damageX, 2) +
-                                                   Math.Pow(controlledTankArray[i].Y() - damageY, 2)); // this doesn't work i dont think
+                    double calculation = Math.Sqrt(Math.Pow(damageX - middleX, 2) +
+                                                   Math.Pow(damageY - middleY, 2)); // this value returns too large
 
 
                     float newCalc = (float)calculation;
-                    newCalc = middlePos-(float)calculation;
+                    //newCalc = middlePos-(float)calculation;
 
                     if (newCalc > radius)
                     {
