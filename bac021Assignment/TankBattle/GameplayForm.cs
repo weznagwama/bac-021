@@ -82,8 +82,10 @@ namespace TankBattle {
         }
 
         public void Aim(float angle) {
+
             currentGame.controlledTankArray[currentGame.currentPlayer].Aim(angle);
             numericUpDown1.Value = (decimal) angle;
+
         }
 
         public void SetPower(int power) {

@@ -234,11 +234,9 @@ namespace TankBattle {
                     float middleY = controlledTankArray[i].Y() + (TankType.HEIGHT / 2);
 
                     double calculation = Math.Sqrt(Math.Pow(damageX - middleX, 2) +
-                                                   Math.Pow(damageY - middleY, 2)); // this value returns too large
-
+                                                   Math.Pow(damageY - middleY, 2));
 
                     float newCalc = (float)calculation;
-                    //newCalc = middlePos-(float)calculation;
 
                     if (newCalc > radius)
                     {

@@ -57,6 +57,7 @@ namespace TankBattle
         public void Aim(float angle)
         {
             barrelAngle = angle;
+            lastTank = playaTank.CreateBMP(player.PlayerColour(), barrelAngle);
         }
 
         public int GetPower()
@@ -91,7 +92,7 @@ namespace TankBattle
             Font font = new Font("Arial", 8);
             Brush brush = new SolidBrush(Color.White);
 
-            int pct = tankDurability * 100 / 100;
+            int pct = tankDurability * 100 / playaTank.GetTankArmour();
             if (pct < 100) {
                 graphics.DrawString(pct + "%", font, brush, new Point(drawX1, drawY3));
             }
@@ -124,7 +125,11 @@ namespace TankBattle
 
         public bool IsAlive()
         {
-            return tankDurability != 0;
+            if (tankDurability > 0) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
         public bool CalculateGravity()
