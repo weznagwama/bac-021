@@ -204,6 +204,8 @@ namespace TankBattle {
 
             foreach (var tank in controlledTankArray)
             {
+                // If there is a ControlledTank at that location and that ControlledTank returns true when IsAlive is called on it, return true.
+                //if (newTerrain.IsTileAt()
                 if (tank.GetPlayerNumber() == controlledTankArray[currentPlayer].GetPlayerNumber())
                 {
                     continue;
