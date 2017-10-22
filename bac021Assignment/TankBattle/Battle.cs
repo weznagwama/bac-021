@@ -37,8 +37,6 @@ namespace TankBattle {
 
         public Battle(int numPlayers, int numRounds) {
             playerArray = new GenericPlayer[numPlayers];
-            
-            //int[] playerArray = new int[numPlayers];
             attackEffect = new AttackEffect[100];
 
 
