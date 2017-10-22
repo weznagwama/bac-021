@@ -1645,7 +1645,7 @@ namespace TankBattleTestSuite {
                 }
 
             }
-            if (!CheckClasses())
+            if (CheckClasses())
             {
                 UnitTests();
 

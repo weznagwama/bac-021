@@ -23,6 +23,8 @@ namespace TankBattle {
         internal ControlledTank[] controlledTankArray;
         internal AttackEffect[] attackEffect;
         internal GameplayForm gPlayForm;
+        internal static Color[] playerColours = {Color.AliceBlue, Color.Aqua, Color.Blue, Color.Brown, Color.Beige, Color.Chartreuse, Color.Crimson, Color.DarkMagenta, Color.DarkOrchid, Color.Coral};
+
 
         private Terrain newTerrain;
         private static int windSpeed;
@@ -35,6 +37,7 @@ namespace TankBattle {
 
         public Battle(int numPlayers, int numRounds) {
             playerArray = new GenericPlayer[numPlayers];
+            
             //int[] playerArray = new int[numPlayers];
             attackEffect = new AttackEffect[100];
 
@@ -67,8 +70,10 @@ namespace TankBattle {
             return controlledTankArray[playerNum];
         }
 
-        public static Color PlayerColour(int playerNum) {
-            var c = playerArray[playerNum].PlayerColour();
+        public static Color PlayerColour(int playerNum)
+        {
+            var tempNum = playerNum - 1;
+            var c = playerColours[tempNum];
             return c;
         }
 
