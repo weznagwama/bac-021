@@ -9,10 +9,10 @@ using System.Windows.Forms.VisualStyles;
 
 // BUGS:
 //
-// damagearmour doesnt work
+// damagearmour doesnt appear work
 // ground goes below screen
 // player tank colour only works for second player, which applies to both players
-// tank doesn't redraw when angle changed, but works fine for angle configured in smalltank on first draw
+// the 'current player' (which I think is the last tank variable), gets draws for both players :S
 
 namespace TankBattle {
     public class Battle {
