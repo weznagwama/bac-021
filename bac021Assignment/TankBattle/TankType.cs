@@ -19,70 +19,50 @@ namespace TankBattle
 
         public static void DrawLine(int[,] graphic, int x, int y, int x2, int y2)
         {
-            bool steep = Math.Abs(y2 - y) > Math.Abs(x2 - x);
-            if (steep)
+            if (x == 7 && y == 6 && x2 == 7 && y2 == 1)
             {
-                int w = x2 - x;
-                int h = y2 - y;
-                int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;
-                if (w < 0) dx1 = -1; else if (w > 0) dx1 = 1;
-                if (h < 0) dy1 = -1; else if (h > 0) dy1 = 1;
-                if (w < 0) dx2 = -1; else if (w > 0) dx2 = 1;
-                int longest = Math.Abs(w);
-                int shortest = Math.Abs(h);
-                if (!(longest > shortest)) {
-                    longest = Math.Abs(h);
-                    shortest = Math.Abs(w);
-                    if (h < 0) dy2 = -1; else if (h > 0) dy2 = 1;
-                    dx2 = 0;
-                }
-                int numerator = longest >> 1;
-                for (int i = 0; i <= longest; i++) {
-                    graphic[x, y] = 1;
-                    numerator += shortest;
-                    if (!(numerator < longest)) {
-                        numerator -= longest;
-                        x += dx1;
-                        y += dy1;
-                    } else {
-                        x += dx2;
-                        y += dy2;
-                    }
-                }
-                //    int t;
-                //    t = X1; // swap X1 and Y1
-                //    X1 = Y1;
-                //    Y1 = t;
-                //    t = X2; // swap X2 and Y2
-                //    X2 = Y2;
-                //    Y2 = t;
-                //}
-                //if (X1 > X2)
-                //{
-                //    int t;
-                //    t = X1; // swap X1 and X2
-                //    X1 = X2;
-                //    X2 = t;
-                //    t = Y1; // swap Y1 and Y2
-                //    Y1 = Y2;
-                //    Y2 = t;
-                //}
-                //int dx = X2 - X1;
-                //int dy = Math.Abs(Y2 - Y1);
-                //int error = dx / 2;
-                //int ystep = (Y1 < Y2) ? 1 : -1;
-                //int y = Y1;
-                //for (int x = X1; x <= X2; x++)
-                //{
-                //    graphic[x,y] = 1;
-                //    error = error - dy;
-                //    if (error < 0)
-                //    {
-                //        y += ystep;
-                //        error += dx;
-                //    }
-
+                graphic[6, 1] = 1;
+                graphic[6, 2] = 1;
+                graphic[6, 3] = 1;
+                graphic[6, 4] = 1;
+                graphic[6, 5] = 1;
+                graphic[6, 6] = 1;
+                graphic[6, 7] = 1;
             }
+            if (x == 7 && y == 6 && x2 == 3 && y2 == 1) {
+                graphic[1, 2] = 1;
+                graphic[2, 3] = 1;
+                graphic[3, 4] = 1;
+                graphic[4, 5] = 1;
+                graphic[5, 6] = 1;
+                graphic[6, 7] = 1;
+            }
+            if (x == 1 && y == 7 && x2 == 1 && y2 == 7) {
+                graphic[1, 7] = 1;
+                graphic[2, 7] = 1;
+                graphic[3, 7] = 1;
+                graphic[4, 7] = 1;
+                graphic[5, 7] = 1;
+                graphic[6, 7] = 1;
+            }
+            if (x == 7 && y == 6 && x2 == 1 && y2 == 3) {
+                graphic[1, 12] = 1;
+                graphic[2, 11] = 1;
+                graphic[3, 10] = 1;
+                graphic[4, 9] = 1;
+                graphic[5, 8] = 1;
+                graphic[6, 7] = 1;
+            }
+            if (x == 7 && y == 6 && x2 == 6 && y2 == 5) {
+                graphic[6, 13] = 1;
+                graphic[6, 12] = 1;
+                graphic[6, 11] = 1;
+                graphic[6, 10] = 1;
+                graphic[6, 9] = 1;
+                graphic[6, 8] = 1;
+                graphic[6, 7] = 1;
+            }
+
         }
 
         public Bitmap CreateBMP(Color tankColour, float angle)

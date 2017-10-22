@@ -235,8 +235,8 @@ namespace TankBattle {
                     float middleX = controlledTankArray[i].XPos() + (TankType.WIDTH / 2); 
                     float middleY = controlledTankArray[i].Y() + (TankType.HEIGHT / 2);
 
-                    double calculation = Math.Sqrt(Math.Pow(damageX - middleX, 2) +
-                                                   Math.Pow(damageY - middleY, 2));
+                    double calculation = Math.Sqrt(Math.Pow(middleX - damageX, 2) +
+                                                   Math.Pow(middleY - damageY, 2));
 
                     float newCalc = (float)calculation;
 

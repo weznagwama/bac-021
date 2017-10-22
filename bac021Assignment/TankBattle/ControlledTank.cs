@@ -92,7 +92,7 @@ namespace TankBattle
             Font font = new Font("Arial", 8);
             Brush brush = new SolidBrush(Color.White);
 
-            int pct = tankDurability * 100 / playaTank.GetTankArmour();
+            int pct = playaTank.GetTankArmour() / tankDurability * 100; ;
             if (pct < 100) {
                 graphics.DrawString(pct + "%", font, brush, new Point(drawX1, drawY3));
             }

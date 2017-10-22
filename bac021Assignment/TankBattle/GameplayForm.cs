@@ -147,8 +147,9 @@ namespace TankBattle {
         private void NewTurn() {
             ControlledTank currentTank = currentGame.CurrentPlayerTank();
             GenericPlayer currentPlayer = currentTank.GetPlayerNumber();
+            TankType currentTankType = currentTank.CreateTank();
             string direction;
-            this.Text = string.Format("Tank Battle - Round {0} of {1}", currentGame.GetRound(), currentGame.GetRounds());
+            Text = string.Format("Tank Battle - Round {0} of {1}", currentGame.GetRound(), currentGame.GetRounds());
 
             controlPanel.BackColor = currentPlayer.PlayerColour();
             label9.Text = currentPlayer.GetName();
@@ -170,7 +171,7 @@ namespace TankBattle {
             comboBox1.Items.Clear();
             comboBox1.ResetText();
 
-            TankType currentTankType = currentTank.CreateTank();
+            
             var weapons = currentTankType.ListWeapons();
             comboBox1.DataSource = weapons;
 
