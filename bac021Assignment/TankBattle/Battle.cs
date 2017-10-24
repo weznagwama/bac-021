@@ -9,8 +9,9 @@ using System.Windows.Forms.VisualStyles;
 
 // BUGS:
 //
-// damagearmour doesnt appear work
-// ground goes below screen - display size screws up
+// damagearmour radius is whack
+// Unit tests sometimes fail for gameplayform with outofrange exception, but it works fine.
+// ground gets damaged, but bullets sometimes detect incorrect ground location -> so a tank shoots up and bullet hits air and explodes
 
 namespace TankBattle {
     public class Battle {

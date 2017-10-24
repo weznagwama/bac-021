@@ -9,7 +9,7 @@ namespace TankBattle {
     class SmallTank : TankType
     {
 
-        private static string[] tankWeapons = { "Standard Shell", "Large Shell" };
+        private string[] tankWeapons = { "Standard Shell", "Large Shell" };
 
         //do we overrite inherited fields here? to test
         private new static int WIDTH = 4;
@@ -96,14 +96,14 @@ namespace TankBattle {
             // standard shell
             if (weapon == 0)
             {
-                weaponBlast = new Blast(60, 4, 4);
+                weaponBlast = new Blast(80, 4, 4);
                 weaponBullet = new Bullet(xPos, yPos, playerTank.GetTankAngle(), playerTank.GetPower(), gravity, weaponBlast, playerNum);
 
             } 
             // large shell
             else
             {
-                weaponBlast = new Blast(80,8,8);
+                weaponBlast = new Blast(120,8,8);
                 weaponBullet = new Bullet(xPos, yPos, playerTank.GetTankAngle(), playerTank.GetPower(), gravity, weaponBlast, playerNum);
 
             }
