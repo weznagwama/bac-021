@@ -17,6 +17,7 @@ namespace TankBattle
 
         public Bullet(float x, float y, float angle, float power, float gravity, Blast explosion, GenericPlayer player)
         {
+            // setup
             xFloat = x;
             yFloat = y;
             bulletGravity = gravity;
@@ -33,27 +34,29 @@ namespace TankBattle
 
         public override void ProcessTimeEvent()
         {
-
+            // calculate each tick for bullet, detect collision
             for (int i = 0; i < 10; i++)
             {
                 Battle bulletGame = theGame;
-
                 int windSpeed = bulletGame.Wind();
                 xFloat = xFloat + xVol;
                 yFloat = yFloat + yVol;
                 xFloat = xFloat + (windSpeed / 1000.0f);
                 if (xFloat >= Terrain.WIDTH || xFloat < 0 || yFloat >= Terrain.HEIGHT)
                 {
+                    // bullet is off screen left, right or below. Top is OK.
                     bulletGame.EndEffect(this);
                 }
 
                if (bulletGame.CheckCollidedTank(xFloat, yFloat))
                 {
+                    // hit
                     thePlayer.ProjectileHitPos(xFloat,yFloat);
                     bulletExplosion.Activate(xFloat,yFloat);
                     bulletGame.AddEffect(bulletExplosion);
                     bulletGame.EndEffect(this);
                 }
+               // no hit or off screen, add grav and continue
                 yVol = yVol + bulletGravity;
 
             }

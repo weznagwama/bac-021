@@ -10,9 +10,7 @@ using System.Windows.Forms.VisualStyles;
 // BUGS:
 //
 // damagearmour doesnt appear work
-// ground goes below screen
-// player tank colour only works for second player, which applies to both players
-// the 'current player' (which I think is the last tank variable), gets draws for both players :S
+// ground goes below screen - display size screws up
 
 namespace TankBattle {
     public class Battle {
@@ -209,22 +207,25 @@ namespace TankBattle {
             {
                 // If there is a ControlledTank at that location and that ControlledTank returns true when IsAlive is called on it, return true.
                 //if (newTerrain.IsTileAt()
-                if (tank.GetPlayerNumber() == controlledTankArray[currentPlayer].GetPlayerNumber())
+                if (tank.IsAlive())
                 {
-                    continue;
-                }
-                for (int iy = (int)projectileY;
-                    iy < (int) projectileY + TankType.HEIGHT;
-                    iy++)
-                {
-                    for (int ix = (int) projectileX;
-                        ix < (int) projectileX + TankType.WIDTH;
-                        ix++)
+                    if (tank.GetPlayerNumber() == controlledTankArray[currentPlayer].GetPlayerNumber())
                     {
-
-                        if (newTerrain.IsTileAt(ix,iy))
+                        continue;
+                    }
+                    for (int iy = (int)projectileY;
+                        iy < (int) projectileY + TankType.HEIGHT;
+                        iy++)
+                    {
+                        for (int ix = (int) projectileX;
+                            ix < (int) projectileX + TankType.WIDTH;
+                            ix++)
                         {
-                            return true;
+
+                            if (newTerrain.IsTileAt(ix,iy))
+                            {
+                                return true;
+                            }
                         }
                     }
                 }

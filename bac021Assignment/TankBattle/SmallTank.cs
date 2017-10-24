@@ -71,8 +71,8 @@ namespace TankBattle {
         {
             //int weapon is based on strings from listWeapons, input can only be between lenght of array
             string weaponChoice = tankWeapons[weapon];
-            //Use XPos() and Y() on the ControlledTank to get the tank's coordinates.
-            //Convert the coordinates into floats and add on half the values of TankType.HEIGHT and TankType.WIDTH respectively to them, to get the position at the centre of the tank.
+
+            // find middle of the tank
             var xtemp = playerTank.XPos();
             var ytemp = playerTank.Y();
             xtemp = xtemp + (WIDTH / 2);
@@ -81,18 +81,29 @@ namespace TankBattle {
             float xPos = (float) xtemp;
             float yPos = (float) ytemp;
             
-            //Get the GenericPlayer associated with the ControlledTank passed to ActivateWeapon by using GetPlayerNumber.
+            // generic player associated with tank
             var playerNum = playerTank.GetPlayerNumber();
 
-            //Create a new Blast to reflect the payload of the weapon.Reasonable values to pass in are 100(for damage), 4(for explosion radius) and 4(for earth destruction radius).
-            Blast weaponBlast = new Blast(100,6,6);
-            //Create a new Bullet for the projectile itself.Pass in the X and Y coordinates of the centre of the tank, the angle and power
-            //(from ControlledTank's GetTankAngle() and GetPower() respectively), a reasonable value for gravity (e.g. 0.01f), then the Blast 
-            //and GenericPlayer references we just got.
+            //init of bullet and blast variables for different weapons
+            Blast weaponBlast;
+            Bullet weaponBullet;
             float gravity = 0.01f;
-            Bullet weaponBullet = new Bullet(xPos,yPos,playerTank.GetTankAngle(),playerTank.GetPower(),gravity,weaponBlast,playerNum);
 
-            //Call Battle's AddEffect(), passing in the newly-created Bullet.
+            // standard shell
+            if (weapon == 0)
+            {
+                weaponBlast = new Blast(60, 4, 4);
+                weaponBullet = new Bullet(xPos, yPos, playerTank.GetTankAngle(), playerTank.GetPower(), gravity, weaponBlast, playerNum);
+
+            } 
+            // large shell
+            else
+            {
+                weaponBlast = new Blast(80,8,8);
+                weaponBullet = new Bullet(xPos, yPos, playerTank.GetTankAngle(), playerTank.GetPower(), gravity, weaponBlast, playerNum);
+
+            }
+            // add the final effect
             currentGame.AddEffect(weaponBullet);
         }
 
