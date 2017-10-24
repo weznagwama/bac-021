@@ -14,7 +14,6 @@ using System.Windows.Forms.VisualStyles;
 
 namespace TankBattle {
     public class Battle {
-        //private static Battle game;
         private int numplayers;
         private int numRounds;
         internal static GenericPlayer[] playerArray;
@@ -25,10 +24,10 @@ namespace TankBattle {
 
 
         private Terrain newTerrain;
-        private static int windSpeed;
+        private int windSpeed;
 
-        private static int currentRound;
-        private static int startingPlayer;
+        private int currentRound;
+        private int startingPlayer;
         internal int currentPlayer;
 
         static Random rng = new Random();

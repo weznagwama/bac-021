@@ -16,7 +16,7 @@ namespace TankBattle {
         private Image backgroundImage;
         private int levelWidth = 160;
         private int levelHeight = 120;
-        private static Battle currentGame;
+        private Battle currentGame;
 
         private int currentWind = 0;
         private TankType theTank;
