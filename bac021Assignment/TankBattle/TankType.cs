@@ -31,6 +31,14 @@ namespace TankBattle {
                 graphic[4, 5] = 1;
                 graphic[5, 6] = 1;
                 graphic[6, 7] = 1;
+            } else if (x == 7 && y == 6 && x2 == 1 && y2 == 4) {
+                graphic[1, 4] = 1;
+                graphic[2, 5] = 1;
+                graphic[3, 6] = 1;
+                graphic[4, 6] = 1;
+                graphic[5, 7] = 1;
+                graphic[6, 7] = 1;
+
             } else if (x == 1 && y == 7 && x2 == 1 && y2 == 7) {
                 graphic[1, 7] = 1;
                 graphic[2, 7] = 1;

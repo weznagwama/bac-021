@@ -23,7 +23,7 @@ namespace TankBattle {
 
         public override int[,] DisplayTank(float angle)
         {
-            //static for now, create algorithm later
+            //Draw our tank
             int[,] graphic = {  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -44,11 +44,15 @@ namespace TankBattle {
             if (angle > -67.5 && angle <= -45) { //bit left
                 DrawLine(graphic, 7, 6, 3, 1);
             }
-            if (angle > -45 && angle <= 0) { // towards the middle
+            if (angle > -45 && angle <= -10) { // towards the left
+                DrawLine(graphic, 7, 6, 1, 4);
+            }
+            if (angle < 10 && angle > -10) { // towards the middle
                 DrawLine(graphic, 1, 7, 1, 7);
             }
-            if (angle > 0 && angle <= 45) { //right
-                DrawLine(graphic, 7, 6, 1, 3);
+
+            if (angle >= 10 && angle <= 45) { //right
+            DrawLine(graphic, 7, 6, 1, 3);
             }
             if (angle > 45) { //farther right
                 DrawLine(graphic, 7, 6, 6, 5);
