@@ -21,7 +21,7 @@ namespace TankBattle
         private static int currentWeapon;
 
         private int tankDurability;
-        private static Bitmap lastTank; 
+        private Bitmap lastTank; 
 
         public ControlledTank(GenericPlayer player, int tankX, int tankY, Battle game)
         {
@@ -30,7 +30,7 @@ namespace TankBattle
             this.tankY = tankY;
             this.game = game;
 
-            barrelAngle = 0; // this works, so it's the tank redraw which isn't working.
+            barrelAngle = 0; 
             tankPower = 25;
             currentWeapon = 0;
 
